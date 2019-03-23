@@ -1,0 +1,65 @@
+<template>
+  <div>
+    <div class="card">
+      <div class="card-body">
+        <form v-on:submit.prevent="updateCategory()">
+        <div class="form-group">
+            <label for="name" class="col-form-label">Name</label>
+            <input id="name" type="text" class="form-control"  v-model="category.name">
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+            </div>
+            <div class="col-md-6">
+              <router-link :to="{ name: 'category' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        category : {
+          name : ''
+        },
+        categoriesData : []
+      }
+    },
+
+    mounted(){
+      this.editCategory(this.$route.params.id)
+    },
+
+    methods:{
+      updateCategory(){
+        axios.put(route('category.update', this.$route.params.id), {name : this.category.name})
+         .then((response) => {
+           this.$router.replace('/category');
+         })
+         .catch((response) =>{
+           if(response.response.status == 500) alert('Something Goes Wrong');
+           this.errors = response.response.data.errors;
+           console.log(response);
+         });
+      },
+      editCategory(id){
+        axios.get(route('category.edit', id))
+        .then((response)=>{
+          this.categoriesData = response.data
+          this.category.name = this.categoriesData.name
+        })
+        .catch((response) =>{
+
+        })
+      }
+    }
+  }
+</script>

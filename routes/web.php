@@ -12,11 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
+});
+Auth::routes();
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/{any}', 'DashboardController@index')->where('any', '.*');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback');

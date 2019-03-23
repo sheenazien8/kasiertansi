@@ -12,4 +12,15 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+  .sass('resources/sass/app.scss', 'public/css')
+  .copy('node_modules/simple-line-icons/fonts/*', 'public/fonts')
+  .webpackConfig({
+    module: {
+      rules: [
+        {
+          test: /resources[\\\/]lang.+\.(php|json)$/,
+          loader: 'laravel-localization-loader',
+        }
+      ]
+    }
+  });

@@ -7,8 +7,57 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import 'styleadmin';
+@import 'login';
+@import '~simple-line-icons/scss/simple-line-icons';
 
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.float{
+  position: fixed;
+  width: auto;
+  height: auto;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0C9;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  padding: 10px;
+  transition: all 300ms ease;
+  z-index: 200;
+}
+
+.my-float{
+  font-size: 30px;
+  margin: 10px auto;
+}
+#v-select .selected-tag {
+    color: #147688;
+    background-color: #d7f3f9;
+    border-color: #91ddec;
+}
+
+#v-select.dropdown.open .dropdown-toggle,
+#v-select.dropdown.open .dropdown-menu {
+    border-color: #4CC3D9;
+}
+
+#v-select .active a {
+    background: rgba(50,50,50,.1);
+    color: #333;
+}
+
+#v-select.dropdown .highlight a,
+#v-select.dropdown li:hover a {
+    background: #4CC3D9;
+    color: #fff;
+}
+input[type=text],
+input[type=email],
+textarea {
+  text-transform: uppercase !important;
 }

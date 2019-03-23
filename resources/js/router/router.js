@@ -14,6 +14,7 @@ import ItemCreate from './../views/items/Create.vue'
 import ItemEdit from './../views/items/Edit.vue'
 import ItemEditStock from './../views/items/EditStock.vue'
 import Dashboard from './../components/Dashboard.vue'
+import Login from './../views/auth/Login.vue'
 
 const router = new VueRouter({
     mode: 'history',

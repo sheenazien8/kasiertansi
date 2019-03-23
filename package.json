@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.9"
     },
     "dependencies": {
+        "flightplan": "^0.6.19",
         "jquery-ujs": "^1.2.2",
         "simple-line-icons": "^2.4.1",
         "vue-bus": "^1.2.0",

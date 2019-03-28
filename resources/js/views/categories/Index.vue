@@ -9,22 +9,27 @@
         </div>
       </div>
     </div>
-    <div class="card-body" v-for="category in categories">
+    <div class="card-body">
       <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-12">
-            <p class="float-left"><b>Category : {{ category.name }}</b></p>
-            <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>
-            <router-link :to="{ name: 'category.edit', params: {id : category.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="float-left">
-              </div>
-            </div>
-          </div>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="category in categories">
+              <th scope="row">1</th>
+              <td>{{ category.name }}</td>
+              <td>
+                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>
+                <router-link :to="{ name: 'category.edit', params: {id : category.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         </div>
       </div>
       <hr>

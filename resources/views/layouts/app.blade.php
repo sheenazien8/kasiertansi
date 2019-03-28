@@ -17,7 +17,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="skin-default-dark fixed-layout">
   <div id="app">
     <notifications position="top center" style="padding: 20px;"></notifications>
     <app></app>

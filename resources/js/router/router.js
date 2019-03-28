@@ -15,6 +15,15 @@ import ItemEdit from './../views/items/Edit.vue'
 import ItemEditStock from './../views/items/EditStock.vue'
 import Dashboard from './../components/Dashboard.vue'
 import Login from './../views/auth/Login.vue'
+import EmployeeIndex from './../views/employees/Index.vue'
+import EmployeeCreate from './../views/employees/Create.vue'
+import EmployeeEdit from './../views/employees/Edit.vue'
+import SupplierIndex from './../views/suppliers/Index.vue'
+import SupplierCreate from './../views/suppliers/Create.vue'
+import SupplierEdit from './../views/suppliers/Edit.vue'
+import PurchaseIndex from './../views/purchases/Index.vue'
+import PurchaseCreate from './../views/purchases/Create.vue'
+import PurchaseEdit from './../views/purchases/Edit.vue'
 
 const router = new VueRouter({
     mode: 'history',
@@ -72,6 +81,51 @@ const router = new VueRouter({
             path: '/item/edit/stock/:id',
             name: 'item.edit.stock',
             component: ItemEditStock,
+        },
+        {
+            path: '/employee',
+            name: 'employee',
+            component: EmployeeIndex,
+        },
+        {
+            path: '/employee/create',
+            name: 'employee.create',
+            component: EmployeeCreate,
+        },
+        {
+            path: '/employee/edit/:id',
+            name: 'employee.edit',
+            component: EmployeeEdit,
+        },
+        {
+            path: '/supplier',
+            name: 'supplier',
+            component: SupplierIndex,
+        },
+        {
+            path: '/supplier/create',
+            name: 'supplier.create',
+            component: SupplierCreate,
+        },
+        {
+            path: '/supplier/edit/:id',
+            name: 'supplier.edit',
+            component: SupplierEdit,
+        },
+        {
+            path: '/purchase',
+            name: 'purchase',
+            component: PurchaseIndex,
+        },
+        {
+            path: '/purchase/create',
+            name: 'purchase.create',
+            component: PurchaseCreate,
+        },
+        {
+            path: '/purchase/edit/:id',
+            name: 'purchase.edit',
+            component: PurchaseEdit,
         },
     ],
 });

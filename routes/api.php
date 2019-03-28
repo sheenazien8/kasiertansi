@@ -22,4 +22,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('unit', 'API\UnitController');
     Route::put('item/{item}/update/stock', 'API\ItemController@updateStock')->name('item.update.stock');
     Route::resource('item', 'API\ItemController');
+    Route::resource('employee', 'API\EmployeeController');
+    Route::resource('supplier', 'API\SupplierController');
+    Route::resource('purchase', 'API\PurchaseController');
 });

@@ -4,8 +4,11 @@
       <div class="card-body">
         <form v-on:submit.prevent="updateCategory()">
         <div class="form-group">
-            <label for="name" class="col-form-label">Name</label>
-            <input id="name" type="text" class="form-control"  v-model="category.name">
+            <label for="name" class="col-form-label">Name *</label>
+            <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="category.name">
+            <div v-if="errors.name">
+              <span class="text-danger">{{ errors.name[0] }}</span>
+            </div>
         </div>
         <div class="form-group">
           <div class="row">
@@ -30,7 +33,8 @@
         category : {
           name : ''
         },
-        categoriesData : []
+        categoriesData : [],
+        errors : []
       }
     },
 

@@ -3,23 +3,24 @@
 return [
     'role_structure' => [
         'superadmin' => [
+            'categories' => 'r',
+            'items' => 'r',
+            'units' => 'r',
+            'acl' => 'c,r,u,d',
+        ],
+        'owner' => [
+            'categories' => 'c,r,u,d',
+            'items' => 'c,r,u,d',
+            'units' => 'c,r,u,d',
             'users' => 'c,r,u,d',
             'acl' => 'c,r,u,d',
-            'profile' => 'r,u'
         ],
-        'admin' => [
+        'employee' => [
+            'categories' => 'c,r,u,d',
+            'items' => 'c,r,u,d',
+            'units' => 'c,r,u,d',
             'users' => 'c,r,u,d',
             'acl' => 'c,r,u,d',
-            'profile' => 'r,u'
-        ],
-        'customer' => [
-            'users' => 'c,r,u,d',
-            'profile' => 'r,u'
-        ],
-    ],
-    'permission_structure' => [
-        'cru_user' => [
-            'profile' => 'c,r,u'
         ],
     ],
     'permissions_map' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password',
     ];
 
     /**
@@ -53,5 +53,25 @@ class User extends Authenticatable
     public function items()
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
+    public function userable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    {
+        return $this->morphTo();
     }
 }

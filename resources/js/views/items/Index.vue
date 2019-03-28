@@ -9,30 +9,37 @@
         </h3>
       </div>
     </div>
-    <div class="card-body" v-for="item in items">
+    <div class="card-body">
       <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-12">
-            <p class="float-left"><b>Item : {{ item.name }}</b></p>
-            <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteItem(item.id)"><i class="icon icon-trash"></i></button>
-            <router-link title="Edit Item" :to="{ name: 'item.edit', params: {id : item.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-            <router-link title="Add Stock" :to="{ name: 'item.edit.stock', params: {id : item.id}}" class="btn btn-sm p-1 btn-warning float-right mr-2"><i class="icon icon-plus"></i></router-link>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="float-left">
-                <p class="text-muted">Category : {{ item.category ? item.category.name : 'Nothing Category' }}</p>
-                <p class="text-muted">Stock : {{ item.stock }}</p>
-                <p class="text-muted">Cost of Purchase : {{ item.cost_of_purchase }}</p>
-                <p class="text-muted">Price : {{ item.price }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Category</th>
+              <th scope="col">COST</th>
+              <th scope="col">Price</th>
+              <th scope="col">Date of Purchase</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in items">
+              <th scope="row">1</th>
+              <td>{{ item.name }}</td>
+              <td>{{ item.category.name }}</td>
+              <td>{{ item.cost_of_purchase }}</td>
+              <td>{{ item.price }}</td>
+              <td>{{ item.date_of_purchase }}</td>
+              <td>
+                <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteItem(item.id)"><i class="icon icon-trash"></i></button>
+                <router-link title="Edit Item" :to="{ name: 'item.edit', params: {id : item.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+                <router-link title="Add Stock" :to="{ name: 'item.edit.stock', params: {id : item.id}}" class="btn btn-sm p-1 btn-warning float-right mr-2"><i class="icon icon-plus"></i></router-link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <hr>
     </div>
   </div>
 </div>

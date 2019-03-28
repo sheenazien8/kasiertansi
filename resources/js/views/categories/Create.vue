@@ -4,8 +4,11 @@
       <div class="card-body">
         <form v-on:submit.prevent="createCategory()">
         <div class="form-group">
-            <label for="name" class="col-form-label">Name</label>
-            <input id="name" type="text" class="form-control"  v-model="category.name">
+            <label for="name" class="col-form-label">Name *</label>
+            <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''"  v-model="category.name">
+            <div v-if="errors.name">
+              <span class="text-danger">{{ errors.name[0] }}</span>
+            </div>
         </div>
         <div class="form-group">
           <div class="row">
@@ -29,7 +32,8 @@
       return {
         category : {
           name : ''
-        }
+        },
+        errors : []
       }
     },
 
@@ -50,6 +54,7 @@
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');
            this.errors = response.response.data.errors;
+           console.log(this.errors)
            console.log(response);
          });
       }

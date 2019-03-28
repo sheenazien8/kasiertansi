@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UnitRequest;
 use App\Models\Unit;
-use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
@@ -33,10 +33,10 @@ class UnitController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UnitRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UnitRequest $request)
     {
         $unit = new Unit();
         $unit->fill($request->json()->all());
@@ -70,11 +70,11 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UnitRequest  $request
      * @param  \App\Models\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+    public function update(UnitRequest $request, Unit $unit)
     {
         $unit->fill($request->json()->all());
         $unit->save();

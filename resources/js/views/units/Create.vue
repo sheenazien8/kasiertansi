@@ -5,7 +5,10 @@
         <form v-on:submit.prevent="createUnit()">
         <div class="form-group">
             <label for="name" class="col-form-label">Name</label>
-            <input id="name" type="text" class="form-control"  v-model="unit.unit">
+            <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="unit.unit">
+            <div v-if="errors.name">
+              <span class="text-danger">{{ errors.name[0] }}</span>
+            </div>
         </div>
         <div class="form-group">
           <div class="row">
@@ -29,7 +32,8 @@
       return {
         unit : {
           unit : ''
-        }
+        },
+        errors : []
       }
     },
 

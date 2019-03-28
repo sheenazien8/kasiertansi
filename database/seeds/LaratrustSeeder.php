@@ -22,9 +22,9 @@ class LaratrustSeeder extends Seeder
         $faker = Faker\Factory::create();
 
         foreach ($config as $key => $modules) {
-
+            // dump($key, $modules);
             // Create a new role
-            $role = \App\Role::create([
+            $role = \App\Models\Role::create([
                 'name' => $key,
                 'display_name' => ucwords(str_replace('_', ' ', $key)),
                 'description' => ucwords(str_replace('_', ' ', $key))
@@ -40,7 +40,7 @@ class LaratrustSeeder extends Seeder
 
                     $permissionValue = $mapPermission->get($perm);
 
-                    $permissions[] = \App\Permission::firstOrCreate([
+                    $permissions[] = \App\Models\Permission::firstOrCreate([
                         'name' => $permissionValue . '-' . $module,
                         'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                         'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
@@ -56,24 +56,34 @@ class LaratrustSeeder extends Seeder
             $this->command->info("Creating '{$key}' user");
 
             // Create default user for each role
-            $user = \App\User::create([
-                'name' => $faker->name,
-                'email' => $key.'@example.com',
-                'password' => bcrypt('12345678')
+            $user = \App\Models\User::make([
+                'email' => $key . '@example.com',
+                'password' => bcrypt('12345678'),
             ]);
-
+            $user->unsetEventDispatcher();
+            $userable = $key != 'owner' ? new \App\Models\Employee() : new \App\Models\Owner();
+            $userable->name = ucwords(str_replace('_', ' ', $key));
+            $carbon = Carbon\Carbon::now();
+            $userable->join_date = $carbon->format('Y-m-d');
+            if (get_class($userable) == \App\Models\Employee::class) {
+                $userable->owner()->associate(\App\Models\Owner::first());
+            }
+            // $userable->user()->associate($user);
+            $userable->save();
+            $user->userable()->associate($userable);
+            $user->save();
             $user->attachRole($role);
         }
 
         // Creating user with permissions
         if (!empty($userPermission)) {
-
+            dd($userPermission);
             foreach ($userPermission as $key => $modules) {
 
                 foreach ($modules as $module => $value) {
 
                     // Create default user for each permission set
-                    $user = \App\User::create([
+                    $user = \App\Models\User::create([
                         'name' => ucwords(str_replace('_', ' ', $key)),
                         'email' => $key.'@example.com',
                         'password' => bcrypt('12345678'),
@@ -85,7 +95,7 @@ class LaratrustSeeder extends Seeder
 
                         $permissionValue = $mapPermission->get($perm);
 
-                        $permissions[] = \App\Permission::firstOrCreate([
+                        $permissions[] = \App\Models\Permission::firstOrCreate([
                             'name' => $permissionValue . '-' . $module,
                             'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                             'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
@@ -112,9 +122,9 @@ class LaratrustSeeder extends Seeder
         DB::table('permission_role')->truncate();
         DB::table('permission_user')->truncate();
         DB::table('role_user')->truncate();
-        \App\User::truncate();
-        \App\Role::truncate();
-        \App\Permission::truncate();
+        \App\Models\User::truncate();
+        \App\Models\Role::truncate();
+        \App\Models\Permission::truncate();
         Schema::enableForeignKeyConstraints();
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ItemRequest;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Unit;
-use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
@@ -41,10 +41,10 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
         $category = Category::find($request->json('category_id'));
         $unit = Unit::find($request->json('unit_id'));
@@ -89,11 +89,11 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ItemRequest  $request
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Item $item)
+    public function update(ItemRequest $request, Item $item)
     {
         $category = Category::find($request->json('category_id'));
         $unit = Unit::find($request->json('unit_id'));
@@ -121,11 +121,11 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ItemRequest  $request
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function updateStock(Request $request, Item $item)
+    public function updateStock(ItemRequest $request, Item $item)
     {
         $stock = $item->stock + $request->json('stock');
         $item->fill([

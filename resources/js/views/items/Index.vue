@@ -17,9 +17,9 @@
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Category</th>
-              <th scope="col">COST</th>
-              <th scope="col">Price</th>
-              <th scope="col">Date of Purchase</th>
+              <th scope="col">Code</th>
+              <th scope="col">Initial Prices</th>
+              <th scope="col">Selling Prices</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -28,13 +28,19 @@
               <th scope="row">1</th>
               <td>{{ item.name }}</td>
               <td>{{ item.category.name }}</td>
-              <td>{{ item.cost_of_purchase }}</td>
-              <td>{{ item.price }}</td>
-              <td>{{ item.date_of_purchase }}</td>
+              <td>{{ item.code }}</td>
+              <td>
+                  {{ item.price ? item.price.initial_price : '' }}
+              </td>
+              <td>
+                  {{ item.price ? item.price.selling_price : '' }}
+              </td>
               <td>
                 <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteItem(item.id)"><i class="icon icon-trash"></i></button>
                 <router-link title="Edit Item" :to="{ name: 'item.edit', params: {id : item.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-                <router-link title="Add Stock" :to="{ name: 'item.edit.stock', params: {id : item.id}}" class="btn btn-sm p-1 btn-warning float-right mr-2"><i class="icon icon-plus"></i></router-link>
+                <b-button v-b-modal.modal-1 variant="warning" size="sm" class="float-right mr-2" @click="getId(item.id)">
+                  $
+                </b-button>
               </td>
             </tr>
           </tbody>
@@ -42,13 +48,32 @@
       </div>
     </div>
   </div>
+  <div>
+    <b-modal id="modal-1" title="BootstrapVue" @ok="setPrice()">
+      <form>
+        <div class="form-group">
+            <label>Initial Price</label>
+            <input type="number" class="form-control" v-model="price.initial_price">
+        </div>
+        <div class="form-group">
+            <label>Selling Price</label>
+            <input type="number" class="form-control" v-model="price.selling_price">
+        </div>
+      </form>
+    </b-modal>
+  </div>
 </div>
 </template>
 <script>
 export default {
     data() {
       return {
-        items : []
+        items : [],
+        price : {
+          initial_price : '',
+          selling_price : ''
+        },
+        item_id : ''
       }
     },
 
@@ -57,6 +82,27 @@ export default {
     },
 
     methods:{
+      getId(id){
+        this.item_id = id
+      },
+      setPrice(){
+        axios.post(route('price.store', this.item_id),{
+          initial_price : this.price.initial_price,
+          selling_price : this.price.selling_price
+        })
+        .then((response) =>{
+          this.$notify({
+            type: 'success',
+            text: 'Success Set Price'
+          });
+          this.price.initial_price = ''
+          this.price.selling_price = ''
+          this.getItem();
+        })
+        .catch((response) =>{
+
+        })
+      },
       getItem(){
         axios.get(route('item.index'),{
 

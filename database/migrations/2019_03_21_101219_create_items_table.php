@@ -19,10 +19,7 @@ class CreateItemsTable extends Migration
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->string('name');
-            $table->double('stock')->nullable();
-            $table->double('cost_of_purchase');
-            $table->double('price');
-            $table->date('date_of_purchase');
+            $table->string('code')->nullable();
             $table->timestamps();
 
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');

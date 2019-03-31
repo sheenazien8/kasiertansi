@@ -34,7 +34,7 @@
               <td>
                 <button class="btn btn-sm p-1 btn-danger float-right mr-2" title="delete?" @click="deletePuchase(purchase.id)"><i class="icon icon-trash"></i></button>
                 <router-link :to="{ name: 'purchase.edit', params: {id : purchase.id}}" title="edit?" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-                <router-link :to="{ name: 'purchasing_detail.index', params: {id : purchase.id}}" title="add purchasing details!" class="btn btn-sm p-1 btn-primary float-right mr-2"><i class="icon icon-handbag"></i></router-link>
+                <router-link :to="{ name: 'purchase.add_detail_purchasing', params: {id : purchase.id}}" title="add purchasing details!" class="btn btn-sm p-1 btn-primary float-right mr-2"><i class="icon icon-handbag"></i></router-link>
               </td>
             </tr>
           </tbody>

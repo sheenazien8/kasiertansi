@@ -24,6 +24,7 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         return [
+            'purchase_date' => 'required',
             'supplier_id' => 'required',
             'payment_method' => 'required',
             'invoice_number' => 'required',

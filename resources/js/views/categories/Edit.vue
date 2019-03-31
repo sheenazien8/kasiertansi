@@ -11,6 +11,14 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="name" class="col-form-label">Description</label>
+            <textarea id="" class="form-control" :class="errors.description
+            ? 'is-invalid' : ''"  v-model="category.description"></textarea>
+            <div v-if="errors.description">
+              <span class="text-danger">{{ errors.description[0] }}</span>
+            </div>
+        </div>
+        <div class="form-group">
           <div class="row">
             <div class="col-md-6">
               <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>

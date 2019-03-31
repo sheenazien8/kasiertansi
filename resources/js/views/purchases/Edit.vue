@@ -2,7 +2,21 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <form v-on:submit.prevent="updatePurchase()">
+        <form>
+          <div class="form-group">
+            <label for="name" class="col-form-label">Purchasing Date</label>
+            <input type="date" class="form-control" :class="errors.purchase_date ? 'is-invalid' : ''"  v-model="purchase.purchase_date">
+            <div v-if="errors.purchase_date">
+              <span class="text-danger">{{ errors.purchase_date[0] }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name" class="col-form-label">Invoice Number</label>
+            <input type="text" class="form-control" :class="errors.invoice_number ? 'is-invalid' : ''"  v-model="purchase.invoice_number">
+            <div v-if="errors.invoice_number">
+              <span class="text-danger">{{ errors.invoice_number[0] }}</span>
+            </div>
+          </div>
         <div class="form-group">
           <label for="name" class="col-form-label">Supplier</label>
           <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id" v-model="purchase.supplier_id"/>
@@ -12,7 +26,7 @@
         </div>
         <div class="form-group">
           <label for="name" class="col-form-label">Payment Method</label>
-          <v-select :options="paymentsData" label="name" :class="errors.payment_method ? 'is-invalid' : ''" value="name" v-model="purchase.payment_method"/>
+          <v-select :options="paymentsData" label="name" :class="errors.payment_method ? 'is-invalid' : ''"  value="name" v-model="purchase.payment_method"/>
           <div v-if="errors.payment_method">
             <span class="text-danger">{{ errors.payment_method[0] }}</span>
           </div>
@@ -20,7 +34,7 @@
         <div class="form-group">
           <label for="name" class="col-form-label">Note</label>
           <textarea id="name" class="form-control" :class="errors.note ? 'is-invalid' : ''"  v-model="purchase.note"
-          cols="30" rows="10"></textarea>
+           ></textarea>
           <div v-if="errors.note">
             <span class="text-danger">{{ errors.note[0] }}</span>
           </div>
@@ -28,7 +42,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+              <button v-on:click.prevent="updatePurchase()" class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
             </div>
             <div class="col-md-6">
               <router-link :to="{ name: 'purchase' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
@@ -48,14 +62,16 @@
         purchase : {
           supplier_id : '',
           note : '',
-          payment_method : ''
+          payment_method : '',
+          invoice_number : '',
+          purchase_date : ''
         },
         suppliersData : [],
         purchasesData : [],
         paymentsData : [
-          {id: 1, name: 'Cash On Delivery (full)'},
-          {id: 3, name: 'Transfer Bank (DP)'},
-          {id: 2, name: 'Transfer Bank (Full)'},
+          {name: 'Cash On Delivery (full)'},
+          {name: 'Transfer Bank (DP)'},
+          {name: 'Transfer Bank (Full)'},
         ],
         errors : []
       }
@@ -67,10 +83,17 @@
 
     methods:{
       updatePurchase(){
+        var payment_method = this.purchase.payment_method;
+        if (typeof this.purchase.payment_method == 'object') {
+          payment_method = this.purchase.payment_method.name
+        }
+        console.log(payment_method)
         axios.put(route('purchase.update', this.$route.params.id), {
           supplier_id : this.purchase.supplier_id.id,
-          payment_method : this.purchase.payment_method.name,
+          payment_method : payment_method,
           note : this.purchase.note,
+          invoice_number : this.purchase.invoice_number,
+          purchase_date : this.purchase.purchase_date,
         })
          .then((response) => {
            this.$router.replace('/purchase');
@@ -85,9 +108,11 @@
         .then((response)=>{
           this.purchasesData = response.data.purchase
           this.suppliersData = response.data.suppliers
-          this.purchase.supplier_id = this.purchasesData.supplier.name
+          this.purchase.supplier_id = this.purchasesData.supplier
           this.purchase.payment_method = this.purchasesData.payment_method
           this.purchase.note = this.purchasesData.note
+          this.purchase.invoice_number = this.purchasesData.invoice_number
+          this.purchase.purchase_date = this.purchasesData.purchase_date
         })
         .catch((response) =>{
 

@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="name" class="col-form-label">Contact *</label>
+          <label for="name" class="col-form-label">Contact</label>
           <input id="name" type="text" class="form-control" :class="errors.contact ? 'is-invalid' : ''"  v-model="supplier.contact">
           <div v-if="errors.contact">
             <span class="text-danger">{{ errors.contact[0] }}</span>
@@ -20,7 +20,7 @@
         <div class="form-group">
           <label for="name" class="col-form-label">Address</label>
           <textarea id="name" class="form-control" :class="errors.name ? 'is-invalid' : ''"  v-model="supplier.address"
-          cols="30" rows="10"></textarea>
+           ></textarea>
           <div v-if="errors.name">
             <span class="text-danger">{{ errors.name[0] }}</span>
           </div>

@@ -2,7 +2,7 @@
   <div>
     <div class="card">
       <div class="card-body">
-        <form v-on:submit.prevent="createPurchase()">
+        <form>
         <div class="form-group">
           <label for="name" class="col-form-label">Purchasing Date</label>
           <input type="date" class="form-control" :class="errors.purchase_date ? 'is-invalid' : ''"  v-model="purchase.purchase_date">
@@ -19,9 +19,18 @@
         </div>
         <div class="form-group">
           <label for="name" class="col-form-label">Supplier</label>
-          <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id" v-model="purchase.supplier_id"/>
-          <div v-if="errors.supplier_id">
-            <span class="text-danger">{{ errors.supplier_id[0] }}</span>
+          <div class="row">
+            <div class="col-md-10 col-sm-11 ">
+              <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id" v-model="purchase.supplier_id"/>
+              <div v-if="errors.supplier_id">
+                <span class="text-danger">{{ errors.supplier_id[0] }}</span>
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-1 float-right">
+              <b-button v-b-modal.modal-1 variant="primary" class="h-100 w-100">
+                <i class="icon icon-plus"></i> Add New Supplier
+              </b-button>
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -34,7 +43,7 @@
         <div class="form-group">
           <label for="name" class="col-form-label">Note</label>
           <textarea id="name" class="form-control" :class="errors.note ? 'is-invalid' : ''"  v-model="purchase.note"
-          cols="30" rows="10"></textarea>
+           ></textarea>
           <div v-if="errors.note">
             <span class="text-danger">{{ errors.note[0] }}</span>
           </div>
@@ -42,7 +51,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+              <button v-on:click.prevent="createPurchase()" type="submit" class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
             </div>
             <div class="col-md-6">
               <router-link :to="{ name: 'purchase' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
@@ -52,6 +61,32 @@
       </form>
       </div>
     </div>
+    <b-modal id="modal-1" title="Create New Supplier" @ok="createSupplier()">
+      <form>
+        <div class="form-group">
+          <label for="name" class="col-form-label">Name *</label>
+          <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''"  v-model="supplier.name">
+          <div v-if="errors.name">
+            <span class="text-danger">{{ errors.name[0] }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="name" class="col-form-label">Contact</label>
+          <input id="name" type="text" class="form-control" :class="errors.contact ? 'is-invalid' : ''"  v-model="supplier.contact">
+          <div v-if="errors.contact">
+            <span class="text-danger">{{ errors.contact[0] }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="name" class="col-form-label">Address</label>
+          <textarea id="name" class="form-control" :class="errors.address ? 'is-invalid' : ''"  v-model="supplier.address"
+           ></textarea>
+          <div v-if="errors.address">
+            <span class="text-danger">{{ errors.address[0] }}</span>
+          </div>
+        </div>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -66,6 +101,12 @@
           invoice_number : '',
           purchase_date : ''
         },
+        supplier : {
+          name : '',
+          address : '',
+          contact : ''
+        },
+        errors : [],
         suppliersData : [],
         paymentsData : [
           {id: 1, name: 'Cash On Delivery (full)'},
@@ -81,6 +122,28 @@
     },
 
     methods:{
+      createSupplier(){
+        axios.post(route('supplier.store'), {
+          name : this.supplier.name,
+          contact : this.supplier.contact,
+          address : this.supplier.address,
+        })
+         .then((response) => {
+          this.getCreateDataPurchases();
+          this.$notify({
+            type: 'success',
+            text: 'Success Create Supplier'
+          });
+           this.supplier.name = '';
+           this.supplier.contact = '';
+           this.supplier.address = '';
+         })
+         .catch((response) =>{
+           if(response.response.status == 500) alert('Something Goes Wrong');
+           this.errors = response.response.data.errors;
+           console.log(response);
+         });
+      },
       getCreateDataPurchases(){
         axios.get(route('purchase.create'), {
         })

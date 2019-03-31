@@ -19,7 +19,7 @@ class ItemController extends Controller
     {
         $item = Item::where('user_id', auth()->id())->get();
 
-        return response()->json($item->load('category', 'unit'));
+        return response()->json($item->load('category', 'unit', 'prices', 'price'));
     }
 
     /**

@@ -25,8 +25,7 @@ class ItemRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'cost_of_purchase' => 'required',
-            'price' => 'required',
+            'code' => 'required',
             'category_id' => 'required',
         ];
     }

@@ -8,10 +8,7 @@ class Item extends Model
 {
     protected $fillable = [
         'name',
-        'stock',
-        'cost_of_purchase',
-        'price',
-        'date_of_purchase'
+        'code'
     ];
 
     protected static function boot()
@@ -19,7 +16,6 @@ class Item extends Model
         parent::boot();
         static::creating(function ($query) {
             $query->user_id = auth()->id();
-            $query->date_of_purchase = date('Y-m-d');
         });
     }
 
@@ -35,5 +31,20 @@ class Item extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function purchasingDetails()
+    {
+        return $this->hasMany(PurchasingDetail::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class)->orderBy('id', 'desc');
+    }
+
+    public function price()
+    {
+        return $this->hasOne(Price::class)->orderBy('id', 'desc');
     }
 }

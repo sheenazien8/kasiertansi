@@ -10863,7 +10863,7 @@ section {
 body {
   margin: 0;
   font-family: "Nunito", sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   color: #212529;
   text-align: left;
   background-color: #edf1f5;
@@ -12417,13 +12417,13 @@ pre code {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
   background-color: transparent;
 }
 
 .table th,
 .table td {
-  padding: 1rem;
+  padding: 0.3rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
 }
@@ -27862,5 +27862,15 @@ input[type=text],
 input[type=email],
 textarea {
   text-transform: uppercase !important;
+}
+
+.bg-square {
+  font-size: 15px;
+  border: 1px solid grey;
+  padding: 5px;
+}
+
+.cursor-disabled {
+  cursor: not-allowed !important;
 }
 

@@ -61,3 +61,12 @@ input[type=email],
 textarea {
   text-transform: uppercase !important;
 }
+.bg-square{
+  font-size: 15px;
+  border: 1px solid grey;
+  padding: 5px;
+}
+
+.cursor-disabled{
+  cursor: not-allowed !important;
+}

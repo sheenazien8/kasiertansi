@@ -20,6 +20,8 @@ class CreatePurchasesTable extends Migration
             $table->string('invoice_number')->unique();
             $table->string('payment_method');
             $table->date('purchase_date');
+            $table->string('status')->nullable();
+            $table->boolean('is_paid')->default(false);
             $table->text('note')->nullable();
 
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');

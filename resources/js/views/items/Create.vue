@@ -15,36 +15,18 @@
             <v-select :options="unitsData" label="unit" value="id" selected="name" v-model="item.unit_id"/>
         </div>
         <div class="form-group">
+            <label for="name" class="col-form-label">Code</label>
+            <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''" v-model="item.code">
+        </div>
+        <div v-if="errors.code">
+          <span class="text-danger">{{ errors.code[0] }}</span>
+        </div>
+        <div class="form-group">
             <label for="name" class="col-form-label">Name</label>
             <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="item.name">
         </div>
         <div v-if="errors.name">
           <span class="text-danger">{{ errors.name[0] }}</span>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Stock</label>
-            <input id="name" type="number" class="form-control" :class="errors.stock ? 'is-invalid' : ''" v-model="item.stock">
-        </div>
-        <div v-if="errors.stock">
-          <span class="text-danger">{{ errors.stock[0] }}</span>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Cost Of Purchase</label>
-            <input id="name" type="number" class="form-control" :class="errors.cost_of_purchase ? 'is-invalid' : ''" v-model="item.cost_of_purchase">
-        </div>
-        <div v-if="errors.cost_of_purchase">
-          <span class="text-danger">{{ errors.cost_of_purchase[0] }}</span>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Price</label>
-            <input id="name" type="number" class="form-control" :class="errors.price ? 'is-invalid' : ''" v-model="item.price">
-            <div v-if="errors.price">
-              <span class="text-danger">{{ errors.price[0] }}</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Date of Purchase</label> <span style="font-size: 11px;">empty to use today's date</span>
-            <input id="name" type="date" class="form-control"  v-model="item.date_of_purchase">
         </div>
         <div class="form-group">
           <div class="row">
@@ -68,10 +50,7 @@
       return {
         item : {
           name : '',
-          cost_of_purchase : '',
-          stock : '',
-          price : '',
-          date_of_purchase : '',
+          code : '',
           category_id : '',
           unit_id : ''
         },
@@ -101,9 +80,7 @@
       createItems(){
         axios.post(route('item.store'), {
           name : this.item.name,
-          stock : this.item.stock,
-          cost_of_purchase : this.item.cost_of_purchase,
-          price : this.item.price,
+          code : this.item.code,
           category_id : this.item.category_id.id,
           unit_id : this.item.unit_id.id
         })

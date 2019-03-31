@@ -24,6 +24,9 @@ import SupplierEdit from './../views/suppliers/Edit.vue'
 import PurchaseIndex from './../views/purchases/Index.vue'
 import PurchaseCreate from './../views/purchases/Create.vue'
 import PurchaseEdit from './../views/purchases/Edit.vue'
+import ShowPurchasingDetail from './../views/purchasing_details/ShowPurchasingDetail.vue'
+import AddPurchasingDetail from './../views/purchasing_details/Create.vue'
+import EditPurchasingDetail from './../views/purchasing_details/Edit.vue'
 
 const router = new VueRouter({
     mode: 'history',
@@ -126,6 +129,21 @@ const router = new VueRouter({
             path: '/purchase/edit/:id',
             name: 'purchase.edit',
             component: PurchaseEdit,
+        },
+        {
+            path: '/purchase/:id/purchasing_detail',
+            name: 'purchasing_detail.index',
+            component: ShowPurchasingDetail,
+        },
+        {
+            path: '/purchase/:id/purchasing_detail/create',
+            name: 'purchasing_detail.create',
+            component: AddPurchasingDetail,
+        },
+        {
+            path: '/purchase/:id/purchasing_detail/:id_purchasing_detail/edit',
+            name: 'purchasing_detail.edit',
+            component: AddPurchasingDetail,
         },
     ],
 });

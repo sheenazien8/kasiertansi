@@ -62,7 +62,7 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        //
+        return response()->json($purchase);
     }
 
     /**
@@ -109,6 +109,20 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase)
     {
         $purchase->delete();
+
+        return 'Success';
+    }
+
+    /**
+     * Update the specified resource from storage.
+     *
+     * @param  \App\Models\Purchase  $purchase
+     * @return \Illuminate\Http\Response
+     */
+    public function paidPurchasing(Purchase $purchase)
+    {
+        $purchase->is_paid = true;
+        $purchase->save();
 
         return 'Success';
     }

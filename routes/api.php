@@ -22,9 +22,11 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('unit', 'API\UnitController');
     Route::put('item/{item}/update/stock', 'API\ItemController@updateStock')->name('item.update.stock');
     Route::resource('item', 'API\ItemController');
+    Route::get('get/item/{query}', 'API\ItemController@searhItems')->name('item.search');
     Route::resource('employee', 'API\EmployeeController');
     Route::resource('supplier', 'API\SupplierController');
     Route::resource('purchase', 'API\PurchaseController');
+    Route::resource('spending', 'API\SpendingController');
     Route::put('purchase/{purchase}/payout', 'API\PurchaseController@paidPurchasing')->name('paid_purchase');
     Route::group(['prefix' => '/purchase/{purchase}'], function() {
         Route::resource('purchasing_detail', 'API\PurchasingDetailController');

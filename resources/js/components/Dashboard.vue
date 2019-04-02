@@ -14,7 +14,9 @@
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                         <li class="breadcrumb-item active">Blank Page</li>
                     </ol>
-                    <button type="button" class="btn btn-success d-none d-lg-block m-l-15"> Upgrade To Pro</button>
+                    <router-link :to="{  }" type="button" class="btn btn-success d-none d-lg-block m-l-15">
+                      <i class="icon icon-plus"></i> Add
+                    </router-link>
                 </div>
             </div>
         </div>

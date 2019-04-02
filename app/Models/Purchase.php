@@ -36,4 +36,9 @@ class Purchase extends Model
     {
         return $this->hasMany(PurchasingDetail::class);
     }
+
+    public function spending()
+    {
+        return $this->hasOne(Spending::class)->orderBy('id', 'desc');
+    }
 }

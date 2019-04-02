@@ -27,10 +27,11 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(ItemRequest $request)
     {
-        $units = Unit::select('id', 'unit')->where('user_id', auth()->id())->get();
-        $categories = Category::select('id', 'name')->where('user_id', auth()->id())->get();
+        $query = $request->input('query');
+        $units = Unit::select('id', 'unit')->where('unit', 'LIKE', "%%".$query."%%")->get();
+        $categories = Category::select('id', 'name')->where('name', 'LIKE', "%%".$query."%%")->get();
 
         return response()->json([
             'units' => $units,
@@ -134,5 +135,17 @@ class ItemController extends Controller
         $item->save();
 
         return $item;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function searhItems($query)
+    {
+        $item = Item::where('user_id', auth()->id())->where('name', 'LIKE', "%%".$query."%%")->get();
+
+        return response()->json($item->load('category', 'unit', 'prices', 'price'));
     }
 }

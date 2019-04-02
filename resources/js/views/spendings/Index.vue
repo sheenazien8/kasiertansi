@@ -4,8 +4,7 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Puchasing List</h3>
-          <router-link :to="{ name: 'purchase.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
+          <h3>Spending List per Tanggal</h3>
         </div>
       </div>
     </div>
@@ -15,26 +14,17 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Supplier Name</th>
-              <th scope="col">Invoice Number</th>
-              <th scope="col">Payment Method</th>
               <th scope="col">Date</th>
-              <th scope="col">Note</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(purchase, index) in purchases">
+            <tr v-for="(spending, index) in spendings">
               <th scope="row">{{ ++index }}</th>
-              <td>{{ purchase.supplier.name }}</td>
-              <td>{{ purchase.invoice_number }}</td>
-              <td>{{ purchase.payment_method }}</td>
-              <td>{{ purchase.purchase_date }}</td>
-              <td>{{ purchase.note }}</td>
+              <td>{{ spending.date }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" title="delete?" @click="deletePuchase(purchase.id)"><i class="icon icon-trash"></i></button>
-                <router-link :to="{ name: 'purchase.edit', params: {id : purchase.id}}" title="edit?" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-                <router-link :to="{ name: 'purchase.add_detail_purchasing', params: {id : purchase.id}}" title="add purchasing details!" class="btn btn-sm p-1 btn-primary float-right mr-2"><i class="icon icon-handbag"></i></router-link>
+                <router-link :to="{ name:'spending.show', params: {date: spending.date} }"
+                class="btn btn-sm p-1 btn-info float-right mr-2" title="show details?"><i class="icon icon-magnifier"></i></router-link>
               </td>
             </tr>
           </tbody>
@@ -70,7 +60,7 @@
 export default {
     data() {
       return {
-        purchases : []
+        spendings : []
       }
     },
 
@@ -80,11 +70,11 @@ export default {
 
     methods:{
       getPuchase(){
-        axios.get(route('purchase.index'),{
+        axios.get(route('spending.index'),{
 
         })
         .then((response) =>{
-          this.purchases = response.data
+          this.spendings = response.data.data
         })
         .catch((response) =>{
 

@@ -14,7 +14,8 @@
         </div>
         <div class="row">
           <div class="col-md-3">
-            <v-select :options="items" label="name" value="id" v-model="changeItem" @change="getDetailPriceItems()"></v-select>
+            <v-select :onSearch="getItemsData" :options="items" label="name" value="id" placeholder="Type 2 Character"
+            v-model="changeItem" @change="getDetailPriceItems()"></v-select>
           </div>
           <div class="col-md-6 p-0">
             <input type="text" readonly v-model="itemReadonly.name" class="form-control col-md-3 h-100">
@@ -29,7 +30,9 @@
           <div class="col-md-3">
             <input type="number" placeholder="Total Price" min="1" readonly v-model="itemReadonly.total_price"
             class="form-control col-md-10 h-100">
-            <button class="btn btn-primary h-100 float-right" @click="storePurchasingDetail()">
+            <button class="btn btn-primary h-100 float-right"
+              :class="!itemReadonly.id ? 'disabled cursor-disabled' : ''"
+              @click="storePurchasingDetail()">
               <i class="icon icon-plus"></i>
             </button>
           </div>
@@ -51,15 +54,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="purchasing in purchasingData">
-              <td>1</td>
+            <tr v-for="(purchasing, index) in purchasingData">
+              <td>{{ ++index }}</td>
               <td>{{ purchasing.item.code }}</td>
               <td>{{ purchasing.item.name }}</td>
               <td>{{ purchasing.qty }}</td>
               <td>{{ purchasing.item.price.initial_price }}</td>
               <td>{{ purchasing.total_price }}</td>
               <td class="text-right">
-                <button class="btn btn-danger btn-sm" title="Cancel">
+                <button @click="deletePuchase(purchasing.id)" class="btn btn-danger btn-sm" title="Cancel">
                   <i class="icon icon-close"></i>
                 </button>
               </td>
@@ -91,14 +94,16 @@
       <form>
         <div class="form-group">
             <label for="name" class="col-form-label">Category</label>
-            <v-select :options="categoriesData" label="name" :class="errors.category_id ? 'is-invalid' : ''" value="id" v-model="item.category_id"/>
+            <v-select :onSearch="getCreateDataItems" :options="categoriesData" label="name" placeholder="Type 2 Character"
+            :class="errors.category_id ? 'is-invalid' : ''" value="id" v-model="item.category_id"/>
             <div v-if="errors.name">
               <span class="text-danger">{{ errors.category_id[0] }}</span>
             </div>
         </div>
         <div class="form-group">
          <label for="name" class="col-form-label">Unit</label>
-            <v-select :options="unitsData" label="unit" value="id" selected="name" v-model="item.unit_id"/>
+            <v-select :onSearch="getCreateDataItems" :options="unitsData" label="unit" value="id" selected="name" placeholder="Type 2 Character"
+            v-model="item.unit_id"/>
         </div>
         <div class="form-group">
             <label for="name" class="col-form-label">Code</label>
@@ -116,7 +121,7 @@
         </div>
       </form>
     </b-modal>
-    <b-modal :id="this.itemReadonly.id ? 'modal-2' : ''" title="Set Price" @ok="setPrice()">
+    <b-modal :id="this.itemReadonly.id ? 'modal-2' : ''" title="Set Price per Stock" @ok="setPrice()">
       <form>
         <div class="form-group">
             <label>Initial Price</label>
@@ -164,45 +169,62 @@
       }
     },
     mounted(){
-      this.getItemsData();
-      this.getCreateDataItems();
       this.getPurchasingDetails(this.purchase.id);
     },
     methods :{
       paidPurchasing(id){
-        axios.put(route('paid_purchase', id),{
-
-        })
-        .then((response) =>{
-          this.getPurchasingDetails(id);
+        if (this.purchasingData.length == 0) {
           this.$notify({
-            type: 'success',
-            text: 'Success Paid Purchasing'
+            type: 'warning',
+            text: 'Add Your item before pay!'
           });
-        })
-        .catch((response) =>{
+        }else {
+          axios.put(route('paid_purchase', id),{
 
-        })
+          })
+          .then((response) =>{
+            this.getPurchasingDetails(id);
+            this.$notify({
+              type: 'success',
+              text: 'Success Paid Purchasing Order'
+            });
+          })
+          .catch((response) =>{
+
+          })
+        }
       },
       storePurchasingDetail(){
         let id = this.$route.params.id
-        axios.post(route('purchasing_detail.store', id), {
-          purchase_id : id,
-          item_id : this.itemReadonly.id,
-          qty : this.itemReadonly.qty,
-          total_price : this.itemReadonly.total_price,
-        })
-         .then((response) => {
+        if (this.purchase.is_paid || !this.itemReadonly.id) {
           this.$notify({
-            type: 'success',
-            text: 'Success Create Purchasing Detail'
+            type: 'warning',
+            text: "You can't add item!"
           });
-          this.getPurchasingDetails(this.purchase.id);
-         })
-         .catch((response) =>{
-           if(response.response.status == 500) alert('Something Goes Wrong');
-           this.errors = response.response.data.errors;
-         });
+        }else {
+          axios.post(route('purchasing_detail.store', id), {
+            purchase_id : id,
+            item_id : this.itemReadonly.id,
+            qty : this.itemReadonly.qty,
+            total_price : this.itemReadonly.total_price,
+          })
+           .then((response) => {
+            this.getPurchasingDetails(this.purchase.id);
+            this.$notify({
+              type: 'success',
+              text: 'Success Create Purchasing Detail'
+            });
+            this.changeItem = '';
+            this.itemReadonly.id = '';
+            this.itemReadonly.qty = '';
+            this.itemReadonly.total_price = '';
+            this.itemReadonly.price = '';
+           })
+           .catch((response) =>{
+             if(response.response.status == 500) alert('Something Goes Wrong');
+             this.errors = response.response.data.errors;
+           });
+        }
       },
 
       setPrice(){
@@ -225,8 +247,8 @@
         })
       },
 
-      getCreateDataItems(){
-        axios.get(route('item.create'),{
+      getCreateDataItems(query){
+        axios.get(route('item.create')+ '?query='+query,{
 
         })
         .then((response) =>{
@@ -246,15 +268,14 @@
           unit_id : this.item.unit_id.id
         })
          .then((response) => {
-          this.getItemsData();
-          this.item.name = '';
-          this.item.code = '';
-          this.item.category_id = '';
-          this.item.unit_id.id = '';
           this.$notify({
             type: 'success',
             text: 'Success Create Items'
           });
+          this.item.name = '';
+          this.item.code = '';
+          this.item.category_id = '';
+          this.item.unit_id.id = '';
          })
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');
@@ -281,16 +302,20 @@
           })
       },
 
-      getItemsData(){
-        axios.get(route('item.index'), {
+      getItemsData(search){
+        if (search.length >= 1) {
+          axios.get(route('item.search', search), {
 
-        })
-        .then((response) =>{
-          this.items = response.data
-        })
-        .catch((response) =>{
+          })
+          .then((response) =>{
+            this.items = response.data
+          })
+          .catch((response) =>{
 
-        })
+          })
+        }else{
+          this.items = null
+        }
       },
 
       getPurchasingDetails(id){
@@ -304,7 +329,22 @@
         .catch((response) =>{
 
         });
-      }
+      },
+
+      deletePuchase(id){
+        var bool = confirm('You Want to Delete this?');
+        if (bool) {
+          axios.delete(route('purchasing_detail.destroy', [this.purchase.id, id]),{
+
+          })
+          .then((response) =>{
+            this.getPurchasingDetails(this.purchase.id)
+          })
+          .catch((response) =>{
+
+          })
+        }
+      },
     }
   }
 </script>

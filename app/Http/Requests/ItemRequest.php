@@ -23,11 +23,30 @@ class ItemRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'code' => 'required',
-            'category_id' => 'required',
-        ];
+        switch (request()->method) {
+            case 'PATCH':
+                $validation = [
+                    'name' => 'required',
+                    'code' => 'required',
+                    'category_id' => 'required',
+                ];
+                break;
+            case 'POST':
+                $validation = [
+                    'name' => 'required',
+                    'code' => 'required',
+                    'category_id' => 'required',
+                ];
+                break;
+
+            default:
+                $validation = [
+                    'name' => ''
+                ];
+                break;
+        }
+
+        return $validation;
     }
 
     /**

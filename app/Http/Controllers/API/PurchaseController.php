@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseRequest;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Services\ArrayService;
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class PurchaseController extends Controller
 {
@@ -108,6 +111,11 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
+        foreach ($purchase->purchasingDetails as $purchasing) {
+            $stock = $purchasing->item->current_stock - $purchasing->qty;
+            $purchasing->item->current_stock = $stock;
+            $purchasing->item->save();
+        }
         $purchase->delete();
 
         return 'Success';
@@ -121,7 +129,20 @@ class PurchaseController extends Controller
      */
     public function paidPurchasing(Purchase $purchase)
     {
+        $array = new ArrayService();
+        $total_qty = $array->countValue($purchase->purchasingDetails->pluck('qty')->toArray());
+        $total_price = $array->countValue($purchase->purchasingDetails->pluck('total_price')->toArray());
+        foreach ($purchase->purchasingDetails as $purchasing) {
+            $stock = $purchasing->item->current_stock + $purchasing->qty;
+            $purchasing->item->current_stock = $stock;
+            $purchasing->item->save();
+        }
         $purchase->is_paid = true;
+        $purchase->spending()->create([
+            'date' => Carbon::now()->format('Y-m-d'),
+            'total_qty' => $total_qty,
+            'total_price' => $total_price
+        ]);
         $purchase->save();
 
         return 'Success';

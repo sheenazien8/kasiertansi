@@ -32,7 +32,7 @@
                   <div id="submenu-5" class="collapse submenu" style="">
                     <ul class="nav flex-column">
                       <li class="nav-item">
-                          <router-link :to="{ name : 'purchase' }" class="nav-link" >Cashier <i class="bg-square icon icon-calculator"></i></router-link>
+                          <router-link :to="{ name : 'cashier' }" class="nav-link" >Cashier <i class="bg-square icon icon-calculator"></i></router-link>
                       </li>
                     </ul>
                   </div>
@@ -68,7 +68,22 @@
                           <router-link :to="{ name: 'employee' }" class="nav-link">Employee <i class="bg-square icon icon-user-follow"></i></router-link>
                         </li>
                         <li class="nav-item">
-                          <router-link :to="{ name: 'role_permission' }" class="nav-link" >Management Pemission <i class="bg-square icon icon-graduation"></i></router-link>
+                          <router-link :to="{ name: 'employee' }" class="nav-link" >Management Pemission <i class="bg-square icon icon-graduation"></i></router-link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">
+                      Report <i class="bg-square icon icon-docs"></i>
+                    </a>
+                    <div id="submenu-6" class="collapse submenu" style="">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <router-link :to="{ name: 'spending' }" class="nav-link">Spendings Report <i class="bg-square icon icon-doc"></i></router-link>
+                        </li>
+                        <li class="nav-item">
+                          <router-link :to="{ name: 'spending' }" class="nav-link" >Income Report <i class="bg-square icon icon-doc"></i></router-link>
                         </li>
                       </ul>
                     </div>

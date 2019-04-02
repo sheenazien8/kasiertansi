@@ -27,6 +27,11 @@ import PurchaseEdit from './../views/purchases/Edit.vue'
 import ShowPurchasingDetail from './../views/purchasing_details/ShowPurchasingDetail.vue'
 import AddPurchasingDetail from './../views/purchasing_details/Create.vue'
 import EditPurchasingDetail from './../views/purchasing_details/Edit.vue'
+import SpendingIndex from './../views/spendings/Index.vue'
+import SpendingCreate from './../views/spendings/Create.vue'
+import SpendingEdit from './../views/spendings/Edit.vue'
+import SpendingShow from './../views/spendings/Show.vue'
+import Cashier from './../views/cashiers/Index.vue'
 
 const router = new VueRouter({
     mode: 'history',
@@ -144,6 +149,31 @@ const router = new VueRouter({
             path: '/purchase/:id/purchasing_detail/:id_purchasing_detail/edit',
             name: 'purchasing_detail.edit',
             component: AddPurchasingDetail,
+        },
+        {
+            path: '/spending',
+            name: 'spending',
+            component: SpendingIndex,
+        },
+        {
+            path: '/spending/create',
+            name: 'spending.create',
+            component: SpendingCreate,
+        },
+        {
+            path: '/spending/edit/:id',
+            name: 'spending.edit',
+            component: SpendingEdit,
+        },
+        {
+            path: '/spending/:date',
+            name: 'spending.show',
+            component: SpendingShow,
+        },
+        {
+            path: '/cashier',
+            name: 'cashier',
+            component: Cashier,
         },
     ],
 });

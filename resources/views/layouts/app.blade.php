@@ -22,7 +22,6 @@
     <notifications position="top center" style="padding: 20px;"></notifications>
     <app></app>
   </div>
-    <!-- Scripts -->
     @routes
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

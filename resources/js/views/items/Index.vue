@@ -18,6 +18,7 @@
               <th scope="col">Name</th>
               <th scope="col">Category</th>
               <th scope="col">Code</th>
+              <th scope="col">Current Stock</th>
               <th scope="col">Initial Prices</th>
               <th scope="col">Selling Prices</th>
               <th scope="col"></th>
@@ -29,6 +30,9 @@
               <td>{{ item.name }}</td>
               <td>{{ item.category.name }}</td>
               <td>{{ item.code }}</td>
+              <td :class="item.current_stock <= 0 ? 'bg-danger': ''">
+              {{ item.current_stock != 0 && item.current_stock ? item.current_stock : 'OUT OF STOCK!'}}
+            </td>
               <td>
                   {{ item.price ? item.price.initial_price : '' }}
               </td>

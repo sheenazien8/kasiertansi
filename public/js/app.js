@@ -1787,6 +1787,216 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/cashiers/Index.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/cashiers/Index.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      itemsData: [],
+      transaction: {
+        item: '',
+        itemsData: [],
+        qty: '',
+        change: '',
+        invoice_number: '',
+        paying: ''
+      },
+      item: {
+        id: '',
+        current_stock: '',
+        code: '',
+        name: '',
+        price: ''
+      },
+      transaction_details: [],
+      total_price: '',
+      total_qty: ''
+    };
+  },
+  mounted: function mounted() {
+    this.getTransactionDetails();
+  },
+  methods: {
+    getItemsData: function getItemsData(search) {
+      var _this = this;
+
+      if (search.length >= 2) {
+        axios.get(route('item.search', search), {}).then(function (response) {
+          _this.itemsData = response.data;
+        }).catch(function (response) {});
+      }
+    },
+    getDetailItems: function getDetailItems(item) {
+      var _this2 = this;
+
+      axios.get(route('item.show', item.id), {}).then(function (response) {
+        _this2.item.id = response.data.id;
+        _this2.item.code = response.data.code;
+        _this2.item.name = response.data.name;
+        _this2.item.current_stock = response.data.current_stock;
+        _this2.item.price = response.data.price.selling_price;
+      }).catch(function (response) {});
+    },
+    insertTransaction: function insertTransaction() {
+      var _this3 = this;
+
+      axios.post(route('transaction_detail.store'), {
+        price: this.item.price * this.transaction.qty,
+        qty: this.transaction.qty,
+        item_id: this.item.id
+      }).then(function (response) {
+        _this3.getTransactionDetails();
+
+        _this3.$notify({
+          type: 'success',
+          text: 'Success Insert Item!'
+        });
+
+        _this3.item.price = '';
+        _this3.transaction.qty = '';
+        _this3.transaction.item = '';
+      }).catch(function (response) {});
+    },
+    calculateQty: function calculateQty(qty) {
+      if (qty > this.item.current_stock) {
+        this.$notify({
+          type: 'error',
+          text: 'Stock anda kurang!'
+        });
+      }
+    },
+    getTransactionDetails: function getTransactionDetails() {
+      var _this4 = this;
+
+      axios.get(route('transaction_detail.index'), {}).then(function (response) {
+        _this4.transaction_details = response.data.transaction_details;
+        _this4.total_price = response.data.total_price;
+        _this4.total_qty = response.data.total_qty;
+      }).catch(function (response) {});
+    },
+    calculatePrice: function calculatePrice() {
+      if (this.transaction.paying >= this.total_price) {
+        this.transaction.change = this.transaction.paying - this.total_price;
+      } else {
+        this.transaction.change = null;
+      }
+    },
+    insertInvoice: function insertInvoice() {
+      axios.post(route('transaction.store'), {
+        invoice_number: this.transaction.invoice_number,
+        paying: this.transaction.paying,
+        change: this.transaction.change,
+        total_price: this.total_price,
+        total_qty: this.total_qty,
+        transactionDetails: this.transactionDetails
+      }).then(function (response) {}).catch(function (response) {});
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/categories/Create.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/categories/Create.vue?vue&type=script&lang=js& ***!
@@ -3640,6 +3850,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3686,12 +3903,16 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         axios.put(route('paid_purchase', id), {}).then(function (response) {
-          _this.getPurchasingDetails(id);
+          if (!_this.purchase.is_paid) {
+            console.log('ok');
 
-          _this.$notify({
-            type: 'success',
-            text: 'Success Paid Purchasing Order'
-          });
+            _this.$notify({
+              type: 'success',
+              text: 'Success Paid Purchasing Order'
+            });
+          }
+
+          _this.getPurchasingDetails(id);
         }).catch(function (response) {});
       }
     },
@@ -3816,11 +4037,16 @@ __webpack_require__.r(__webpack_exports__);
     deletePuchase: function deletePuchase(id) {
       var _this9 = this;
 
-      var bool = confirm('You Want to Delete this?');
+      var bool = confirm('You Wanna Cancel this?');
 
       if (bool) {
         axios.delete(route('purchasing_detail.destroy', [this.purchase.id, id]), {}).then(function (response) {
           _this9.getPurchasingDetails(_this9.purchase.id);
+
+          _this9.$notify({
+            type: 'success',
+            text: 'Deleted!'
+          });
         }).catch(function (response) {});
       }
     }
@@ -63491,11 +63717,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-12" }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [_c("router-view")], 1)
-              ])
-            ])
+            _c("div", { staticClass: "col-12" }, [_c("router-view")], 1)
           ])
         ])
       ])
@@ -63693,30 +63915,277 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-12 p-0" }, [
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-xl-12" }, [
-          _c(
-            "div",
-            { staticClass: "card-header" },
-            [
-              _c("h3", [_vm._v("Cashier")]),
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "col-md-12 row pr-0" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-5 pl-0" },
+                  [
+                    _c("v-select", {
+                      attrs: {
+                        options: _vm.itemsData,
+                        label: "name",
+                        value: "id",
+                        placeholder: "search item type 2 character!",
+                        onSearch: _vm.getItemsData
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.getDetailItems(_vm.transaction.item)
+                        }
+                      },
+                      model: {
+                        value: _vm.transaction.item,
+                        callback: function($$v) {
+                          _vm.$set(_vm.transaction, "item", $$v)
+                        },
+                        expression: "transaction.item"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.item.price,
+                      expression: "item.price"
+                    }
+                  ],
+                  staticClass: "col-md-3 mr-1 form-control h-100",
+                  attrs: {
+                    type: "text",
+                    readonly: "",
+                    placeholder: "Selling Price"
+                  },
+                  domProps: { value: _vm.item.price },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.item, "price", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.transaction.qty,
+                      expression: "transaction.qty"
+                    }
+                  ],
+                  staticClass: "col-md-3 mr-1 form-control h-100",
+                  class:
+                    _vm.transaction.qty > _vm.item.current_stock
+                      ? "bg-danger"
+                      : "",
+                  attrs: { type: "number", placeholder: "Qty" },
+                  domProps: { value: _vm.transaction.qty },
+                  on: {
+                    keyup: function($event) {
+                      return _vm.calculateQty(_vm.transaction.qty)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.transaction, "qty", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary d-inline float-right mr-0",
+                    class:
+                      _vm.transaction.qty > _vm.item.current_stock
+                        ? "disabled cursor-disabled"
+                        : "",
+                    on: {
+                      click: function($event) {
+                        _vm.transaction.qty <= _vm.item.current_stock
+                          ? _vm.insertTransaction()
+                          : ""
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "icon icon-plus" })]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12 p-0 mt-2" }, [
+                _c("table", { staticClass: "table" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    [
+                      _vm.transaction_details.length == 0
+                        ? _c("tr", [
+                            _c("td"),
+                            _vm._v(" "),
+                            _c("td"),
+                            _vm._v(" "),
+                            _c("td"),
+                            _vm._v(" "),
+                            _c("td", [_vm._v("0")]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v("0")])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm._l(_vm.transaction_details, function(
+                        transaction_detail,
+                        index
+                      ) {
+                        return _c(
+                          "tr",
+                          { directives: [{ name: "el", rawName: "v-el" }] },
+                          [
+                            _c("td", [_vm._v(_vm._s(++index))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(transaction_detail.item.name))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(transaction_detail.item.code))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(transaction_detail.price))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(transaction_detail.qty))])
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control input-none text-right",
+                  staticStyle: { "font-size": "20px" },
+                  attrs: { type: "text", readonly: "" },
+                  domProps: { value: _vm.total_price }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.transaction.paying,
+                      expression: "transaction.paying"
+                    }
+                  ],
+                  staticClass: "form-control text-right",
+                  staticStyle: { "font-size": "20px" },
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.transaction.paying },
+                  on: {
+                    keyup: function($event) {
+                      return _vm.calculatePrice()
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.transaction, "paying", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _vm._m(4),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.transaction.change,
+                      expression: "transaction.change"
+                    }
+                  ],
+                  staticClass: "form-control input-none text-right",
+                  staticStyle: { "font-size": "20px" },
+                  attrs: { type: "text", readonly: "" },
+                  domProps: { value: _vm.transaction.change },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.transaction, "change", $event.target.value)
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c(
-                "router-link",
+                "button",
                 {
-                  staticClass: "float",
-                  attrs: { to: { name: "purchase.create" } }
+                  staticClass: "btn btn-primary btn-block",
+                  on: {
+                    onclick: function($event) {
+                      return _vm.insertInvoice()
+                    }
+                  }
                 },
-                [_c("i", { staticClass: "icon icon-plus my-float" })]
+                [_c("i", { staticClass: "icon icon-check" }), _vm._v(" Simpan")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-block",
+                  on: {
+                    onclick: function($event) {
+                      return _vm.insertInvoice()
+                    }
+                  }
+                },
+                [
+                  _c("i", { staticClass: "icon icon-printer" }),
+                  _vm._v(" Simpan & Cetak")
+                ]
               )
-            ],
-            1
-          )
+            ])
+          ])
         ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0)
+      ])
     ])
   ])
 }
@@ -63725,9 +64194,57 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "row" })
+    return _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-12" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h3", [
+              _vm._v("Transaksi No.\n            "),
+              _c("input", {
+                staticClass: "col-md-3 input-none",
+                attrs: { type: "text", value: "123456789", readonly: "" }
+              })
+            ])
+          ])
+        ])
+      ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Code")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Qty")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Must Pay!")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Payment")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", [_c("b", [_vm._v("Change")])])
   }
 ]
 render._withStripped = true
@@ -65423,9 +65940,11 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.items, function(item) {
+              _vm._l(_vm.items, function(item, index) {
                 return _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
+                  _c("th", { attrs: { scope: "row" } }, [
+                    _vm._v(_vm._s(++index))
+                  ]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.name))]),
                   _vm._v(" "),
@@ -65808,7 +66327,7 @@ var render = function() {
                           attrs: { to: { name: "purchase" } }
                         },
                         [
-                          _vm._v("Selling Order "),
+                          _vm._v("Purchase Order "),
                           _c("i", {
                             staticClass: "bg-square icon icon-handbag"
                           })
@@ -66971,9 +67490,11 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.purchases, function(purchase) {
+              _vm._l(_vm.purchases, function(purchase, index) {
                 return _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
+                  _c("th", { attrs: { scope: "row" } }, [
+                    _vm._v(_vm._s(++index))
+                  ]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(purchase.supplier.name))]),
                   _vm._v(" "),
@@ -67574,7 +68095,7 @@ var render = function() {
                   ],
                   staticClass: "form-control col-md-3 h-100",
                   attrs: {
-                    type: "number",
+                    type: "text",
                     placeholder: "Price",
                     min: "1",
                     readonly: ""
@@ -67631,7 +68152,7 @@ var render = function() {
                 ],
                 staticClass: "form-control col-md-10 h-100",
                 attrs: {
-                  type: "number",
+                  type: "text",
                   placeholder: "Total Price",
                   min: "1",
                   readonly: ""
@@ -67698,10 +68219,15 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-danger btn-sm",
+                          class: _vm.purchase.is_paid
+                            ? "disabled cursor-disabled"
+                            : "",
                           attrs: { title: "Cancel" },
                           on: {
                             click: function($event) {
-                              return _vm.deletePuchase(purchasing.id)
+                              !_vm.purchase.is_paid
+                                ? _vm.deletePuchase(purchasing.id)
+                                : ""
                             }
                           }
                         },
@@ -67742,7 +68268,26 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _vm._m(3)
+            _vm._m(3),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info btn-sm float-right mr-2",
+                class: !_vm.purchase.is_paid ? "disabled cursor-disabled" : "",
+                on: {
+                  click: function($event) {
+                    _vm.purchase.is_paid
+                      ? _vm.paidPurchasing(_vm.purchase.id)
+                      : ""
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "icon icon-pencil" }),
+                _vm._v(" Update\n        ")
+              ]
+            )
           ])
         ])
       ]),
@@ -86317,15 +86862,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Index_vue_vue_type_template_id_717bb532___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=717bb532& */ "./resources/js/views/cashiers/Index.vue?vue&type=template&id=717bb532&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/views/cashiers/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Index_vue_vue_type_template_id_717bb532___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Index_vue_vue_type_template_id_717bb532___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -86339,6 +86886,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/views/cashiers/Index.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/cashiers/Index.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/views/cashiers/Index.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/cashiers/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 

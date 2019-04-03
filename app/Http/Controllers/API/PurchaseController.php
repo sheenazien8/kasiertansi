@@ -132,17 +132,31 @@ class PurchaseController extends Controller
         $array = new ArrayService();
         $total_qty = $array->countValue($purchase->purchasingDetails->pluck('qty')->toArray());
         $total_price = $array->countValue($purchase->purchasingDetails->pluck('total_price')->toArray());
-        foreach ($purchase->purchasingDetails as $purchasing) {
-            $stock = $purchasing->item->current_stock + $purchasing->qty;
-            $purchasing->item->current_stock = $stock;
-            $purchasing->item->save();
+        if (!$purchase->is_paid) {
+            $purchase->is_paid = true;
+            foreach ($purchase->purchasingDetails as $purchasing) {
+                $stock = $purchasing->item->current_stock + $purchasing->qty;
+                $purchasing->item->current_stock = $stock;
+                $purchasing->item->save();
+            }
+            $purchase->spending()->create([
+                'date' => Carbon::now()->format('Y-m-d'),
+                'total_qty' => $total_qty,
+                'total_price' => $total_price
+            ]);
+        }else {
+            $purchase->is_paid = false;
+            foreach ($purchase->purchasingDetails as $purchasing) {
+                $stock = $purchasing->item->current_stock - $purchasing->qty;
+                $purchasing->item->current_stock = $stock;
+                $purchasing->item->save();
+            }
+            $purchase->spending()->create([
+                'date' => Carbon::now()->format('Y-m-d'),
+                'total_qty' => $total_qty,
+                'total_price' => $total_price
+            ]);
         }
-        $purchase->is_paid = true;
-        $purchase->spending()->create([
-            'date' => Carbon::now()->format('Y-m-d'),
-            'total_qty' => $total_qty,
-            'total_price' => $total_price
-        ]);
         $purchase->save();
 
         return 'Success';

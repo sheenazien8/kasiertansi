@@ -47,4 +47,9 @@ class Item extends Model
     {
         return $this->hasOne(Price::class)->orderBy('id', 'desc');
     }
+
+    public function transactionDetails()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
 }

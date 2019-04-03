@@ -25,8 +25,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in items">
-              <th scope="row">1</th>
+            <tr v-for="(item, index) in items">
+              <th scope="row">{{ ++index }}</th>
               <td>{{ item.name }}</td>
               <td>{{ item.category.name }}</td>
               <td>{{ item.code }}</td>

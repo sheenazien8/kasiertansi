@@ -21,14 +21,14 @@
             <input type="text" readonly v-model="itemReadonly.name" class="form-control col-md-3 h-100">
             <input type="number" placeholder="Stock" v-model="itemReadonly.qty" class="form-control col-md-3 h-100"
             @keyup="calculatePrice()">
-            <input type="number" placeholder="Price" min="1" readonly v-model="itemReadonly.price"
+            <input type="text" placeholder="Price" min="1" readonly v-model="itemReadonly.price"
             class="form-control col-md-3 h-100">
             <b-button v-b-modal.modal-2 variant="primary" class="h-100"
             :class="!itemReadonly.id ? 'cursor-disabled disabled' : ''"
             v-model="itemReadonly.id">$ Set Price</b-button>
           </div>
           <div class="col-md-3">
-            <input type="number" placeholder="Total Price" min="1" readonly v-model="itemReadonly.total_price"
+            <input type="text" placeholder="Total Price" min="1" readonly v-model="itemReadonly.total_price"
             class="form-control col-md-10 h-100">
             <button class="btn btn-primary h-100 float-right"
               :class="!itemReadonly.id ? 'disabled cursor-disabled' : ''"
@@ -62,7 +62,9 @@
               <td>{{ purchasing.item.price.initial_price }}</td>
               <td>{{ purchasing.total_price }}</td>
               <td class="text-right">
-                <button @click="deletePuchase(purchasing.id)" class="btn btn-danger btn-sm" title="Cancel">
+                <button @click="!purchase.is_paid ? deletePuchase(purchasing.id) : ''"
+                class="btn btn-danger btn-sm" title="Cancel"
+                :class="purchase.is_paid ? 'disabled cursor-disabled' : ''">
                   <i class="icon icon-close"></i>
                 </button>
               </td>
@@ -86,6 +88,11 @@
           </button>
           <button class="btn btn-danger btn-sm float-right mr-2">
             <i class="icon icon-trash"></i> Trash
+          </button>
+          <button class="btn btn-info btn-sm float-right mr-2"
+          :class="!purchase.is_paid ? 'disabled cursor-disabled' : ''"
+          @click="purchase.is_paid ? paidPurchasing(purchase.id) : ''">
+            <i class="icon icon-pencil"></i> Update
           </button>
         </div>
       </div>
@@ -183,11 +190,14 @@
 
           })
           .then((response) =>{
+            if (!this.purchase.is_paid) {
+              console.log('ok')
+              this.$notify({
+                type: 'success',
+                text: 'Success Paid Purchasing Order'
+              });
+            }
             this.getPurchasingDetails(id);
-            this.$notify({
-              type: 'success',
-              text: 'Success Paid Purchasing Order'
-            });
           })
           .catch((response) =>{
 
@@ -332,13 +342,17 @@
       },
 
       deletePuchase(id){
-        var bool = confirm('You Want to Delete this?');
+        var bool = confirm('You Wanna Cancel this?');
         if (bool) {
           axios.delete(route('purchasing_detail.destroy', [this.purchase.id, id]),{
 
           })
           .then((response) =>{
             this.getPurchasingDetails(this.purchase.id)
+            this.$notify({
+              type: 'success',
+              text: 'Deleted!'
+            });
           })
           .catch((response) =>{
 

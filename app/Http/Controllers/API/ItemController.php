@@ -66,7 +66,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        //
+        return response()->json($item->load('price'));
     }
 
     /**
@@ -144,8 +144,10 @@ class ItemController extends Controller
      */
     public function searhItems($query)
     {
-        $item = Item::where('user_id', auth()->id())->where('name', 'LIKE', "%%".$query."%%")->get();
+        $item = Item::select('id', 'name')
+                    ->where('user_id', auth()->id())
+                    ->where('name', 'LIKE', "%%".$query."%%")->get();
 
-        return response()->json($item->load('category', 'unit', 'prices', 'price'));
+        return response()->json($item);
     }
 }

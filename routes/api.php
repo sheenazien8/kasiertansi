@@ -26,6 +26,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('employee', 'API\EmployeeController');
     Route::resource('supplier', 'API\SupplierController');
     Route::resource('purchase', 'API\PurchaseController');
+    Route::resource('transaction', 'API\TransactionController');
+    Route::resource('transaction_detail', 'API\TransactionDetailController');
+    Route::post('transaction_detail/session/storage', 'API\TransactionDetailController@sessionStorage')->name('save.session.storage');
     Route::resource('spending', 'API\SpendingController');
     Route::put('purchase/{purchase}/payout', 'API\PurchaseController@paidPurchasing')->name('paid_purchase');
     Route::group(['prefix' => '/purchase/{purchase}'], function() {

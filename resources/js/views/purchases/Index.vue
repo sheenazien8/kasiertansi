@@ -24,8 +24,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="purchase in purchases">
-              <th scope="row">1</th>
+            <tr v-for="(purchase, index) in purchases">
+              <th scope="row">{{ ++index }}</th>
               <td>{{ purchase.supplier.name }}</td>
               <td>{{ purchase.invoice_number }}</td>
               <td>{{ purchase.payment_method }}</td>

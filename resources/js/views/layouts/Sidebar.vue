@@ -20,7 +20,7 @@
                   <div id="submenu-1" class="collapse submenu" style="">
                     <ul class="nav flex-column">
                       <li class="nav-item">
-                          <router-link :to="{ name : 'purchase' }" class="nav-link" >Selling Order <i class="bg-square icon icon-handbag"></i></router-link>
+                          <router-link :to="{ name : 'purchase' }" class="nav-link" >Purchase Order <i class="bg-square icon icon-handbag"></i></router-link>
                       </li>
                     </ul>
                   </div>

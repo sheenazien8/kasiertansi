@@ -105,9 +105,8 @@ class PurchasingDetailController extends Controller
      * @param  \App\Models\PurchasingDetail  $purchasingDetail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purhcase $purchase, PurchasingDetail $purchasingDetail)
+    public function destroy(Purchase $purchase, PurchasingDetail $purchasingDetail)
     {
-        dd($purchase, $purchasingDetail);
         $purchasingDetail->delete();
 
         return 'Success';

@@ -22,11 +22,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <router-view></router-view>
-                    </div>
-                </div>
+                <router-view></router-view>
             </div>
         </div>
     </div>

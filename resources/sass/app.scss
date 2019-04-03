@@ -17,8 +17,8 @@
 }
 .float{
   position: fixed;
-  width: auto;
-  height: auto;
+  width: 50px;
+  height: 50px;
   bottom: 20px;
   right: 20px;
   background-color: #0C9;
@@ -56,17 +56,21 @@
     background: #4CC3D9;
     color: #fff;
 }
-input[type=text],
-input[type=email],
-textarea {
-  text-transform: uppercase !important;
-}
+
 .bg-square{
   font-size: 15px;
   border: 1px solid grey;
   padding: 5px;
 }
-
+.input-none{
+  border: none;
+  background: none;
+  font-size: smaller;
+  padding-left: 0px;
+}
+.input-none[readonly]{
+  background: transparent !important;
+}
 .cursor-disabled{
   cursor: not-allowed !important;
 }

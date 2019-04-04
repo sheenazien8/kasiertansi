@@ -4,7 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use App\Services\TransactionService;
+use App\Services\CodeGeneratorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TransactionController extends Controller
 {
@@ -40,12 +44,18 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $codeGeneratorService = new CodeGeneratorService();
+        $invoice_number = $codeGeneratorService->generateCode();
+        $request->json()->add([
+            'invoice_number' => $invoice_number,
+        ]);
         $transaction = new Transaction();
         $transaction->fill($request->json()->all());
-        dd($request->json()->all());
-        // $transaction->save();
+        $transaction->save();
+        $transactionService = new TransactionService();
+        $transactionService->insertTransactionDetail($request, $transaction);
 
-        return $transaction;
+        return response()->json($transaction);
     }
 
     /**

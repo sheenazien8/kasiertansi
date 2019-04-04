@@ -37,8 +37,8 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/home',
-            name: 'home',
+            path: '/dashboard',
+            name: 'dashboard',
         },
         {
             path: '/category',

@@ -1,15 +1,25 @@
 <template>
   <div>
     <div class="card">
+      <div class="card-header">
+        <h3 class="text-header">
+          Expenditures On {{ spendings.date }}
+        </h3>
+      </div>
       <div class="card-body">
         <table class="table">
-          <thead class="thead light">
+          <thead class="thead-light">
             <tr>
+              <th>#</th>
+              <th>Total Qty</th>
+              <th>Total Price</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="(spending, index) in spendings">
+              <td>{{ ++index }}</td>
+              <td>{{ spending }}</td>
               <td></td>
             </tr>
           </tbody>

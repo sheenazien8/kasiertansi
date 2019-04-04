@@ -6,31 +6,31 @@
           <h3>Puchasing Detail</h3>
         </div>
       </div>
-      <div class="col-md-12 col-xl-12 mt-1">
-        <div class="row mb-1">
-          <div class="col">
-          <b-button v-b-modal.modal-1 variant="primary"><i class="icon icon-plus"></i> Add New Item</b-button>
+      <div class="col-md-12 col-xl-12">
+        <div class="">
+          <div class="col mt-2">
+            <b-button v-b-modal.modal-1 variant="primary"><i class="icon icon-plus"></i> Add New Item</b-button>
           </div>
         </div>
-        <div class="row">
+        <div class="row p-2">
           <div class="col-md-3">
             <v-select :onSearch="getItemsData" :options="items" label="name" value="id" placeholder="Type 2 Character"
             v-model="changeItem" @change="getDetailPriceItems()"></v-select>
           </div>
-          <div class="col-md-6 p-0">
-            <input type="text" readonly v-model="itemReadonly.name" class="form-control col-md-3 h-100">
-            <input type="number" placeholder="Stock" v-model="itemReadonly.qty" class="form-control col-md-3 h-100"
+          <div class="col-md-6">
+            <input type="text" readonly v-model="itemReadonly.name" class="form-control col-md-3 ">
+            <input type="number" placeholder="Stock" v-model="itemReadonly.qty" class="form-control col-md-3 "
             @keyup="calculatePrice()">
             <input type="text" placeholder="Price" min="1" readonly v-model="itemReadonly.price"
-            class="form-control col-md-3 h-100">
-            <b-button v-b-modal.modal-2 variant="primary" class="h-100"
+            class="form-control col-md-3 ">
+            <b-button v-b-modal.modal-2 variant="primary" class=""
             :class="!itemReadonly.id ? 'cursor-disabled disabled' : ''"
             v-model="itemReadonly.id">$ Set Price</b-button>
           </div>
           <div class="col-md-3">
             <input type="text" placeholder="Total Price" min="1" readonly v-model="itemReadonly.total_price"
-            class="form-control col-md-10 h-100">
-            <button class="btn btn-primary h-100 float-right"
+            class="form-control col-md-10 ">
+            <button class="btn btn-primary  float-right"
               :class="!itemReadonly.id ? 'disabled cursor-disabled' : ''"
               @click="storePurchasingDetail()">
               <i class="icon icon-plus"></i>
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body p-2">
+    <div class="card-body">
       <div class="row">
         <table class="table">
           <thead class="thead-light">
@@ -61,7 +61,7 @@
               <td>{{ purchasing.qty }}</td>
               <td>{{ purchasing.item.price.initial_price }}</td>
               <td>{{ purchasing.total_price }}</td>
-              <td class="text-right">
+              <td class="text-right pr-0">
                 <button @click="!purchase.is_paid ? deletePuchase(purchasing.id) : ''"
                 class="btn btn-danger btn-sm" title="Cancel"
                 :class="purchase.is_paid ? 'disabled cursor-disabled' : ''">
@@ -80,7 +80,7 @@
         </table>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 p-0">
           <button class="btn btn-primary btn-sm float-right"
           :class="purchase.is_paid ? 'disabled cursor-disabled' : ''"
           @click="!purchase.is_paid ? paidPurchasing(purchase.id) : ''">

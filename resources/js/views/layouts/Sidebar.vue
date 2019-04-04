@@ -1,7 +1,7 @@
 <template>
   <aside class="left-sidebar">
       <div class="d-flex no-block nav-text-box align-items-center">
-          <span><h3>Kasirku</h3></span>
+          <span><h3 class="title-logo">KasierTansi</h3></span>
           <a class="waves-effect waves-dark ml-auto hidden-sm-down" href="javascript:void(0)"><i class="icon icon-menu"></i></a>
           <a class="nav-toggler waves-effect waves-dark ml-auto hidden-sm-up" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
       </div>
@@ -9,9 +9,9 @@
           <nav class="sidebar-nav">
               <ul id="sidebarnav">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html" style="font-size: 15px;">
+                  <router-link class="nav-link" :to="{name : 'dashboard'}" style="font-size: 15px;">
                     Dashboard <span><i class="bg-square icon icon-speedometer"></i></span>
-                  </a>
+                  </router-link>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">

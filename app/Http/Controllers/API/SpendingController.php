@@ -16,7 +16,9 @@ class SpendingController extends Controller
     public function index()
     {
 
-        $spendings = Spending::with('purchase')->distinct()->select('date')
+        $spendings = Spending::selectRaw('date, SUM(total_price) as total_price')
+                                ->with('purchase')
+                                ->groupBy('date')
                                 ->paginate(5);
 
         return response()->json($spendings);
@@ -59,6 +61,8 @@ class SpendingController extends Controller
                                     ->where('date', $spending)
                                     ->where('user_id', auth()->id())
                                     ->get();
+
+
 
         return response()->json($listSpending);
     }

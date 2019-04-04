@@ -1,6 +1,6 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito|Exo+2|Pacifico');
 
 // Variables
 @import 'variables';
@@ -73,4 +73,7 @@
 }
 .cursor-disabled{
   cursor: not-allowed !important;
+}
+.title-logo{
+  font-family: "Pacifico", sans-serif;
 }

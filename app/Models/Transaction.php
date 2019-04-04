@@ -21,11 +21,17 @@ class Transaction extends Model
         parent::boot();
         static::creating(function ($query) {
             $query->user_id = auth()->id();
+            $query->purchase_date = date('Y-m-d');
         });
     }
 
     public function transactionDetails()
     {
         return $this->hasMany(TransactionDetail::class);
+    }
+
+    public function income()
+    {
+        return $this->hasOne(Income::class);
     }
 }

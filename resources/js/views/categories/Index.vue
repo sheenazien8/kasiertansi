@@ -20,8 +20,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="category in categories">
-              <th scope="row">1</th>
+            <tr v-for="(category, index) in categories">
+              <th scope="row">{{ ++index }}</th>
               <td>{{ category.name }}</td>
               <td>
                 <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>

@@ -15,6 +15,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Date</th>
+              <th scope="col">Total Price</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -22,6 +23,7 @@
             <tr v-for="(spending, index) in spendings">
               <th scope="row">{{ ++index }}</th>
               <td>{{ spending.date }}</td>
+              <td>{{ spending.total_price }}</td>
               <td>
                 <router-link :to="{ name:'spending.show', params: {date: spending.date} }"
                 class="btn btn-sm p-1 btn-info float-right mr-2" title="show details?"><i class="icon icon-magnifier"></i></router-link>

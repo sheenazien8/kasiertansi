@@ -1,16 +1,12 @@
 <template>
     <header class="topbar">
-        <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">
-                    <b>
-                        <img src="#" alt="homepage" class="dark-logo" />
-                        <img src="#" alt="homepage" class="light-logo" />
-                    </b>
-                <span>
-                 <img src="#" alt="homepage" class="dark-logo" />
-                 <img src="#" class="light-logo" alt="homepage" />
-                </span></a>
+              <router-link class="navbar-brand" :to="{name : 'dashboard'}">
+                <b>
+                  <h1 class="title-logo text-primary btn btn-lg btn-rounded">KasierTansi</h1>
+                </b>
+              </router-link>
             </div>
             <div class="navbar-collapse">
                 <ul class="navbar-nav mr-auto">

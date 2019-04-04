@@ -5,7 +5,7 @@
       <div class="col-xl-12">
         <div class="card-header">
           <h3>Transaksi No.
-            <input type="text" value="123456789" readonly class="col-md-3 input-none">
+            <input type="text" readonly class="col-md-3 input-none" v-model="transaction.invoice_number">
             <!-- v-model="transaction.invoice_number" -->
           </h3>
         </div>
@@ -23,8 +23,9 @@
                   :onSearch="getItemsData" v-model="transaction.item" @change="getDetailItems(transaction.item)">
                   </v-select>
                 </div>
-                <input type="text" class="col-md-3 mr-1 form-control h-100" readonly placeholder="Selling Price" v-model="item.price">
-                <input type="number" class="col-md-3 mr-1 form-control h-100" placeholder="Qty"
+                <input type="text" class="col-md-3 mr-1 form-control" readonly placeholder="Selling Price" v-model="item.price">
+                <input type="number" class="col-md-3 mr-1 form-control"
+                :placeholder="item.current_stock <= 0  ? 'Stock Anda kurang' : 'Masukkan Qty'"
                 :class="transaction.qty > item.current_stock ? 'bg-danger' : ''"
                 @keyup="calculateQty(transaction.qty)" v-model="transaction.qty">
                 <button class="btn btn-primary d-inline float-right mr-0"
@@ -38,10 +39,11 @@
                   <thead class="thead-light">
                     <tr>
                       <th>#</th>
-                      <th>Code</th>
                       <th>Name</th>
+                      <th>Code</th>
                       <th>Price</th>
                       <th>Qty</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -51,13 +53,20 @@
                       <td></td>
                       <td>0</td>
                       <td>0</td>
+                      <td></td>
                     </tr>
-                    <tr v-el v-for="(transaction_detail, index) in transaction_details">
+                    <tr v-for="(transaction_detail, index) in transaction_details">
                       <td>{{ ++index }}</td>
                       <td>{{ transaction_detail.item.name }}</td>
                       <td>{{ transaction_detail.item.code }}</td>
                       <td>{{ transaction_detail.price }}</td>
                       <td>{{ transaction_detail.qty }}</td>
+                      <td class="text-right">
+                        <button @click="cancelItem(transaction_detail.id)"
+                        class="btn btn-sm btn-danger">
+                          <i class="icon icon-close"></i>
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -83,8 +92,8 @@
                 <input type="text" class="form-control input-none text-right"
                 style="font-size: 20px" readonly v-model="transaction.change">
               </div>
-              <button class="btn btn-primary btn-block" @onclick="insertInvoice()"><i class="icon icon-check"></i> Simpan</button>
-              <button class="btn btn-primary btn-block" @onclick="insertInvoice()"><i class="icon icon-printer"></i> Simpan & Cetak</button>
+              <button class="btn btn-primary btn-block" @click="insertInvoice()"><i class="icon icon-check"></i> Simpan</button>
+              <button class="btn btn-primary btn-block" @onclick="insertAndPrintInvoice()"><i class="icon icon-printer"></i> Simpan & Cetak</button>
             </div>
           </div>
         </div>
@@ -115,6 +124,7 @@ export default {
       transaction_details : [],
       total_price : '',
       total_qty : '',
+      errors : ''
     }
   },
 
@@ -167,7 +177,7 @@ export default {
         this.transaction.item = ''
       })
       .catch((response) => {
-
+        this.errors = response.response.data.errors;
       })
     },
     calculateQty(qty){
@@ -186,6 +196,7 @@ export default {
         this.transaction_details = response.data.transaction_details
         this.total_price = response.data.total_price
         this.total_qty = response.data.total_qty
+        this.transaction.invoice_number = response.data.invoice_number
       })
       .catch((response) => {
 
@@ -205,7 +216,26 @@ export default {
         change : this.transaction.change,
         total_price : this.total_price,
         total_qty : this.total_qty,
-        transactionDetails : this.transactionDetails
+        transactionDetails : this.transaction_details
+      })
+      .then((response) => {
+        this.insertIncome();
+        this.getTransactionDetails();
+        this.$notify({
+          type: 'success',
+          text: 'Transaction Success!'
+        });
+        this.transaction.paying = '';
+        this.transaction.change = '';
+      })
+      .catch((response) => {
+
+      })
+    },
+    insertAndPrintInvoice(){
+      this.insertInvoice();
+      axios.get(route('print.invoice'),{
+
       })
       .then((response) => {
 
@@ -213,6 +243,35 @@ export default {
       .catch((response) => {
 
       })
+    },
+    insertIncome(){
+      axios.post(route('income.store'),{
+
+      })
+      .then((response) =>{
+
+      })
+      .catch((response) =>{
+
+      })
+    },
+    cancelItem(id){
+      var bool = confirm('You Wanna Delete this?');
+      if (bool) {
+        axios.delete(route('transaction_detail.destroy',id),{
+
+        })
+        .then((response) => {
+          this.getTransactionDetails();
+          this.$notify({
+            type: 'success',
+            text: 'Item Deleted!'
+          });
+        })
+        .catch((response) => {
+
+        })
+      }
     }
   },
 }

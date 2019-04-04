@@ -20,8 +20,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="unit in units">
-              <th scope="row">1</th>
+            <tr v-for="(unit, index) in units">
+              <th scope="row">{{ ++index }}</th>
               <td>{{ unit.unit }}</td>
               <td>
                 <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteUnit(unit.id)"><i class="icon icon-trash"></i></button>

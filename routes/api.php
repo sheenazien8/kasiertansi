@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('employee', 'API\EmployeeController');
     Route::resource('supplier', 'API\SupplierController');
     Route::resource('purchase', 'API\PurchaseController');
+    Route::resource('income', 'API\IncomeController');
     Route::resource('transaction', 'API\TransactionController');
     Route::resource('transaction_detail', 'API\TransactionDetailController');
     Route::post('transaction_detail/session/storage', 'API\TransactionDetailController@sessionStorage')->name('save.session.storage');

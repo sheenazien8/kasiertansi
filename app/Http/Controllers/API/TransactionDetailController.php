@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TransactionDetailRequest;
 use App\Models\Item;
 use App\Models\TransactionDetail;
-use Illuminate\Http\Request;
+use App\Services\CodeGeneratorService;
+use App\Services\TransactionService;
 
 class TransactionDetailController extends Controller
 {
@@ -20,11 +22,14 @@ class TransactionDetailController extends Controller
                                                 ->where('transaction_id', null)
                                                 ->orderBy('created_at','desc')
                                                 ->get();
+        $codeGeneratorService = new CodeGeneratorService();
+        $invoice_number = $codeGeneratorService->generateCode();
 
         return response()->json([
             'transaction_details'=> $transactionDetails,
             'total_price' => $transactionDetails->sum('price'),
-            'total_qty' => $transactionDetails->sum('qty')
+            'total_qty' => $transactionDetails->sum('qty'),
+            'invoice_number' => $invoice_number
         ]);
     }
 
@@ -41,24 +46,16 @@ class TransactionDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TransactionDetailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TransactionDetailRequest $request)
     {
-        $transactionDetail = TransactionDetail::whereItemId($request->json('item_id'))->first();
-        if ($transactionDetail) {
-            $request->qty = $request->qty + $transactionDetail->qty;
-            $request->price = $request->price + $transactionDetail->price;
-            $request->json()->add([
-                'qty' => $request->qty,
-                'price' => $request->price,
-            ]);
-        }else {
-            $transactionDetail = new TransactionDetail();
-        }
+        $transactionService = new TransactionService();
+        $item = $transactionService->reduceCurrentStock($request);
+        $transactionDetail = $transactionService->getConstructorClass($request);
         $transactionDetail->fill($request->json()->all());
-        $transactionDetail->item()->associate($request->json('item_id'));
+        $transactionDetail->item()->associate($item);
         $transactionDetail->save();
 
         return response()->json($transactionDetail);
@@ -89,11 +86,11 @@ class TransactionDetailController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TransactionDetailRequest  $request
      * @param  \App\Models\TransactionDetail  $transactionDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TransactionDetail $transactionDetail)
+    public function update(TransactionDetailRequest $request, TransactionDetail $transactionDetail)
     {
         $transactionDetail->fill($request->json()->all());
         $transactionDetail->save();
@@ -109,6 +106,9 @@ class TransactionDetailController extends Controller
      */
     public function destroy(TransactionDetail $transactionDetail)
     {
+        $transactionDetail->item->current_stock = $transactionDetail->item->current_stock + $transactionDetail->qty;
+        $transactionDetail->item->save();
+        $current_stock = $transactionDetail->item->current_stock;
         $transactionDetail->delete();
 
         return 'Success';
@@ -118,10 +118,10 @@ class TransactionDetailController extends Controller
     /**
      * Save the specified resource in Session storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TransactionDetailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function sessionStorage(Request $request)
+    public function sessionStorage(TransactionDetailRequest $request)
     {
         $item = Item::find($request->json('item_id'));
         $cart = session()->get('cart');

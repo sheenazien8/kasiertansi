@@ -22,8 +22,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="supplier in suppliers">
-                <th scope="row">1</th>
+              <tr v-for="(supplier, index) in suppliers">
+                <th scope="row">{{ ++index }}</th>
                 <td>{{ supplier.name }}</td>
                 <td>{{ supplier.address }}</td>
                 <td>{{ supplier.contact }}</td>

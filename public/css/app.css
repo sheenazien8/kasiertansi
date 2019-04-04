@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(/assets/icons/font-awesome/css/font-awesome.min.css);@import url(/assets/icons/themify-icons/themify-icons.css);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito|Exo+2|Pacifico);@import url(/assets/icons/font-awesome/css/font-awesome.min.css);@import url(/assets/icons/themify-icons/themify-icons.css);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -27877,5 +27877,9 @@ File: scss
 
 .cursor-disabled {
   cursor: not-allowed !important;
+}
+
+.title-logo {
+  font-family: "Pacifico", sans-serif;
 }
 

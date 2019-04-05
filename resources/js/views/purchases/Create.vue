@@ -5,7 +5,8 @@
         <form>
         <div class="form-group">
           <label for="name" class="col-form-label">Purchasing Date</label>
-          <input type="date" class="form-control" :class="errors.purchase_date ? 'is-invalid' : ''"  v-model="purchase.purchase_date">
+          <datepicker format="MM/dd/yyyy" :input-class="errors.purchase_date ? 'form-control is-invalid' : ''" placeholder="Input Date"
+          bootstrap-styling="true" v-model="purchase.purchase_date"></datepicker>
           <div v-if="errors.purchase_date">
             <span class="text-danger">{{ errors.purchase_date[0] }}</span>
           </div>
@@ -21,7 +22,8 @@
           <label for="name" class="col-form-label">Supplier</label>
           <div class="row">
             <div class="col-md-10 col-sm-11 ">
-              <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id" v-model="purchase.supplier_id"/>
+              <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id" :onSearch="getCreateDataPurchases"
+              v-model="purchase.supplier_id"/>
               <div v-if="errors.supplier_id">
                 <span class="text-danger">{{ errors.supplier_id[0] }}</span>
               </div>
@@ -118,10 +120,19 @@
     },
 
     mounted(){
-      this.getCreateDataPurchases();
+      this.getInvoiceCode();
     },
 
     methods:{
+      getInvoiceCode(){
+        axios.get(route('get.invoice.number'))
+        .then((response) =>{
+          this.purchase.invoice_number = response.data
+        })
+        .catch((response) =>{
+
+        })
+      },
       createSupplier(){
         axios.post(route('supplier.store'), {
           name : this.supplier.name,
@@ -134,6 +145,7 @@
             type: 'success',
             text: 'Success Create Supplier'
           });
+          this.purchase.supplier_id = response.data.name
            this.supplier.name = '';
            this.supplier.contact = '';
            this.supplier.address = '';
@@ -144,8 +156,9 @@
            console.log(response);
          });
       },
-      getCreateDataPurchases(){
-        axios.get(route('purchase.create'), {
+      getCreateDataPurchases(query){
+        axios.get(route('supplier.search', query), {
+
         })
         .then((response) =>{
           this.suppliersData = response.data
@@ -167,7 +180,8 @@
             type: 'success',
             text: 'Success Create Purchase'
           });
-           this.$router.replace('/purchase/'+response.data.id+'/purchasing_detail');
+          this.purchase.supplier_id = response.data
+          this.$router.replace('/purchase/'+response.data.id+'/purchasing_detail');
          })
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');

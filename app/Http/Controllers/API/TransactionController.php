@@ -33,7 +33,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -106,5 +106,17 @@ class TransactionController extends Controller
         $transaction->delete();
 
         return 'Success';
+    }
+
+    /**
+     * Get invoice number from storage.
+     */
+
+    public function getInvoiceCode()
+    {
+        $codeGeneratorService = new CodeGeneratorService();
+        $code = $codeGeneratorService->generateCodePurchasing();
+
+        return response()->json($code);
     }
 }

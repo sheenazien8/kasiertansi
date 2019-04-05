@@ -68,7 +68,7 @@
                           <router-link :to="{ name: 'employee' }" class="nav-link">Employee <i class="bg-square icon icon-user-follow"></i></router-link>
                         </li>
                         <li class="nav-item">
-                          <router-link :to="{ name: 'employee' }" class="nav-link" >Management Pemission <i class="bg-square icon icon-graduation"></i></router-link>
+                          <router-link :to="{ name: 'management_permission' }" class="nav-link" >Management Pemission <i class="bg-square icon icon-graduation"></i></router-link>
                         </li>
                       </ul>
                     </div>

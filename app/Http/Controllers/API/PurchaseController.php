@@ -48,6 +48,7 @@ class PurchaseController extends Controller
      */
     public function store(PurchaseRequest $request)
     {
+        dd($request->json()->all());
         $supplier = Supplier::find($request->json('supplier_id'));
         $purchase = new Purchase();
         $purchase->fill($request->json()->all());

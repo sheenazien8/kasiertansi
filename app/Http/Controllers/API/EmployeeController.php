@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\Owner;
+use App\Models\Role;
 use App\Models\User;
 
 class EmployeeController extends Controller
@@ -48,6 +49,7 @@ class EmployeeController extends Controller
                 'password' => bcrypt(12345678)
             ]);
         }
+        $role = Role::where('name', 'employee')->first();
         $user = new User();
         $owner = auth()->user()->userable;
         $employee = new Employee();
@@ -57,6 +59,7 @@ class EmployeeController extends Controller
         $user->fill($request->json()->all());
         $user->userable()->associate($employee);
         $user->save();
+        $user->attachRole($role);
 
         return $employee;
     }

@@ -8,7 +8,8 @@ class Item extends Model
 {
     protected $fillable = [
         'name',
-        'code'
+        'code',
+        'current_stock'
     ];
 
     protected static function boot()

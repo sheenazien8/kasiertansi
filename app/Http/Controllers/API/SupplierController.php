@@ -96,4 +96,19 @@ class SupplierController extends Controller
 
         return 'Success';
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Supplier  $supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function searchSupplier($query)
+    {
+        $supplier = Supplier::select('id', 'name')
+                    ->where('user_id', auth()->id())
+                    ->where('name', 'LIKE', "%%".$query."%%")->get();
+
+        return response()->json($supplier);
+    }
 }

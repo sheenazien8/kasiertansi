@@ -97,36 +97,59 @@
         </div>
       </div>
     </div>
-    <b-modal id="modal-1" title="Create New Item" @ok="createItems()">
-      <form>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Category</label>
-            <v-select :onSearch="getCreateDataItems" :options="categoriesData" label="name" placeholder="Type 2 Character"
-            :class="errors.category_id ? 'is-invalid' : ''" value="id" v-model="item.category_id"/>
-            <div v-if="errors.name">
-              <span class="text-danger">{{ errors.category_id[0] }}</span>
+    <b-modal id="modal-1" size="lg" title="Create New Item" @ok="createItems()">
+        <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <form>
+              <div class="form-group">
+                <label for="name" class="col-form-label">Category</label>
+                <v-select :onSearch="getCreateDataItems" :options="categoriesData" label="name" placeholder="Type 2 Character"
+                :class="errors.category_id ? 'is-invalid' : ''" value="id" v-model="item.category_id"/>
+                <div v-if="errors.name">
+                  <span class="text-danger">{{ errors.category_id[0] }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+               <label for="name" class="col-form-label">Unit</label>
+                <v-select :onSearch="getCreateDataItems" :options="unitsData" label="unit" value="id" selected="name" placeholder="Type 2 Character"
+                v-model="item.unit_id"/>
+              </div>
+              <div class="form-group">
+                <label for="name" class="col-form-label">Code</label>
+                <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''" v-model="item.code">
+                <div v-if="errors.code">
+                  <span class="text-danger">{{ errors.code[0] }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name" class="col-form-label">Name</label>
+                <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="item.name">
+                <div v-if="errors.name">
+                  <span class="text-danger">{{ errors.name[0] }}</span>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name" class="col-form-label">Qty</label>
+              <input id="name" type="text" class="form-control" :class="errors.qty ? 'is-invalid' : ''" v-model="item.qty">
+              <div v-if="errors.qty">
+                <span class="text-danger">{{ errors.qty[0] }}</span>
+              </div>
             </div>
+            <div class="form-group">
+              <label>Initial Price</label>
+              <input type="number" class="form-control" v-model="price.initial_price">
+            </div>
+            <div class="form-group">
+              <label>Selling Price</label>
+              <input type="number" class="form-control" v-model="price.selling_price">
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-         <label for="name" class="col-form-label">Unit</label>
-            <v-select :onSearch="getCreateDataItems" :options="unitsData" label="unit" value="id" selected="name" placeholder="Type 2 Character"
-            v-model="item.unit_id"/>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Code</label>
-            <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''" v-model="item.code">
-        </div>
-        <div v-if="errors.code">
-          <span class="text-danger">{{ errors.code[0] }}</span>
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Name</label>
-            <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="item.name">
-        </div>
-        <div v-if="errors.name">
-          <span class="text-danger">{{ errors.name[0] }}</span>
-        </div>
-      </form>
+      </div>
     </b-modal>
     <b-modal :id="this.itemReadonly.id ? 'modal-2' : ''" title="Set Price per Stock" @ok="setPrice()">
       <form>
@@ -164,7 +187,8 @@
           name : '',
           code : '',
           category_id : '',
-          unit_id : ''
+          unit_id : '',
+          qty : ''
         },
         price : {
           initial_price : '',
@@ -275,17 +299,25 @@
           name : this.item.name,
           code : this.item.code,
           category_id : this.item.category_id.id,
-          unit_id : this.item.unit_id.id
+          unit_id : this.item.unit_id.id,
+          current_stock : this.item.qty
         })
          .then((response) => {
-          this.$notify({
-            type: 'success',
-            text: 'Success Create Items'
-          });
-          this.item.name = '';
-          this.item.code = '';
-          this.item.category_id = '';
-          this.item.unit_id.id = '';
+            this.$notify({
+              type: 'success',
+              text: 'Success Create Items'
+            });
+            this.itemReadonly.id = response.data.id;
+            this.itemReadonly.qty = this.item.qty;
+            this.itemReadonly.total_price = this.item.qty * this.price.initial_price;
+            console.log(this.itemReadonly.total_price)
+            this.setPrice();
+            this.storePurchasingDetail();
+            this.item.name = '';
+            this.item.code = '';
+            this.item.qty = '';
+            this.item.category_id = '';
+            this.item.unit_id.id = '';
          })
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');

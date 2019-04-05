@@ -4,8 +4,8 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Employee List</h3>
-          <router-link :to="{ name: 'employee.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
+          <h3>Role List</h3>
+          <router-link :to="{ name: 'management_permission.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
         </div>
       </div>
     </div>
@@ -16,22 +16,39 @@
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Join Date</th>
               <th></th>
             </tr>
-            <tr v-for="(employee, index) in employees">
+            <tr v-for="(role, index) in roles">
               <td>{{ ++index }}</td>
-              <td>{{ employee.name }}</td>
-              <td>{{ employee.join_date }}</td>
+              <td>{{ role.display_name }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteEmployee(employee.id)"><i class="icon icon-trash"></i></button>
-                <router-link :to="{ name: 'employee.edit', params: {id : employee.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteRole(role.id)"><i class="icon icon-trash"></i></button>
+                <router-link :to="{ name: 'management_permission.edit', params: {id : role.id}}" class="btn btn-sm p-1 btn-warning float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+                <b-button v-b-modal.modal-1 size="sm" variant="info" class="modal-1 float-right mr-2" @click="getRoleId(role.id)">
+                  <i class="icon icon-magnifier"></i>
+                </b-button>
               </td>
             </tr>
           </thead>
         </table>
       </div>
     </div>
+    <b-modal id="modal-1" size="lg" title="List User" hide-footer="true" class="p-0">
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, index) in users">
+            <td>{{ user.email }}</td>
+            <td>{{ user.userable.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </b-modal>
     <div class="d-flex justify-content-center">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
@@ -60,34 +77,50 @@
 export default {
     data() {
       return {
-        employees : []
+        roles : [],
+        role : {
+
+        },
+        users : []
       }
     },
 
     mounted(){
-      this.getEmployee()
+      this.getRole()
     },
 
     methods:{
-      getEmployee(){
-        axios.get(route('employee.index'),{
+      getRole(){
+        axios.get(route('role.index'),{
 
         })
         .then((response) =>{
-          this.employees = response.data.data
+          this.roles = response.data
         })
         .catch((response) =>{
 
         })
       },
-      deleteEmployee(id){
+      getRoleId(id){
+        axios.get(route('get.role', id),{
+
+        })
+        .then((response) => {
+          this.users = response.data
+          console.log(this.users);
+        })
+        .catch((response) => {
+
+        })
+      },
+      deleteRole(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('employee.destroy', id),{
+          axios.delete(route('role.destroy', id),{
 
           })
           .then((response) =>{
-            this.getEmployee()
+            this.getRole()
           })
           .catch((response) =>{
 

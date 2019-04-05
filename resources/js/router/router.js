@@ -32,6 +32,9 @@ import SpendingCreate from './../views/spendings/Create.vue'
 import SpendingEdit from './../views/spendings/Edit.vue'
 import SpendingShow from './../views/spendings/Show.vue'
 import Cashier from './../views/cashiers/Index.vue'
+import ManagementPermissionIndex from './../views/management_permission/Index.vue'
+import ManagementPermissionCreate from './../views/management_permission/Create.vue'
+import ManagementPermissionEdit from './../views/management_permission/Edit.vue'
 
 const router = new VueRouter({
     mode: 'history',
@@ -174,6 +177,21 @@ const router = new VueRouter({
             path: '/cashier',
             name: 'cashier',
             component: Cashier,
+        },
+        {
+            path: '/management_permission',
+            name: 'management_permission',
+            component: ManagementPermissionIndex,
+        },
+        {
+            path: '/management_permission/create',
+            name: 'management_permission.create',
+            component: ManagementPermissionCreate,
+        },
+        {
+            path: '/management_permission/edit/:id',
+            name: 'management_permission.edit',
+            component: ManagementPermissionEdit,
         },
     ],
 });

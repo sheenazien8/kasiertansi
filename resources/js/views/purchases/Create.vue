@@ -5,8 +5,7 @@
         <form>
         <div class="form-group">
           <label for="name" class="col-form-label">Purchasing Date</label>
-          <datepicker format="MM/dd/yyyy" :input-class="errors.purchase_date ? 'form-control is-invalid' : ''" placeholder="Input Date"
-          bootstrap-styling="true" v-model="purchase.purchase_date"></datepicker>
+          <input type="date" class="form-control" :class="errors.purchase_date ? 'is-invalid' : ''"  v-model="purchase.purchase_date">
           <div v-if="errors.purchase_date">
             <span class="text-danger">{{ errors.purchase_date[0] }}</span>
           </div>

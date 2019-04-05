@@ -28,6 +28,11 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav my-lg-0">
+                  <li>
+                    <button @click="logout()" class="btn"><i class="icon icon-logout"></i></button>
+                  </li>
+                </ul>
+                <ul class="navbar-nav my-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href=""
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,7 +74,7 @@
         axios.post(route('logout'),{
         })
         .then((response) =>{
-          console.log(response)
+          window.location.href = "/login"
         })
         .catch((response) =>{
           console.log(response)

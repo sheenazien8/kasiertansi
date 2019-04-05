@@ -3083,6 +3083,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3105,7 +3110,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     logout: function logout() {
       axios.post(route('logout'), {}).then(function (response) {
-        console.log(response);
+        window.location.href = "/login";
       }).catch(function (response) {
         console.log(response);
       });
@@ -3418,7 +3423,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -66572,6 +66576,23 @@ var render = function() {
           _vm._m(0),
           _vm._v(" "),
           _c("ul", { staticClass: "navbar-nav my-lg-0" }, [
+            _c("li", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn",
+                  on: {
+                    click: function($event) {
+                      return _vm.logout()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "icon icon-logout" })]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "navbar-nav my-lg-0" }, [
             _c("li", { staticClass: "nav-item dropdown" }, [
               _c(
                 "a",
@@ -67722,44 +67743,44 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
           _c("form", [
-            _c(
-              "div",
-              { staticClass: "form-group" },
-              [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Purchasing Date")]
-                ),
-                _vm._v(" "),
-                _c("datepicker", {
-                  attrs: {
-                    format: "MM/dd/yyyy",
-                    "input-class": _vm.errors.purchase_date
-                      ? "form-control is-invalid"
-                      : "",
-                    placeholder: "Input Date",
-                    "bootstrap-styling": "true"
-                  },
-                  model: {
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "label",
+                { staticClass: "col-form-label", attrs: { for: "name" } },
+                [_vm._v("Purchasing Date")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
                     value: _vm.purchase.purchase_date,
-                    callback: function($$v) {
-                      _vm.$set(_vm.purchase, "purchase_date", $$v)
-                    },
                     expression: "purchase.purchase_date"
                   }
-                }),
-                _vm._v(" "),
-                _vm.errors.purchase_date
-                  ? _c("div", [
-                      _c("span", { staticClass: "text-danger" }, [
-                        _vm._v(_vm._s(_vm.errors.purchase_date[0]))
-                      ])
+                ],
+                staticClass: "form-control",
+                class: _vm.errors.purchase_date ? "is-invalid" : "",
+                attrs: { type: "date" },
+                domProps: { value: _vm.purchase.purchase_date },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.purchase, "purchase_date", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.purchase_date
+                ? _c("div", [
+                    _c("span", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.errors.purchase_date[0]))
                     ])
-                  : _vm._e()
-              ],
-              1
-            ),
+                  ])
+                : _vm._e()
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c(
@@ -87363,17 +87384,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/home/zien/code/portfolio/kasirku/node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js'");
-
-/***/ }),
-
 /***/ "./node_modules/vuejs-paginate/dist/index.js":
 /*!***************************************************!*\
   !*** ./node_modules/vuejs-paginate/dist/index.js ***!
@@ -87467,8 +87477,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(bootstrap_vue__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuejs-paginate */ "./node_modules/vuejs-paginate/dist/index.js");
 /* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuejs_paginate__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuejs_datepicker__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuejs-datepicker */ "./node_modules/vuejs-datepicker/dist/vuejs-datepicker.esm.js");
-/* harmony import */ var _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Dashboard.vue */ "./resources/js/components/Dashboard.vue");
+/* harmony import */ var _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Dashboard.vue */ "./resources/js/components/Dashboard.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -87482,7 +87491,7 @@ __webpack_require__(/*! jquery-ujs */ "./node_modules/jquery-ujs/src/rails.js");
 
 
 
-
+ // import Datepicker from 'vuejs-datepicker';
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.prototype.$eventBus = new Vue();
@@ -87502,8 +87511,8 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 Vue.component('navbar', __webpack_require__(/*! ./views/layouts/Navbar.vue */ "./resources/js/views/layouts/Navbar.vue").default);
 Vue.component('sidebar', __webpack_require__(/*! ./views/layouts/Sidebar.vue */ "./resources/js/views/layouts/Sidebar.vue").default);
 Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_2___default.a);
-Vue.component('v-paginate', vuejs_paginate__WEBPACK_IMPORTED_MODULE_4___default.a);
-Vue.component('datepicker', vuejs_datepicker__WEBPACK_IMPORTED_MODULE_5__["default"]);
+Vue.component('v-paginate', vuejs_paginate__WEBPACK_IMPORTED_MODULE_4___default.a); // Vue.component('datepicker', Datepicker)
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -87522,7 +87531,7 @@ Vue.mixin({
 var app = new Vue({
   el: '#app',
   components: {
-    App: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    App: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   router: _router_router__WEBPACK_IMPORTED_MODULE_0__["default"]
 });

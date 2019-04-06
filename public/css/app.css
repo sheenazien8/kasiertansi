@@ -27861,6 +27861,7 @@ File: scss
 .bg-square {
   font-size: 15px;
   border: 1px solid grey;
+  border-radius: 3px;
   padding: 5px;
 }
 
@@ -27881,5 +27882,27 @@ File: scss
 
 .title-logo {
   font-family: "Pacifico", sans-serif;
+}
+
+.navbar-login {
+  width: 305px;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.navbar-login-session {
+  padding: 10px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+.icon-size {
+  font-size: 87px;
+}
+
+.img-center {
+  left: 10%;
+  bottom: 15%;
+  position: absolute;
 }
 

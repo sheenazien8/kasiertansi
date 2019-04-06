@@ -44,15 +44,6 @@ import App from './components/Dashboard.vue'
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
- Vue.mixin({
- methods: {
-   formatPrice(value) {
-        let val = value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-
-        return val
-      }
-   }
- });
 
 const app = new Vue({
     el: '#app',

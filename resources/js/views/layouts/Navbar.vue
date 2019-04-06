@@ -28,16 +28,42 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav my-lg-0">
-                  <li>
-                    <button @click="logout()" class="btn"><i class="icon icon-logout"></i></button>
-                  </li>
-                </ul>
-                <ul class="navbar-nav my-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href=""
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a type="button" class="nav nav-link dropdown-toggle" data-toggle="dropdown">
                             <img :src="image.user" alt="user" class="img-circle" width="30">
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                            <div class="navbar-login">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <p class="text-center">
+                                        <img :src="image.user" alt="user" class="img-circle img-center img-thumbnail" width="" style="">
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <p class="text-left"><strong>{{ user.userable.name }}</strong></p>
+                                        <p class="text-left small">{{ user.email }}</p>
+                                        <p class="text-left">
+                                            <a href="#" class="btn btn-primary btn-block btn-sm">Actualizar Datos</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="navbar-login navbar-login-session">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p>
+                                          <button @click="logout()" class="btn btn-block btn-default btn-danger"><i class="icon icon-logout"></i> Logout</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                     </li>
                 </ul>
             </div>
@@ -60,9 +86,7 @@
 
     methods:{
       getUser(){
-        axios.get(route('details'),{
-
-        })
+        axios.get(route('details'))
         .then((response) =>{
           this.user = response.data
         })

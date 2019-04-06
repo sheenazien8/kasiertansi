@@ -6,7 +6,7 @@
           <a class="nav-toggler waves-effect waves-dark ml-auto hidden-sm-up" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
       </div>
       <div class="scroll-sidebar">
-          <nav class="sidebar-nav">
+          <nav class="sidebar-nav" id="accordion">
               <ul id="sidebarnav">
                 <li class="nav-item">
                   <router-link class="nav-link" :to="{name : 'dashboard'}" style="font-size: 15px;">
@@ -17,7 +17,7 @@
                   <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
                     Purchasing <span><i class="bg-square icon icon-cloud-download"></i></span>
                   </a>
-                  <div id="submenu-1" class="collapse submenu" style="">
+                  <div id="submenu-1" class="collapse submenu" style="" data-parent="#accordion">
                     <ul class="nav flex-column">
                       <li class="nav-item">
                           <router-link :to="{ name : 'purchase' }" class="nav-link" >Purchase Order <i class="bg-square icon icon-handbag"></i></router-link>
@@ -29,7 +29,7 @@
                   <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
                     Selling <span><i class="bg-square icon icon-cloud-upload"></i></span>
                   </a>
-                  <div id="submenu-5" class="collapse submenu" style="">
+                  <div id="submenu-5" class="collapse submenu" style="" data-parent="#accordion">
                     <ul class="nav flex-column">
                       <li class="nav-item">
                           <router-link :to="{ name : 'cashier' }" class="nav-link" >Cashier <i class="bg-square icon icon-calculator"></i></router-link>
@@ -41,7 +41,7 @@
                     <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">
                       Master <i class="bg-square icon icon-layers"></i>
                     </a>
-                    <div id="submenu-3" class="collapse submenu" style="">
+                    <div id="submenu-3" class="collapse submenu" style="" data-parent="#accordion">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                             <router-link :to="{ name: 'category' }" class="nav-link" >Catergory <i class="bg-square icon icon-pie-chart"></i></router-link>
@@ -62,7 +62,7 @@
                     <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">
                       User <i class="bg-square icon icon-people"></i>
                     </a>
-                    <div id="submenu-4" class="collapse submenu" style="">
+                    <div id="submenu-4" class="collapse submenu" style="" data-parent="#accordion">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                           <router-link :to="{ name: 'employee' }" class="nav-link">Employee <i class="bg-square icon icon-user-follow"></i></router-link>
@@ -77,13 +77,13 @@
                     <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">
                       Report <i class="bg-square icon icon-docs"></i>
                     </a>
-                    <div id="submenu-6" class="collapse submenu" style="">
+                    <div id="submenu-6" class="collapse submenu" style="" data-parent="#accordion">
                       <ul class="nav flex-column">
                         <li class="nav-item">
                           <router-link :to="{ name: 'spending' }" class="nav-link">Spendings Report <i class="bg-square icon icon-doc"></i></router-link>
                         </li>
                         <li class="nav-item">
-                          <router-link :to="{ name: 'spending' }" class="nav-link" >Income Report <i class="bg-square icon icon-doc"></i></router-link>
+                          <router-link :to="{ name: 'income' }" class="nav-link" >Income Report <i class="bg-square icon icon-doc"></i></router-link>
                         </li>
                       </ul>
                     </div>

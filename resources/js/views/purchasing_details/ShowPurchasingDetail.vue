@@ -72,8 +72,8 @@
             <tr>
               <td colspan="2"></td>
               <td><b>Total :</b></td>
-              <td colspan="2"><b>20</b></td>
-              <td><b>220000</b></td>
+              <td colspan="2"><b>{{ purchasingData.length > 0 ? purchasingData[0].total_qty : 0 }}</b></td>
+              <td><b>{{ purchasingData.length > 0 ? purchasingData[0].total_price_value : 0 }}</b></td>
               <td></td>
             </tr>
           </tbody>
@@ -166,6 +166,7 @@
   </div>
 </template>
 <script>
+  import NumberHelper from './../../services/NumberHelper.js'
   export default {
     data(){
       return{
@@ -310,7 +311,6 @@
             this.itemReadonly.id = response.data.id;
             this.itemReadonly.qty = this.item.qty;
             this.itemReadonly.total_price = this.item.qty * this.price.initial_price;
-            console.log(this.itemReadonly.total_price)
             this.setPrice();
             this.storePurchasingDetail();
             this.item.name = '';
@@ -361,6 +361,7 @@
       },
 
       getPurchasingDetails(id){
+        console.log(NumberHelper.formatPrice(1200000))
         axios.get(route('purchasing_detail.index', this.purchase.id),{
 
         })

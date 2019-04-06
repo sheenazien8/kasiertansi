@@ -48,7 +48,6 @@ class PurchaseController extends Controller
      */
     public function store(PurchaseRequest $request)
     {
-        dd($request->json()->all());
         $supplier = Supplier::find($request->json('supplier_id'));
         $purchase = new Purchase();
         $purchase->fill($request->json()->all());
@@ -141,7 +140,7 @@ class PurchaseController extends Controller
                 $purchasing->item->save();
             }
             $purchase->spending()->create([
-                'date' => Carbon::now()->format('Y-m-d'),
+                'date' => $purchase->purchase_date,
                 'total_qty' => $total_qty,
                 'total_price' => $total_price
             ]);
@@ -153,7 +152,7 @@ class PurchaseController extends Controller
                 $purchasing->item->save();
             }
             $purchase->spending()->create([
-                'date' => Carbon::now()->format('Y-m-d'),
+                'date' => $purchase->purchase_date,
                 'total_qty' => $total_qty,
                 'total_price' => $total_price
             ]);

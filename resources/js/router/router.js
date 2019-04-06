@@ -35,6 +35,10 @@ import Cashier from './../views/cashiers/Index.vue'
 import ManagementPermissionIndex from './../views/management_permission/Index.vue'
 import ManagementPermissionCreate from './../views/management_permission/Create.vue'
 import ManagementPermissionEdit from './../views/management_permission/Edit.vue'
+import IncomeIndex from './../views/incomes/Index.vue'
+import IncomeCreate from './../views/incomes/Create.vue'
+import IncomeEdit from './../views/incomes/Edit.vue'
+import IncomeShow from './../views/incomes/Show.vue'
 
 const router = new VueRouter({
     mode: 'history',
@@ -192,6 +196,26 @@ const router = new VueRouter({
             path: '/management_permission/edit/:id',
             name: 'management_permission.edit',
             component: ManagementPermissionEdit,
+        },
+        {
+            path: '/income',
+            name: 'income',
+            component: IncomeIndex,
+        },
+        {
+            path: '/income/create',
+            name: 'income.create',
+            component: IncomeCreate,
+        },
+        {
+            path: '/income/edit/:id',
+            name: 'income.edit',
+            component: IncomeEdit,
+        },
+        {
+            path: '/income/:date',
+            name: 'income.show',
+            component: IncomeShow,
         },
     ],
 });

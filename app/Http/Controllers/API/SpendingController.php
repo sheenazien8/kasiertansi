@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Purchase;
 use App\Models\Spending;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,11 @@ class SpendingController extends Controller
 
         $spendings = Spending::selectRaw('date, SUM(total_price) as total_price')
                                 ->with('purchase')
+                                ->where('user_id', auth()->id())
                                 ->groupBy('date')
                                 ->paginate(5);
 
-        return response()->json($spendings);
+        return response()->json($spendings->load('purchase'));
     }
 
     /**
@@ -61,8 +63,6 @@ class SpendingController extends Controller
                                     ->where('date', $spending)
                                     ->where('user_id', auth()->id())
                                     ->get();
-
-
 
         return response()->json($listSpending);
     }
@@ -105,4 +105,16 @@ class SpendingController extends Controller
 
         return 'Success';
     }
+
+    /**
+     * getPurchasingDetails the specified resource from storage.
+     *
+     * @param  \App\Models\Spending  $spending
+     * @return \Illuminate\Http\Response
+     */
+    public function getPurchasingDetails(Purchase $purchase)
+    {
+        return response()->json($purchase->load('purchasingDetails.item'));
+    }
+
 }

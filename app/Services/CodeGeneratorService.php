@@ -35,7 +35,7 @@ class CodeGeneratorService
     {
         $codeParts = collect();
         $codeParts->push('INV');
-        $codeParts->push(auth()->id().rand(00, 999));
+        $codeParts->push(auth()->id().'100');
         $codeParts->push('00');
         $codeParts->push(date('y'));
         $codeParts->push(date('m'));

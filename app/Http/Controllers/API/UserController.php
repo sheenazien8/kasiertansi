@@ -62,7 +62,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        return response()->json($user, $this->successStatus);
+        return response()->json($user->load('userable'), $this->successStatus);
     }
 
     public function logout(Request $request) {

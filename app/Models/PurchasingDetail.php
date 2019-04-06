@@ -13,6 +13,8 @@ class PurchasingDetail extends Model
         'total_price'
     ];
 
+    protected $appends = ['total_qty', 'total_price_value'];
+
     protected static function boot()
     {
         parent::boot();
@@ -29,5 +31,17 @@ class PurchasingDetail extends Model
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function getTotalPriceValueAttribute()
+    {
+        $id = $this->purchase_id;
+        return $this->where('purchase_id', $id)->sum('total_price');
+    }
+
+    public function getTotalQtyAttribute()
+    {
+        $id = $this->purchase_id;
+        return $this->where('purchase_id', $id)->sum('qty');
     }
 }

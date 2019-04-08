@@ -4389,7 +4389,8 @@ __webpack_require__.r(__webpack_exports__);
     getPuchase: function getPuchase() {
       var _this = this;
 
-      axios.get(route('purchase.index'), {}).then(function (response) {
+      console.log(route());
+      axios.get(route('purchase.index')).then(function (response) {
         _this.purchases = response.data;
       }).catch(function (response) {});
     },
@@ -64838,7 +64839,7 @@ var render = function() {
         _c("div", { staticClass: "col-xl-12" }, [
           _c("div", { staticClass: "card-header" }, [
             _c("h3", [
-              _vm._v("Transaksi No.\n            "),
+              _vm._v("Transaksi No.\n\t\t\t\t\t\t"),
               _c("input", {
                 directives: [
                   {
@@ -68405,9 +68406,9 @@ var render = function() {
                         },
                         [
                           _vm._v("Purchase Order "),
-                          _c("i", {
-                            staticClass: "bg-square icon icon-handbag"
-                          })
+                          _c("span", { staticClass: "bg-square float-right" }, [
+                            _vm._v("PO")
+                          ])
                         ]
                       )
                     ],
@@ -68440,10 +68441,10 @@ var render = function() {
                           attrs: { to: { name: "cashier" } }
                         },
                         [
-                          _vm._v("Cashier "),
-                          _c("i", {
-                            staticClass: "bg-square icon icon-calculator"
-                          })
+                          _vm._v("Cashier\n                          "),
+                          _c("span", { staticClass: "bg-square float-right" }, [
+                            _vm._v("CS")
+                          ])
                         ]
                       )
                     ],
@@ -68718,9 +68719,7 @@ var staticRenderFns = [
       },
       [
         _vm._v("\n                  Purchasing "),
-        _c("span", [
-          _c("i", { staticClass: "bg-square icon icon-cloud-download" })
-        ])
+        _c("span", [_c("i", { staticClass: "bg-square icon icon-bag" })])
       ]
     )
   },
@@ -68743,9 +68742,7 @@ var staticRenderFns = [
       },
       [
         _vm._v("\n                  Selling "),
-        _c("span", [
-          _c("i", { staticClass: "bg-square icon icon-cloud-upload" })
-        ])
+        _c("span", [_c("i", { staticClass: "bg-square icon icon-handbag" })])
       ]
     )
   },

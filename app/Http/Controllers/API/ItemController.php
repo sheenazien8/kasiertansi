@@ -34,8 +34,8 @@ class ItemController extends Controller
         $categories = Category::select('id', 'name')->where('name', 'LIKE', "%%".$query."%%")->get();
 
         return response()->json([
-            'units' => $units,
-            'categories' => $categories,
+           'units' => $units,
+           'categories' => $categories,
         ]);
     }
 

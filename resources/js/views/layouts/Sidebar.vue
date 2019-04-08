@@ -15,24 +15,26 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
-                    Purchasing <span><i class="bg-square icon icon-cloud-download"></i></span>
+                    Purchasing <span><i class="bg-square icon icon-bag"></i></span>
                   </a>
                   <div id="submenu-1" class="collapse submenu" style="" data-parent="#accordion">
                     <ul class="nav flex-column">
                       <li class="nav-item">
-                          <router-link :to="{ name : 'purchase' }" class="nav-link" >Purchase Order <i class="bg-square icon icon-handbag"></i></router-link>
+                          <router-link :to="{ name : 'purchase' }" class="nav-link" >Purchase Order <span class="bg-square float-right">PO</span></router-link>
                       </li>
                     </ul>
                   </div>
                 </li>
                 <li class="nav-item active">
                   <a class="nav-link" href="index.html" style="font-size: 15px;" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
-                    Selling <span><i class="bg-square icon icon-cloud-upload"></i></span>
+                    Selling <span><i class="bg-square icon icon-handbag"></i></span>
                   </a>
                   <div id="submenu-5" class="collapse submenu" style="" data-parent="#accordion">
                     <ul class="nav flex-column">
                       <li class="nav-item">
-                          <router-link :to="{ name : 'cashier' }" class="nav-link" >Cashier <i class="bg-square icon icon-calculator"></i></router-link>
+                          <router-link :to="{ name : 'cashier' }" class="nav-link" >Cashier
+                            <span class="bg-square float-right">CS</span>
+                          </router-link>
                       </li>
                     </ul>
                   </div>

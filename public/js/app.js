@@ -68550,8 +68550,8 @@ var render = function() {
                                     directives: [
                                       {
                                         name: "b-modal",
-                                        rawName: "v-b-modal.modal-1",
-                                        modifiers: { "modal-1": true }
+                                        rawName: "v-b-modal.setting-modal",
+                                        modifiers: { "setting-modal": true }
                                       }
                                     ],
                                     staticClass:
@@ -68623,7 +68623,7 @@ var render = function() {
       _c(
         "b-modal",
         {
-          attrs: { id: "modal-1", title: "Setting" },
+          attrs: { id: "setting-modal", title: "Setting" },
           on: {
             ok: function($event) {
               return _vm.settingUpdate()

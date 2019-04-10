@@ -57,7 +57,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                       <p>
-                                        <b-button v-b-modal.modal-1 class="btn btn-block btn-outline-light text-dark">
+                                        <b-button v-b-modal.setting-modal class="btn btn-block btn-outline-light text-dark">
                                           <i class="icon icon-settings"></i> Setting
                                         </b-button>
                                       </p>
@@ -78,7 +78,7 @@
                 </ul>
             </div>
         </nav>
-        <b-modal id="modal-1" title="Setting" @ok="settingUpdate()">
+        <b-modal id="setting-modal" title="Setting" @ok="settingUpdate()">
           <form>
             <div class="form-group">
               <label for="name">Shop's Name</label>

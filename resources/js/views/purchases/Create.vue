@@ -139,12 +139,11 @@
           address : this.supplier.address,
         })
          .then((response) => {
-          this.getCreateDataPurchases();
           this.$notify({
             type: 'success',
             text: 'Success Create Supplier'
           });
-          this.purchase.supplier_id = response.data.name
+          this.purchase.supplier_id = response.data
            this.supplier.name = '';
            this.supplier.contact = '';
            this.supplier.address = '';

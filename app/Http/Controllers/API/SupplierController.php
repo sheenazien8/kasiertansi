@@ -16,7 +16,7 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::where('user_id', auth()->id())
-                                ->orderBy('created_at','desc')
+                                ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 
         return response()->json($suppliers);

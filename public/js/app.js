@@ -3672,6 +3672,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       user: [],
+      userable: [],
       image: {
         user: __webpack_require__(/*! ./../../images/icons8-male-user-80.png */ "./resources/js/images/icons8-male-user-80.png")
       },
@@ -3687,6 +3688,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get(RouteService.getUrl(route('details'))).then(function (response) {
         _this.user = response.data;
+        _this.userable = _this.user.userable;
       }).catch(function (response) {});
     },
     logout: function logout() {
@@ -4156,14 +4158,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         contact: this.supplier.contact,
         address: this.supplier.address
       }).then(function (response) {
-        _this2.getCreateDataPurchases();
-
         _this2.$notify({
           type: 'success',
           text: 'Success Create Supplier'
         });
 
-        _this2.purchase.supplier_id = response.data.name;
+        _this2.purchase.supplier_id = response.data;
         _this2.supplier.name = '';
         _this2.supplier.contact = '';
         _this2.supplier.address = '';
@@ -4955,7 +4955,9 @@ __webpack_require__.r(__webpack_exports__);
     getCreateDataItems: function getCreateDataItems(query) {
       var _this4 = this;
 
-      axios.get(RouteService.getUrl(route('item.create') + '?query=' + query)).then(function (response) {
+      axios.get(RouteService.getUrl(route('item.create')), {
+        query: query
+      }).then(function (response) {
         _this4.categoriesData = response.data.categories;
         _this4.unitsData = response.data.units;
       }).catch(function (response) {});
@@ -68517,9 +68519,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "col-lg-8" }, [
                           _c("p", { staticClass: "text-left" }, [
-                            _c("strong", [
-                              _vm._v(_vm._s(_vm.user.userable.name))
-                            ])
+                            _c("strong", [_vm._v(_vm._s(_vm.userable.name))])
                           ]),
                           _vm._v(" "),
                           _c("p", { staticClass: "text-left small" }, [

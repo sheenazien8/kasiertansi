@@ -42,7 +42,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-8">
-                                        <p class="text-left"><strong>{{ user.userable.name }}</strong></p>
+                                        <p class="text-left"><strong>{{ userable.name }}</strong></p>
                                         <p class="text-left small">{{ user.email }}</p>
                                         <p class="text-left">
                                             <a href="#" class="btn btn-primary btn-block btn-sm">Actualizar Datos</a>
@@ -105,6 +105,7 @@
     data(){
       return {
         user : [],
+        userable : [],
         image:{
             user: require('./../../images/icons8-male-user-80.png')
         },
@@ -119,7 +120,8 @@
       getUser(){
         axios.get(RouteService.getUrl(route('details')))
         .then((response) =>{
-          this.user = response.data
+          this.user = response.data;
+          this.userable = this.user.userable;
         })
         .catch((response) =>{
 

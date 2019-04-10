@@ -282,7 +282,9 @@
       },
 
       getCreateDataItems(query){
-        axios.get(RouteService.getUrl(route('item.create')+ '?query='+query))
+        axios.get(RouteService.getUrl(route('item.create')),{
+          query : query
+        })
         .then((response) =>{
           this.categoriesData = response.data.categories
           this.unitsData = response.data.units

@@ -52,7 +52,9 @@
 
     methods:{
       updateCategory(){
-        axios.put(route('category.update', this.$route.params.id), {name : this.category.name})
+        axios.put(RouteService.getUrl(route('category.update', this.$route.params.id)), {
+          name : this.category.name
+        })
          .then((response) => {
            this.$router.replace('/category');
          })
@@ -63,7 +65,7 @@
          });
       },
       editCategory(id){
-        axios.get(route('category.edit', id))
+        axios.get(RouteService.getUrl(route('category.edit', id)))
         .then((response)=>{
           this.categoriesData = response.data
           this.category.name = this.categoriesData.name

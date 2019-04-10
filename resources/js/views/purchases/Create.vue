@@ -124,7 +124,7 @@
 
     methods:{
       getInvoiceCode(){
-        axios.get(route('get.invoice.number'))
+        axios.get(RouteService.getUrl(route('get.invoice.number')))
         .then((response) =>{
           this.purchase.invoice_number = response.data
         })
@@ -133,7 +133,7 @@
         })
       },
       createSupplier(){
-        axios.post(route('supplier.store'), {
+        axios.post(RouteService.getUrl(route('supplier.store')), {
           name : this.supplier.name,
           contact : this.supplier.contact,
           address : this.supplier.address,
@@ -156,9 +156,7 @@
          });
       },
       getCreateDataPurchases(query){
-        axios.get(route('supplier.search', query), {
-
-        })
+        axios.get(RouteService.getUrl(route('supplier.search', query)))
         .then((response) =>{
           this.suppliersData = response.data
         })
@@ -167,7 +165,7 @@
         })
       },
       createPurchase(){
-        axios.post(route('purchase.store'), {
+        axios.post(RouteService.getUrl(route('purchase.store')), {
           supplier_id : this.purchase.supplier_id.id,
           payment_method : this.purchase.payment_method.name,
           note : this.purchase.note,

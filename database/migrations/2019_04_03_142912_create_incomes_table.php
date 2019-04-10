@@ -17,9 +17,9 @@ class CreateIncomesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('transaction_id')->unsigned();
-            $table->date('date');
-            $table->double('total_qty');
             $table->double('total_price');
+            $table->double('total_qty');
+            $table->date('date');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
             $table->timestamps();

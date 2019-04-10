@@ -62,7 +62,7 @@
 
     methods:{
       updatePurchase(){
-        axios.put(route('purchase.update', this.$route.params.id), {
+        axios.put(RouteService.getUrl(route('purchase.update', this.$route.params.id)), {
           supplier_id : this.purchase.supplier_id.id,
           payment_method : this.purchase.payment_method.name,
           note : this.purchase.note,

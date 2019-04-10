@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Spending List per Tanggal</h3>
+          <h3>Income List per Tanggal</h3>
         </div>
       </div>
     </div>
@@ -20,13 +20,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(spending, index) in spendings">
+            <tr v-for="(income, index) in incomes">
               <th scope="row">{{ ++index }}</th>
-              <td>{{ spending.date }}</td>
-              <td>{{ spending.total_price }}</td>
+              <td>{{ income.date }}</td>
+              <td>{{ income.total_price }}</td>
               <td>
-                <router-link :to="{ name:'spending.show', params: {date: spending.date} }"
-                class="btn btn-sm p-1 btn-info float-right mr-2" title="show details?"><i class="icon icon-magnifier"></i></router-link>
+                <router-link :to="{ name:'income.show', params: {date: income.date} }"
+                class="btn btn-sm p-1 btn-info float-right mr-2" title="show details?">
+                <i class="icon icon-magnifier"></i>
+                </router-link>
               </td>
             </tr>
           </tbody>
@@ -62,7 +64,7 @@
 export default {
     data() {
       return {
-        spendings : []
+        incomes : []
       }
     },
 
@@ -72,11 +74,9 @@ export default {
 
     methods:{
       getPuchase(){
-        axios.get(route('spending.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('income.index')))
         .then((response) =>{
-          this.spendings = response.data
+          this.incomes = response.data
         })
         .catch((response) =>{
 

@@ -80,9 +80,7 @@ export default {
 
     methods:{
       getPuchase(){
-        axios.get(route('purchase.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('purchase.index')))
         .then((response) =>{
           this.purchases = response.data
         })

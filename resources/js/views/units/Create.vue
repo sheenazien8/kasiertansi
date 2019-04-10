@@ -43,7 +43,9 @@
 
     methods:{
       createUnit(){
-        axios.post(route('unit.store'), {unit : this.unit.unit})
+        axios.post(RouteService.getUrl(route('unit.store')), {
+          unit : this.unit.unit
+        })
          .then((response) => {
           this.$notify({
             type: 'success',

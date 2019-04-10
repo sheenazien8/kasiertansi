@@ -39,7 +39,9 @@
 
     methods:{
       createShop(){
-        axios.post(route('shop.store'), {name : this.shop.name})
+        axios.post(RouteService.getUrl(route('shop.store')), {
+          name : this.shop.name
+        })
          .then((response) => {
           this.$notify({
             type: 'success',

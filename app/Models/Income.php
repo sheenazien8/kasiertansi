@@ -8,9 +8,17 @@ class Income extends Model
 {
     protected $fillable = [
         'date',
+        'total_price',
         'total_qty',
-        'total_pric,e',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($query) {
+            $query->user_id = auth()->id();
+        });
+    }
 
     public function transaction()
     {

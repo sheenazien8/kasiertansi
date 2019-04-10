@@ -73,19 +73,16 @@
 
     methods:{
       showPuchase(date){
-        axios.get(route('spending.show', date),{
-
-        })
+        axios.get(RouteService.getUrl(route('spending.show', date)))
         .then((response) =>{
           this.spendings = response.data
-          console.log(this.spendings)
         })
         .catch((response) =>{
 
         })
       },
       getPurchasingDetails(id){
-        axios.get(route('get.purchasing_detail', id))
+        axios.get(RouteService.getUrl(route('get.purchasing_detail', id)))
         .then((response) => {
           this.purchasing_details = response.data.purchasing_details
           this.purchase = response.data

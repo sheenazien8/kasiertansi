@@ -16,7 +16,7 @@ Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register')->name('register');
 
 // Route::post('logout', 'API\UserController@logout')->name('logout');
-Route::group(['middleware' => 'auth:api'], function(){
+Route::group(['middleware' => 'auth:api'], function () {
     Route::get('details', 'API\UserController@details')->name('details');
     Route::resource('category', 'API\CategoryController');
     Route::resource('unit', 'API\UnitController');
@@ -31,16 +31,17 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('transaction', 'API\TransactionController');
     Route::get('get/invoice/number', 'API\TransactionController@getInvoiceCode')->name('get.invoice.number');
     Route::resource('role', 'API\ManagementPermissionController');
+    Route::resource('shop', 'API\ShopController');
     Route::get('get/role/{role}', 'API\ManagementPermissionController@getUserWhereRole')->name('get.role');
     Route::resource('transaction_detail', 'API\TransactionDetailController');
     Route::post('transaction_detail/session/storage', 'API\TransactionDetailController@sessionStorage')->name('save.session.storage');
     Route::resource('spending', 'API\SpendingController');
     Route::get('spending/get/{purchase}/purchasing_detail/', 'API\SpendingController@getPurchasingDetails')->name('get.purchasing_detail');
     Route::put('purchase/{purchase}/payout', 'API\PurchaseController@paidPurchasing')->name('paid_purchase');
-    Route::group(['prefix' => '/purchase/{purchase}'], function() {
+    Route::group(['prefix' => '/purchase/{purchase}'], function () {
         Route::resource('purchasing_detail', 'API\PurchasingDetailController');
     });
-    Route::group(['prefix' => '/item/{item}'], function() {
+    Route::group(['prefix' => '/item/{item}'], function () {
         Route::resource('price', 'API\PriceController');
         Route::get('get/price', 'API\PriceController@getPriceByItem')->name('get.price');
     });

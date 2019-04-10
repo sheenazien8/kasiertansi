@@ -44,7 +44,7 @@
 
     methods:{
       createRole(){
-        axios.post(route('role.store'), {
+        axios.post(RouteService.getUrl(route('role.store')), {
           name : this.role.name,
           description : this.role.description
         })

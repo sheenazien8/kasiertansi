@@ -39,8 +39,9 @@
 
     methods:{
       updateStock(){
-        console.log(route('item.update.stock'))
-        axios.put(route('item.update.stock', this.$route.params.id), {stock : this.item.stock})
+        axios.put(RouteService.getUrl(route('item.update.stock', this.$route.params.id)), {
+          stock : this.item.stock
+        })
          .then((response) => {
           this.$notify({
             type: 'success',

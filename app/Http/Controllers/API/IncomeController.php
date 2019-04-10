@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Income;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class IncomeController extends Controller
@@ -15,9 +16,9 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $incomes = Income::where('user_id', auth()->id())
-                                ->orderBy('created_at','desc')
-                                ->paginate(5);
+        $incomes = Income::selectRaw('date, SUM(total_price) as total_price')->where('user_id', auth()->id())
+                            ->groupBy('date')
+                            ->get();
 
         return response()->json($incomes);
     }
@@ -40,9 +41,15 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->json()->all());
+        $transaction = Transaction::find($request->json('transaction_id'));
+        $request->json()->add([
+            'date' => date('Y-m-d'),
+            'total_price' => $transaction->total_price,
+            'total_qty' => $transaction->total_qty,
+        ]);
         $income = new Income();
         $income->fill($request->json()->all());
+        $income->transaction()->associate($transaction);
         $income->save();
 
         return $income;
@@ -54,9 +61,14 @@ class IncomeController extends Controller
      * @param  \App\Models\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function show(Income $income)
+    public function show($income)
     {
-        //
+        $listIncome = Income::with('transaction.transactionDetails.item')
+                                    ->where('date', $income)
+                                    ->where('user_id', auth()->id())
+                                    ->get();
+
+        return response()->json($listIncome);
     }
 
     /**

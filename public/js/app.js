@@ -1932,7 +1932,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (search.length >= 2) {
-        axios.get(route('item.search', search), {}).then(function (response) {
+        axios.get(RouteService.getUrl(route('item.search', search)), {}).then(function (response) {
           _this.itemsData = response.data;
         }).catch(function (response) {});
       }
@@ -1940,7 +1940,7 @@ __webpack_require__.r(__webpack_exports__);
     getDetailItems: function getDetailItems(item) {
       var _this2 = this;
 
-      axios.get(route('item.show', item.id), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('item.show', item.id)), {}).then(function (response) {
         _this2.item.id = response.data.id;
         _this2.item.code = response.data.code;
         _this2.item.name = response.data.name;
@@ -1951,7 +1951,7 @@ __webpack_require__.r(__webpack_exports__);
     insertTransaction: function insertTransaction() {
       var _this3 = this;
 
-      axios.post(route('transaction_detail.store'), {
+      axios.post(RouteService.getUrl(route('transaction_detail.store')), {
         price: this.item.price * this.transaction.qty,
         qty: this.transaction.qty,
         item_id: this.item.id
@@ -1981,7 +1981,7 @@ __webpack_require__.r(__webpack_exports__);
     getTransactionDetails: function getTransactionDetails() {
       var _this4 = this;
 
-      axios.get(route('transaction_detail.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('transaction_detail.index')), {}).then(function (response) {
         _this4.transaction_details = response.data.transaction_details;
         _this4.total_price = response.data.total_price;
         _this4.total_qty = response.data.total_qty;
@@ -1998,7 +1998,7 @@ __webpack_require__.r(__webpack_exports__);
     insertInvoice: function insertInvoice() {
       var _this5 = this;
 
-      axios.post(route('transaction.store'), {
+      axios.post(RouteService.getUrl(route('transaction.store')), {
         invoice_number: this.transaction.invoice_number,
         paying: this.transaction.paying,
         change: this.transaction.change,
@@ -2006,7 +2006,7 @@ __webpack_require__.r(__webpack_exports__);
         total_qty: this.total_qty,
         transactionDetails: this.transaction_details
       }).then(function (response) {
-        _this5.insertIncome();
+        _this5.insertIncome(response.data.id);
 
         _this5.getTransactionDetails();
 
@@ -2021,10 +2021,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     insertAndPrintInvoice: function insertAndPrintInvoice() {
       this.insertInvoice();
-      axios.get(route('print.invoice'), {}).then(function (response) {}).catch(function (response) {});
+      axios.get(RouteService.getUrl(route('print.invoice')), {}).then(function (response) {}).catch(function (response) {});
     },
-    insertIncome: function insertIncome() {
-      axios.post(route('income.store'), {}).then(function (response) {}).catch(function (response) {});
+    insertIncome: function insertIncome(id) {
+      axios.post(RouteService.getUrl(route('income.store')), {
+        transaction_id: id
+      }).then(function (response) {}).catch(function (response) {});
     },
     cancelItem: function cancelItem(id) {
       var _this6 = this;
@@ -2032,7 +2034,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Wanna Delete this?');
 
       if (bool) {
-        axios.delete(route('transaction_detail.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('transaction_detail.destroy', id)), {}).then(function (response) {
           _this6.getTransactionDetails();
 
           _this6.$notify({
@@ -2107,7 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
     createCategory: function createCategory() {
       var _this = this;
 
-      axios.post(route('category.store'), {
+      axios.post(RouteService.getUrl(route('category.store')), {
         name: this.category.name,
         description: this.category.description
       }).then(function (response) {
@@ -2191,7 +2193,7 @@ __webpack_require__.r(__webpack_exports__);
     updateCategory: function updateCategory() {
       var _this = this;
 
-      axios.put(route('category.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('category.update', this.$route.params.id)), {
         name: this.category.name
       }).then(function (response) {
         _this.$router.replace('/category');
@@ -2204,7 +2206,7 @@ __webpack_require__.r(__webpack_exports__);
     editCategory: function editCategory(id) {
       var _this2 = this;
 
-      axios.get(route('category.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('category.edit', id))).then(function (response) {
         _this2.categoriesData = response.data;
         _this2.category.name = _this2.categoriesData.name;
       }).catch(function (response) {});
@@ -2296,7 +2298,7 @@ __webpack_require__.r(__webpack_exports__);
     getCategory: function getCategory() {
       var _this = this;
 
-      axios.get(route('category.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('category.index'))).then(function (response) {
         _this.categories = response.data.data;
       }).catch(function (response) {});
     },
@@ -2306,7 +2308,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('category.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('category.destroy', id))).then(function (response) {
           _this2.getCategory();
         }).catch(function (response) {});
       }
@@ -2378,7 +2380,7 @@ __webpack_require__.r(__webpack_exports__);
     createEmployee: function createEmployee() {
       var _this = this;
 
-      axios.post(route('employee.store'), {
+      axios.post(RouteService.getUrl(route('employee.store')), {
         name: this.employee.name,
         email: this.employee.email,
         join_date: this.employee.join_date,
@@ -2465,7 +2467,7 @@ __webpack_require__.r(__webpack_exports__);
     updateEmployee: function updateEmployee() {
       var _this = this;
 
-      axios.put(route('employee.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('employee.update', this.$route.params.id)), {
         name: this.employee.name,
         email: this.employee.email,
         join_date: this.employee.join_date,
@@ -2481,7 +2483,7 @@ __webpack_require__.r(__webpack_exports__);
     editEmployee: function editEmployee(id) {
       var _this2 = this;
 
-      axios.get(route('employee.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('employee.edit', id))).then(function (response) {
         _this2.employeesData = response.data;
         _this2.employee.name = _this2.employeesData.name;
         _this2.employee.join_date = _this2.employeesData.join_date;
@@ -2573,7 +2575,7 @@ __webpack_require__.r(__webpack_exports__);
     getEmployee: function getEmployee() {
       var _this = this;
 
-      axios.get(route('employee.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('employee.index'))).then(function (response) {
         _this.employees = response.data.data;
       }).catch(function (response) {});
     },
@@ -2583,7 +2585,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('employee.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('employee.destroy', id))).then(function (response) {
           _this2.getEmployee();
         }).catch(function (response) {});
       }
@@ -2732,7 +2734,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     createSupplier: function createSupplier() {
       var _this = this;
 
-      axios.post(route('supplier.store'), {
+      axios.post(RouteService.getUrl(route('supplier.store')), {
         name: this.supplier.name,
         contact: this.supplier.contact,
         address: this.supplier.address
@@ -2756,14 +2758,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getCreateDataPurchases: function getCreateDataPurchases() {
       var _this2 = this;
 
-      axios.get(route('purchase.create'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.create'))).then(function (response) {
         _this2.suppliersData = response.data;
       }).catch(function (response) {});
     },
     createPurchase: function createPurchase() {
       var _this3 = this;
 
-      axios.post(route('purchase.store'), {
+      axios.post(RouteService.getUrl(route('purchase.store')), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: this.purchase.payment_method.name,
         note: this.purchase.note,
@@ -2891,7 +2893,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       console.log(payment_method);
-      axios.put(route('purchase.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('purchase.update', this.$route.params.id)), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: payment_method,
         note: this.purchase.note,
@@ -2907,7 +2909,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     editPurchase: function editPurchase(id) {
       var _this2 = this;
 
-      axios.get(route('purchase.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.edit', id))).then(function (response) {
         _this2.purchasesData = response.data.purchase;
         _this2.suppliersData = response.data.suppliers;
         _this2.purchase.supplier_id = _this2.purchasesData.supplier;
@@ -2991,10 +2993,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      spendings: []
+      incomes: []
     };
   },
   mounted: function mounted() {
@@ -3004,8 +3008,8 @@ __webpack_require__.r(__webpack_exports__);
     getPuchase: function getPuchase() {
       var _this = this;
 
-      axios.get(route('spending.index'), {}).then(function (response) {
-        _this.spendings = response.data;
+      axios.get(RouteService.getUrl(route('income.index'))).then(function (response) {
+        _this.incomes = response.data;
       }).catch(function (response) {});
     }
   }
@@ -3085,8 +3089,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      spendings: [],
-      purchasing_details: []
+      incomes: [],
+      transaction_details: []
     };
   },
   mounted: function mounted() {
@@ -3096,17 +3100,17 @@ __webpack_require__.r(__webpack_exports__);
     showPuchase: function showPuchase(date) {
       var _this = this;
 
-      axios.get(route('spending.show', date), {}).then(function (response) {
-        _this.spendings = response.data;
-        console.log(_this.spendings);
+      axios.get(RouteService.getUrl(route('income.show', date))).then(function (response) {
+        _this.incomes = response.data;
+        console.log(_this.incomes);
       }).catch(function (response) {});
     },
-    getPurchasingDetails: function getPurchasingDetails(id) {
+    getTransactionDetails: function getTransactionDetails(id) {
       var _this2 = this;
 
-      axios.get(route('get.purchasing_detail', id)).then(function (response) {
-        _this2.purchasing_details = response.data.purchasing_details;
-        _this2.purchase = response.data;
+      axios.get(route('get.transaction_detail', id)).then(function (response) {
+        _this2.transaction_details = response.data.transaction_details;
+        _this2.transaction = response.data;
       }).catch(function (response) {});
     }
   }
@@ -3190,7 +3194,7 @@ __webpack_require__.r(__webpack_exports__);
     getCreateDataItems: function getCreateDataItems() {
       var _this = this;
 
-      axios.get(route('item.create'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('item.create'))).then(function (response) {
         _this.categoriesData = response.data.categories;
         _this.unitsData = response.data.units;
       }).catch(function (response) {});
@@ -3198,7 +3202,7 @@ __webpack_require__.r(__webpack_exports__);
     createItems: function createItems() {
       var _this2 = this;
 
-      axios.post(route('item.store'), {
+      axios.post(RouteService.getUrl(route('item.store')), {
         name: this.item.name,
         code: this.item.code,
         category_id: this.item.category_id.id,
@@ -3311,7 +3315,7 @@ __webpack_require__.r(__webpack_exports__);
         unit_id = this.item.unit_id.id;
       }
 
-      axios.put(route('item.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('item.update', this.$route.params.id)), {
         name: this.item.name,
         code: this.item.code,
         category_id: category_id,
@@ -3327,7 +3331,7 @@ __webpack_require__.r(__webpack_exports__);
     editItem: function editItem(id) {
       var _this2 = this;
 
-      axios.get(route('item.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('item.edit', id))).then(function (response) {
         _this2.itemsData = response.data.item;
         _this2.item.name = _this2.itemsData.name;
         _this2.item.code = _this2.itemsData.code;
@@ -3395,8 +3399,7 @@ __webpack_require__.r(__webpack_exports__);
     updateStock: function updateStock() {
       var _this = this;
 
-      console.log(route('item.update.stock'));
-      axios.put(route('item.update.stock', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('item.update.stock', this.$route.params.id)), {
         stock: this.item.stock
       }).then(function (response) {
         _this.$notify({
@@ -3516,7 +3519,7 @@ __webpack_require__.r(__webpack_exports__);
     setPrice: function setPrice() {
       var _this = this;
 
-      axios.post(route('price.store', this.item_id), {
+      axios.post(RouteService.getUrl(route('price.store', this.item_id)), {
         initial_price: this.price.initial_price,
         selling_price: this.price.selling_price
       }).then(function (response) {
@@ -3635,13 +3638,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       user: [],
       image: {
         user: __webpack_require__(/*! ./../../images/icons8-male-user-80.png */ "./resources/js/images/icons8-male-user-80.png")
-      }
+      },
+      shop: {}
     };
   },
   mounted: function mounted() {
@@ -3651,7 +3685,7 @@ __webpack_require__.r(__webpack_exports__);
     getUser: function getUser() {
       var _this = this;
 
-      axios.get(route('details')).then(function (response) {
+      axios.get(RouteService.getUrl(route('details'))).then(function (response) {
         _this.user = response.data;
       }).catch(function (response) {});
     },
@@ -3661,6 +3695,17 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (response) {
         console.log(response);
       });
+    },
+    settingUpdate: function settingUpdate() {
+      var _this2 = this;
+
+      axios.post(RouteService.getUrl(route('shop.store')), {
+        name: this.shop.name,
+        address: this.shop.address
+      }).then(function (response) {
+        _this2.getUser(); // console.log(response)
+
+      }).catch(function (response) {});
     }
   }
 });
@@ -3719,7 +3764,7 @@ __webpack_require__.r(__webpack_exports__);
     createRole: function createRole() {
       var _this = this;
 
-      axios.post(route('role.store'), {
+      axios.post(RouteService.getUrl(route('role.store')), {
         name: this.role.name,
         description: this.role.description
       }).then(function (response) {
@@ -3804,7 +3849,7 @@ __webpack_require__.r(__webpack_exports__);
     updateEmployee: function updateEmployee() {
       var _this = this;
 
-      axios.put(route('employee.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('employee.update', this.$route.params.id)), {
         name: this.employee.name,
         email: this.employee.email,
         join_date: this.employee.join_date,
@@ -3820,7 +3865,7 @@ __webpack_require__.r(__webpack_exports__);
     editEmployee: function editEmployee(id) {
       var _this2 = this;
 
-      axios.get(route('employee.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('employee.edit', id))).then(function (response) {
         _this2.employeesData = response.data;
         _this2.employee.name = _this2.employeesData.name;
         _this2.employee.join_date = _this2.employeesData.join_date;
@@ -3931,14 +3976,14 @@ __webpack_require__.r(__webpack_exports__);
     getRole: function getRole() {
       var _this = this;
 
-      axios.get(route('role.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('role.index'))).then(function (response) {
         _this.roles = response.data;
       }).catch(function (response) {});
     },
     getRoleId: function getRoleId(id) {
       var _this2 = this;
 
-      axios.get(route('get.role', id), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('get.role', id))).then(function (response) {
         _this2.users = response.data;
         console.log(_this2.users);
       }).catch(function (response) {});
@@ -3949,7 +3994,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('role.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('role.destroy', id))).then(function (response) {
           _this3.getRole();
         }).catch(function (response) {});
       }
@@ -4099,14 +4144,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getInvoiceCode: function getInvoiceCode() {
       var _this = this;
 
-      axios.get(route('get.invoice.number')).then(function (response) {
+      axios.get(RouteService.getUrl(route('get.invoice.number'))).then(function (response) {
         _this.purchase.invoice_number = response.data;
       }).catch(function (response) {});
     },
     createSupplier: function createSupplier() {
       var _this2 = this;
 
-      axios.post(route('supplier.store'), {
+      axios.post(RouteService.getUrl(route('supplier.store')), {
         name: this.supplier.name,
         contact: this.supplier.contact,
         address: this.supplier.address
@@ -4131,14 +4176,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getCreateDataPurchases: function getCreateDataPurchases(query) {
       var _this3 = this;
 
-      axios.get(route('supplier.search', query), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('supplier.search', query))).then(function (response) {
         _this3.suppliersData = response.data;
       }).catch(function (response) {});
     },
     createPurchase: function createPurchase() {
       var _this4 = this;
 
-      axios.post(route('purchase.store'), {
+      axios.post(RouteService.getUrl(route('purchase.store')), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: this.purchase.payment_method.name,
         note: this.purchase.note,
@@ -4268,7 +4313,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       console.log(payment_method);
-      axios.put(route('purchase.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('purchase.update', this.$route.params.id)), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: payment_method,
         note: this.purchase.note,
@@ -4284,7 +4329,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     editPurchase: function editPurchase(id) {
       var _this2 = this;
 
-      axios.get(route('purchase.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.edit', id))).then(function (response) {
         _this2.purchasesData = response.data.purchase;
         _this2.suppliersData = response.data.suppliers;
         _this2.purchase.supplier_id = _this2.purchasesData.supplier;
@@ -4376,6 +4421,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4389,8 +4440,7 @@ __webpack_require__.r(__webpack_exports__);
     getPuchase: function getPuchase() {
       var _this = this;
 
-      console.log(route());
-      axios.get(route('purchase.index')).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.index'))).then(function (response) {
         _this.purchases = response.data;
       }).catch(function (response) {});
     },
@@ -4400,7 +4450,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('purchase.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('purchase.destroy', id)), {}).then(function (response) {
           _this2.getPuchase();
         }).catch(function (response) {});
       }
@@ -4476,7 +4526,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var id = this.$route.params.id;
-      axios.get(route('purchasing_detail.create', id), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchasing_detail.create', id))).then(function (response) {
         _this.itemsData = response.data;
         console.log(_this.itemsData);
       }).catch(function (response) {});
@@ -4485,7 +4535,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var id = this.$route.params.id;
-      axios.post(route('purchasing_detail.store', id), {
+      axios.post(RouteService.getUrl(route('purchasing_detail.store', id)), {
         purchase_id: id,
         itemsData: this.items.item
       }).then(function (response) {
@@ -4582,7 +4632,7 @@ __webpack_require__.r(__webpack_exports__);
     updatePurchase: function updatePurchase() {
       var _this = this;
 
-      axios.put(route('purchase.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('purchase.update', this.$route.params.id)), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: this.purchase.payment_method.name,
         note: this.purchase.note
@@ -4618,7 +4668,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _services_NumberHelper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../services/NumberHelper.js */ "./resources/js/services/NumberHelper.js");
 //
 //
 //
@@ -4786,7 +4835,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4833,7 +4883,7 @@ __webpack_require__.r(__webpack_exports__);
           text: 'Add Your item before pay!'
         });
       } else {
-        axios.put(route('paid_purchase', id), {}).then(function (response) {
+        axios.put(RouteService.getUrl(route('paid_purchase', id))).then(function (response) {
           if (!_this.purchase.is_paid) {
             console.log('ok');
 
@@ -4858,7 +4908,7 @@ __webpack_require__.r(__webpack_exports__);
           text: "You can't add item!"
         });
       } else {
-        axios.post(route('purchasing_detail.store', id), {
+        axios.post(RouteService.getUrl(route('purchasing_detail.store', id)), {
           purchase_id: id,
           item_id: this.itemReadonly.id,
           qty: this.itemReadonly.qty,
@@ -4885,7 +4935,7 @@ __webpack_require__.r(__webpack_exports__);
     setPrice: function setPrice() {
       var _this3 = this;
 
-      axios.post(route('price.store', this.itemReadonly.id), {
+      axios.post(RouteService.getUrl(route('price.store', this.itemReadonly.id)), {
         initial_price: this.price.initial_price,
         selling_price: this.price.selling_price
       }).then(function (response) {
@@ -4905,7 +4955,7 @@ __webpack_require__.r(__webpack_exports__);
     getCreateDataItems: function getCreateDataItems(query) {
       var _this4 = this;
 
-      axios.get(route('item.create') + '?query=' + query, {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('item.create') + '?query=' + query)).then(function (response) {
         _this4.categoriesData = response.data.categories;
         _this4.unitsData = response.data.units;
       }).catch(function (response) {});
@@ -4913,7 +4963,7 @@ __webpack_require__.r(__webpack_exports__);
     createItems: function createItems() {
       var _this5 = this;
 
-      axios.post(route('item.store'), {
+      axios.post(RouteService.getUrl(route('item.store')), {
         name: this.item.name,
         code: this.item.code,
         category_id: this.item.category_id.id,
@@ -4952,7 +5002,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.itemReadonly.name = this.changeItem.name;
       this.itemReadonly.id = this.changeItem.id;
-      axios.get(route('get.price', this.changeItem.id), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('get.price', this.changeItem.id)), {}).then(function (response) {
         _this6.itemReadonly.price = response.data.initial_price;
       }).catch(function (response) {});
     },
@@ -4960,7 +5010,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this7 = this;
 
       if (search.length >= 1) {
-        axios.get(route('item.search', search), {}).then(function (response) {
+        axios.get(RouteService.getUrl(route('item.search', search))).then(function (response) {
           _this7.items = response.data;
         }).catch(function (response) {});
       } else {
@@ -4970,7 +5020,6 @@ __webpack_require__.r(__webpack_exports__);
     getPurchasingDetails: function getPurchasingDetails(id) {
       var _this8 = this;
 
-      console.log(_services_NumberHelper_js__WEBPACK_IMPORTED_MODULE_0__["default"].formatPrice(1200000));
       axios.get(route('purchasing_detail.index', this.purchase.id), {}).then(function (response) {
         _this8.purchasingData = response.data;
         _this8.purchase.is_paid = response.data[0].purchase.is_paid;
@@ -4982,13 +5031,250 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Wanna Cancel this?');
 
       if (bool) {
-        axios.delete(route('purchasing_detail.destroy', [this.purchase.id, id]), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('purchasing_detail.destroy', [this.purchase.id, id]))).then(function (response) {
           _this9.getPurchasingDetails(_this9.purchase.id);
 
           _this9.$notify({
             type: 'success',
             text: 'Deleted!'
           });
+        }).catch(function (response) {});
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Create.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/shops/Create.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      shop: {
+        name: ''
+      }
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    createShop: function createShop() {
+      var _this = this;
+
+      axios.post(RouteService.getUrl(route('shop.store')), {
+        name: this.shop.name
+      }).then(function (response) {
+        _this.$notify({
+          type: 'success',
+          text: 'Success Create Shop'
+        });
+
+        _this.$router.replace('/shop');
+      }).catch(function (response) {
+        if (response.response.status == 500) alert('Something Goes Wrong');
+        _this.errors = response.response.data.errors;
+        console.log(response);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Edit.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/shops/Edit.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      shop: {
+        name: ''
+      },
+      shopsData: []
+    };
+  },
+  mounted: function mounted() {
+    this.editShop(this.$route.params.id);
+  },
+  methods: {
+    updateShop: function updateShop() {
+      var _this = this;
+
+      axios.put(RouteService.getUrl(route('shop.update', this.$route.params.id)), {
+        name: this.shop.name
+      }).then(function (response) {
+        _this.$router.replace('/shop');
+      }).catch(function (response) {
+        if (response.response.status == 500) alert('Something Goes Wrong');
+        _this.errors = response.response.data.errors;
+        console.log(response);
+      });
+    },
+    editShop: function editShop(id) {
+      var _this2 = this;
+
+      axios.get(route('shop.edit', id)).then(function (response) {
+        _this2.shopsData = response.data;
+        _this2.shop.name = _this2.shopsData.name;
+      }).catch(function (response) {});
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Index.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/shops/Index.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      shops: []
+    };
+  },
+  mounted: function mounted() {
+    this.getShop();
+  },
+  methods: {
+    getShop: function getShop() {
+      var _this = this;
+
+      axios.get(RouteService.getUrl(route('shop.index'))).then(function (response) {
+        _this.shops = response.data.data;
+      }).catch(function (response) {});
+    },
+    deleteShop: function deleteShop(id) {
+      var _this2 = this;
+
+      var bool = confirm('You Want to Delete this?');
+
+      if (bool) {
+        axios.delete(RouteService.getUrl(route('shop.destroy', id))).then(function (response) {
+          _this2.getShop();
         }).catch(function (response) {});
       }
     }
@@ -5136,7 +5422,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     createSupplier: function createSupplier() {
       var _this = this;
 
-      axios.post(route('supplier.store'), {
+      axios.post(RouteService.getUrl(route('supplier.store')), {
         name: this.supplier.name,
         contact: this.supplier.contact,
         address: this.supplier.address
@@ -5160,14 +5446,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getCreateDataPurchases: function getCreateDataPurchases() {
       var _this2 = this;
 
-      axios.get(route('purchase.create'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.create'))).then(function (response) {
         _this2.suppliersData = response.data;
       }).catch(function (response) {});
     },
     createPurchase: function createPurchase() {
       var _this3 = this;
 
-      axios.post(route('purchase.store'), {
+      axios.post(RouteService.getUrl(route('purchase.store')), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: this.purchase.payment_method.name,
         note: this.purchase.note,
@@ -5295,7 +5581,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       console.log(payment_method);
-      axios.put(route('purchase.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('purchase.update', this.$route.params.id)), {
         supplier_id: this.purchase.supplier_id.id,
         payment_method: payment_method,
         note: this.purchase.note,
@@ -5311,7 +5597,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     editPurchase: function editPurchase(id) {
       var _this2 = this;
 
-      axios.get(route('purchase.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.edit', id))).then(function (response) {
         _this2.purchasesData = response.data.purchase;
         _this2.suppliersData = response.data.suppliers;
         _this2.purchase.supplier_id = _this2.purchasesData.supplier;
@@ -5408,7 +5694,7 @@ __webpack_require__.r(__webpack_exports__);
     getPuchase: function getPuchase() {
       var _this = this;
 
-      axios.get(route('spending.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('spending.index'))).then(function (response) {
         _this.spendings = response.data;
       }).catch(function (response) {});
     }
@@ -5500,15 +5786,14 @@ __webpack_require__.r(__webpack_exports__);
     showPuchase: function showPuchase(date) {
       var _this = this;
 
-      axios.get(route('spending.show', date), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('spending.show', date))).then(function (response) {
         _this.spendings = response.data;
-        console.log(_this.spendings);
       }).catch(function (response) {});
     },
     getPurchasingDetails: function getPurchasingDetails(id) {
       var _this2 = this;
 
-      axios.get(route('get.purchasing_detail', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('get.purchasing_detail', id))).then(function (response) {
         _this2.purchasing_details = response.data.purchasing_details;
         _this2.purchase = response.data;
       }).catch(function (response) {});
@@ -5586,7 +5871,7 @@ __webpack_require__.r(__webpack_exports__);
     createSupplier: function createSupplier() {
       var _this = this;
 
-      axios.post(route('supplier.store'), {
+      axios.post(RouteService.getUrl(route('supplier.store')), {
         name: this.supplier.name,
         contact: this.supplier.contact,
         address: this.supplier.address
@@ -5679,7 +5964,7 @@ __webpack_require__.r(__webpack_exports__);
     updateSupplier: function updateSupplier() {
       var _this = this;
 
-      axios.put(route('supplier.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('supplier.update', this.$route.params.id)), {
         name: this.supplier.name,
         contact: this.supplier.contact,
         address: this.supplier.address
@@ -5694,7 +5979,7 @@ __webpack_require__.r(__webpack_exports__);
     editSupplier: function editSupplier(id) {
       var _this2 = this;
 
-      axios.get(route('supplier.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('supplier.edit', id))).then(function (response) {
         _this2.suppliersData = response.data;
         _this2.supplier.name = _this2.suppliersData.name;
         _this2.supplier.contact = _this2.suppliersData.contact;
@@ -5791,7 +6076,7 @@ __webpack_require__.r(__webpack_exports__);
     getSupplier: function getSupplier() {
       var _this = this;
 
-      axios.get(route('supplier.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('supplier.index'))).then(function (response) {
         _this.suppliers = response.data.data;
       }).catch(function (response) {});
     },
@@ -5862,7 +6147,7 @@ __webpack_require__.r(__webpack_exports__);
     createUnit: function createUnit() {
       var _this = this;
 
-      axios.post(route('unit.store'), {
+      axios.post(RouteService.getUrl(route('unit.store')), {
         unit: this.unit.unit
       }).then(function (response) {
         _this.$notify({
@@ -5936,7 +6221,7 @@ __webpack_require__.r(__webpack_exports__);
     updateUnit: function updateUnit() {
       var _this = this;
 
-      axios.put(route('unit.update', this.$route.params.id), {
+      axios.put(RouteService.getUrl(route('unit.update', this.$route.params.id)), {
         unit: this.unit.unit
       }).then(function (response) {
         _this.$router.replace('/unit');
@@ -5949,7 +6234,7 @@ __webpack_require__.r(__webpack_exports__);
     editUnit: function editUnit(id) {
       var _this2 = this;
 
-      axios.get(route('unit.edit', id)).then(function (response) {
+      axios.get(RouteService.getUrl(route('unit.edit', id))).then(function (response) {
         _this2.unitsData = response.data;
         _this2.unit.unit = _this2.unitsData.unit;
       }).catch(function (response) {});
@@ -6018,7 +6303,7 @@ __webpack_require__.r(__webpack_exports__);
     getUnit: function getUnit() {
       var _this = this;
 
-      axios.get(route('unit.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('unit.index'))).then(function (response) {
         _this.units = response.data;
       }).catch(function (response) {});
     },
@@ -6028,7 +6313,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('unit.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('unit.destroy', id))).then(function (response) {
           _this2.getUnit();
         }).catch(function (response) {});
       }
@@ -64839,7 +65124,7 @@ var render = function() {
         _c("div", { staticClass: "col-xl-12" }, [
           _c("div", { staticClass: "card-header" }, [
             _c("h3", [
-              _vm._v("Transaksi No.\n\t\t\t\t\t\t"),
+              _vm._v("Transaksi No.\n            "),
               _c("input", {
                 directives: [
                   {
@@ -67010,15 +67295,15 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.spendings, function(spending, index) {
+              _vm._l(_vm.incomes, function(income, index) {
                 return _c("tr", [
                   _c("th", { attrs: { scope: "row" } }, [
                     _vm._v(_vm._s(++index))
                   ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(spending.date))]),
+                  _c("td", [_vm._v(_vm._s(income.date))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(spending.total_price))]),
+                  _c("td", [_vm._v(_vm._s(income.total_price))]),
                   _vm._v(" "),
                   _c(
                     "td",
@@ -67030,8 +67315,8 @@ var render = function() {
                             "btn btn-sm p-1 btn-info float-right mr-2",
                           attrs: {
                             to: {
-                              name: "spending.show",
-                              params: { date: spending.date }
+                              name: "income.show",
+                              params: { date: income.date }
                             },
                             title: "show details?"
                           }
@@ -67063,7 +67348,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-xl-12" }, [
         _c("div", { staticClass: "card-header" }, [
-          _c("h3", [_vm._v("Spending List per Tanggal")])
+          _c("h3", [_vm._v("Income List per Tanggal")])
         ])
       ])
     ])
@@ -67172,7 +67457,7 @@ var render = function() {
           _c("h3", { staticClass: "text-header" }, [
             _vm._v(
               "\n        Expenditures On " +
-                _vm._s(_vm.spendings[0].date) +
+                _vm._s(_vm.incomes[0].date) +
                 "\n      "
             )
           ])
@@ -67184,22 +67469,25 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.spendings, function(spending, index) {
+              _vm._l(_vm.incomes, function(income, index) {
                 return _c("tr", [
                   _c("td", [_vm._v(_vm._s(++index))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(spending.purchase.invoice_number))]),
+                  _c("td", [_vm._v(_vm._s(income.transaction.invoice_number))]),
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(
-                      _vm._s(spending.purchase.purchasing_details[0].total_qty)
+                      _vm._s(
+                        income.transaction.transaction_details[0]
+                          .total_qty_value
+                      )
                     )
                   ]),
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(
                       _vm._s(
-                        spending.purchase.purchasing_details[0]
+                        income.transaction.transaction_details[0]
                           .total_price_value
                       )
                     )
@@ -67221,8 +67509,8 @@ var render = function() {
                           attrs: { size: "sm", variant: "info" },
                           on: {
                             click: function($event) {
-                              return _vm.getPurchasingDetails(
-                                spending.purchase.id
+                              return _vm.getTransactionDetails(
+                                income.transaction.id
                               )
                             }
                           }
@@ -67250,7 +67538,7 @@ var render = function() {
             size: "lg",
             id: "modal-1",
             title: "Lists Item",
-            "ok-only": "true"
+            okOnly: "true"
           }
         },
         [
@@ -67271,20 +67559,20 @@ var render = function() {
             _vm._v(" "),
             _c(
               "tbody",
-              _vm._l(_vm.purchasing_details, function(
-                purchasing_detail,
+              _vm._l(_vm.transaction_details, function(
+                transaction_detail,
                 index
               ) {
                 return _c("tr", [
                   _c("td", [_vm._v(_vm._s(++index))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(purchasing_detail.item.code))]),
+                  _c("td", [_vm._v(_vm._s(transaction_detail.item.code))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(purchasing_detail.item.name))]),
+                  _c("td", [_vm._v(_vm._s(transaction_detail.item.name))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(purchasing_detail.qty))]),
+                  _c("td", [_vm._v(_vm._s(transaction_detail.qty))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(purchasing_detail.total_price))])
+                  _c("td", [_vm._v(_vm._s(transaction_detail.total_price))])
                 ])
               }),
               0
@@ -68155,128 +68443,267 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("header", { staticClass: "topbar" }, [
-    _c(
-      "nav",
-      { staticClass: "navbar top-navbar navbar-expand-md navbar-light" },
-      [
-        _c(
-          "div",
-          { staticClass: "navbar-header" },
-          [
-            _c(
-              "router-link",
-              {
-                staticClass: "navbar-brand",
-                attrs: { to: { name: "dashboard" } }
-              },
-              [
-                _c("b", [
-                  _c(
-                    "h1",
-                    {
-                      staticClass:
-                        "title-logo text-primary btn btn-lg btn-rounded"
-                    },
-                    [_vm._v("KasierTansi")]
-                  )
-                ])
-              ]
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "navbar-collapse" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("ul", { staticClass: "navbar-nav my-lg-0" }, [
-            _c("li", { staticClass: "nav-item dropdown" }, [
+  return _c(
+    "header",
+    { staticClass: "topbar" },
+    [
+      _c(
+        "nav",
+        { staticClass: "navbar top-navbar navbar-expand-md navbar-light" },
+        [
+          _c(
+            "div",
+            { staticClass: "navbar-header" },
+            [
               _c(
-                "a",
+                "router-link",
                 {
-                  staticClass: "nav nav-link dropdown-toggle",
-                  attrs: { type: "button", "data-toggle": "dropdown" }
+                  staticClass: "navbar-brand",
+                  attrs: { to: { name: "dashboard" } }
                 },
                 [
-                  _c("img", {
-                    staticClass: "img-circle",
-                    attrs: { src: _vm.image.user, alt: "user", width: "30" }
-                  })
+                  _c("b", [
+                    _c(
+                      "h1",
+                      {
+                        staticClass:
+                          "title-logo text-primary btn btn-lg btn-rounded"
+                      },
+                      [_vm._v("KasierTansi")]
+                    )
+                  ])
                 ]
-              ),
-              _vm._v(" "),
-              _c("ul", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-                _c("li", [
-                  _c("div", { staticClass: "navbar-login" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-lg-4" }, [
-                        _c("p", { staticClass: "text-center" }, [
-                          _c("img", {
-                            staticClass: "img-circle img-center img-thumbnail",
-                            attrs: {
-                              src: _vm.image.user,
-                              alt: "user",
-                              width: ""
-                            }
-                          })
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "navbar-collapse" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("ul", { staticClass: "navbar-nav my-lg-0" }, [
+              _c("li", { staticClass: "nav-item dropdown" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav nav-link dropdown-toggle",
+                    attrs: { type: "button", "data-toggle": "dropdown" }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "img-circle",
+                      attrs: { src: _vm.image.user, alt: "user", width: "30" }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("ul", { staticClass: "dropdown-menu dropdown-menu-right" }, [
+                  _c("li", [
+                    _c("div", { staticClass: "navbar-login" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-lg-4" }, [
+                          _c("p", { staticClass: "text-center" }, [
+                            _c("img", {
+                              staticClass:
+                                "img-circle img-center img-thumbnail",
+                              attrs: {
+                                src: _vm.image.user,
+                                alt: "user",
+                                width: ""
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-lg-8" }, [
+                          _c("p", { staticClass: "text-left" }, [
+                            _c("strong", [
+                              _vm._v(_vm._s(_vm.user.userable.name))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "text-left small" }, [
+                            _vm._v(_vm._s(_vm.user.email))
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(1)
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-lg-8" }, [
-                        _c("p", { staticClass: "text-left" }, [
-                          _c("strong", [_vm._v(_vm._s(_vm.user.userable.name))])
-                        ]),
-                        _vm._v(" "),
-                        _c("p", { staticClass: "text-left small" }, [
-                          _vm._v(_vm._s(_vm.user.email))
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(1)
                       ])
                     ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "divider" }),
-                _vm._v(" "),
-                _c("li", [
-                  _c(
-                    "div",
-                    { staticClass: "navbar-login navbar-login-session" },
-                    [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-lg-12" }, [
-                          _c("p", [
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "divider" }),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c(
+                      "div",
+                      { staticClass: "navbar-login navbar-login-session" },
+                      [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-lg-12" }, [
                             _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-block btn-default btn-danger",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.logout()
-                                  }
-                                }
-                              },
+                              "p",
                               [
-                                _c("i", { staticClass: "icon icon-logout" }),
-                                _vm._v(" Logout")
-                              ]
-                            )
+                                _c(
+                                  "b-button",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "b-modal",
+                                        rawName: "v-b-modal.modal-1",
+                                        modifiers: { "modal-1": true }
+                                      }
+                                    ],
+                                    staticClass:
+                                      "btn btn-block btn-outline-light text-dark"
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "icon icon-settings"
+                                    }),
+                                    _vm._v(
+                                      " Setting\n                                    "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              [
+                                _c(
+                                  "b-button",
+                                  {
+                                    staticClass:
+                                      "btn btn-block btn-outline-light text-dark"
+                                  },
+                                  [
+                                    _c("i", { staticClass: "icon icon-user" }),
+                                    _vm._v(
+                                      " Profile\n                                    "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("p", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-block btn-default btn-info",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.logout()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "icon icon-logout" }),
+                                  _vm._v(" Logout")
+                                ]
+                              )
+                            ])
                           ])
                         ])
-                      ])
-                    ]
-                  )
+                      ]
+                    )
+                  ])
                 ])
               ])
             ])
           ])
-        ])
-      ]
-    )
-  ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: { id: "modal-1", title: "Setting" },
+          on: {
+            ok: function($event) {
+              return _vm.settingUpdate()
+            }
+          }
+        },
+        [
+          _c("form", [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Shop's Name")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.shop.name,
+                    expression: "shop.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  id: "name",
+                  "aria-describedby": "emailHelp",
+                  placeholder: "Enter Name"
+                },
+                domProps: { value: _vm.shop.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.shop, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "address" } }, [_vm._v("Address")]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.shop.address,
+                    expression: "shop.address"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "address", placeholder: "Enter Address" },
+                domProps: { value: _vm.shop.address },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.shop, "address", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Language")]),
+              _vm._v(" "),
+              _c("select", { staticClass: "form-control" }, [
+                _c("option", { attrs: { value: "id" } }, [_vm._v("Indonesia")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "en" } }, [_vm._v("English")])
+              ])
+            ])
+          ])
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -71370,6 +71797,401 @@ var staticRenderFns = [
       { staticClass: "btn btn-danger btn-sm float-right mr-2" },
       [_c("i", { staticClass: "icon icon-trash" }), _vm._v(" Trash\n        ")]
     )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Create.vue?vue&type=template&id=21dd0ea6&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/shops/Create.vue?vue&type=template&id=21dd0ea6& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.createShop()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "label",
+                { staticClass: "col-form-label", attrs: { for: "name" } },
+                [_vm._v("Name")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.shop.name,
+                    expression: "shop.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "name", type: "text" },
+                domProps: { value: _vm.shop.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.shop, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "row" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-md-6" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass:
+                          "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
+                        attrs: { to: { name: "shop" } }
+                      },
+                      [_vm._v("Cancel")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
+        },
+        [_vm._v("Save")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Edit.vue?vue&type=template&id=decbfe0a&":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/shops/Edit.vue?vue&type=template&id=decbfe0a& ***!
+  \********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.updateShop()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "label",
+                { staticClass: "col-form-label", attrs: { for: "name" } },
+                [_vm._v("Name")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.shop.name,
+                    expression: "shop.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "name", type: "text" },
+                domProps: { value: _vm.shop.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.shop, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "row" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-md-6" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass:
+                          "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
+                        attrs: { to: { name: "shop" } }
+                      },
+                      [_vm._v("Cancel")]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
+        },
+        [_vm._v("Save")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Index.vue?vue&type=template&id=77444f9e&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/shops/Index.vue?vue&type=template&id=77444f9e& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "card" },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-xl-12" }, [
+            _c(
+              "div",
+              { staticClass: "card-header" },
+              [
+                _c("h3", [_vm._v("Shop List")]),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "float",
+                    attrs: { to: { name: "shop.create" } }
+                  },
+                  [_c("i", { staticClass: "icon icon-plus my-float" })]
+                )
+              ],
+              1
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.shops, function(shop) {
+          return _c("div", { staticClass: "card-body" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _c("p", { staticClass: "float-left" }, [
+                        _c("b", [_vm._v("Shop : " + _vm._s(shop.name))])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-sm p-1 btn-danger float-right mr-2",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteShop(shop.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "icon icon-trash" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass:
+                            "btn btn-sm p-1 btn-info float-right mr-2",
+                          attrs: {
+                            to: { name: "shop.edit", params: { id: shop.id } }
+                          }
+                        },
+                        [_c("i", { staticClass: "icon icon-pencil" })]
+                      )
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(0, true)
+              ])
+            ]),
+            _vm._v(" "),
+            _c("hr")
+          ])
+        }),
+        _vm._v(" "),
+        _vm._m(1)
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "float-left" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex justify-content-center" }, [
+      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
+        _c("ul", { staticClass: "pagination" }, [
+          _c("li", { staticClass: "page-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "page-link",
+                attrs: { href: "#", "aria-label": "Previous" }
+              },
+              [
+                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item" }, [
+            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+              _vm._v("1")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item" }, [
+            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+              _vm._v("2")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item" }, [
+            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+              _vm._v("3")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "page-link",
+                attrs: { href: "#", "aria-label": "Next" }
+              },
+              [
+                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
+                _vm._v(" "),
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -89281,7 +90103,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(bootstrap_vue__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuejs-paginate */ "./node_modules/vuejs-paginate/dist/index.js");
 /* harmony import */ var vuejs_paginate__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuejs_paginate__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Dashboard.vue */ "./resources/js/components/Dashboard.vue");
+/* harmony import */ var _services_RouteService__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/RouteService */ "./resources/js/services/RouteService.js");
+/* harmony import */ var _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Dashboard.vue */ "./resources/js/components/Dashboard.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -89295,9 +90118,11 @@ __webpack_require__(/*! jquery-ujs */ "./node_modules/jquery-ujs/src/rails.js");
 
 
 
+
  // import Datepicker from 'vuejs-datepicker';
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.RouteService = _services_RouteService__WEBPACK_IMPORTED_MODULE_5__["default"];
 Vue.prototype.$eventBus = new Vue();
 Vue.use(vue_notification__WEBPACK_IMPORTED_MODULE_1___default.a);
 Vue.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
@@ -89308,8 +90133,6 @@ Vue.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
 Vue.component('navbar', __webpack_require__(/*! ./views/layouts/Navbar.vue */ "./resources/js/views/layouts/Navbar.vue").default);
@@ -89327,7 +90150,7 @@ Vue.component('v-paginate', vuejs_paginate__WEBPACK_IMPORTED_MODULE_4___default.
 var app = new Vue({
   el: '#app',
   components: {
-    App: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    App: _components_Dashboard_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   router: _router_router__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
@@ -89573,9 +90396,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_incomes_Create_vue__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./../views/incomes/Create.vue */ "./resources/js/views/incomes/Create.vue");
 /* harmony import */ var _views_incomes_Edit_vue__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./../views/incomes/Edit.vue */ "./resources/js/views/incomes/Edit.vue");
 /* harmony import */ var _views_incomes_Show_vue__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./../views/incomes/Show.vue */ "./resources/js/views/incomes/Show.vue");
+/* harmony import */ var _views_shops_Index_vue__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./../views/shops/Index.vue */ "./resources/js/views/shops/Index.vue");
+/* harmony import */ var _views_shops_Create_vue__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./../views/shops/Create.vue */ "./resources/js/views/shops/Create.vue");
+/* harmony import */ var _views_shops_Edit_vue__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./../views/shops/Edit.vue */ "./resources/js/views/shops/Edit.vue");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+
+
 
 
 
@@ -89753,47 +90582,58 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/income/:date',
     name: 'income.show',
     component: _views_incomes_Show_vue__WEBPACK_IMPORTED_MODULE_37__["default"]
+  }, {
+    path: '/shop',
+    name: 'shop',
+    component: _views_shops_Index_vue__WEBPACK_IMPORTED_MODULE_38__["default"]
+  }, {
+    path: '/shop/create',
+    name: 'shop.create',
+    component: _views_shops_Create_vue__WEBPACK_IMPORTED_MODULE_39__["default"]
+  }, {
+    path: '/shop/edit/:id',
+    name: 'shop.edit',
+    component: _views_shops_Edit_vue__WEBPACK_IMPORTED_MODULE_40__["default"]
   }]
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
-/***/ "./resources/js/services/NumberHelper.js":
+/***/ "./resources/js/services/RouteService.js":
 /*!***********************************************!*\
-  !*** ./resources/js/services/NumberHelper.js ***!
+  !*** ./resources/js/services/RouteService.js ***!
   \***********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NumberHelper; });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var NumberHelper =
+var RouteService =
 /*#__PURE__*/
 function () {
-  function NumberHelper() {
-    _classCallCheck(this, NumberHelper);
+  function RouteService() {
+    _classCallCheck(this, RouteService);
   }
 
-  _createClass(NumberHelper, [{
-    key: "formatPrice",
-    value: function formatPrice(value) {
-      var val = value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-      return val;
+  _createClass(RouteService, [{
+    key: "getUrl",
+    value: function getUrl(route) {
+      var route = route.url().replace('http://' + 'window.location.host', '');
+      return route;
     }
   }]);
 
-  return NumberHelper;
+  return RouteService;
 }();
 
-
+/* harmony default export */ __webpack_exports__["default"] = (RouteService = new RouteService());
 
 /***/ }),
 
@@ -91623,6 +92463,213 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowPurchasingDetail_vue_vue_type_template_id_5638f66a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowPurchasingDetail_vue_vue_type_template_id_5638f66a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Create.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/views/shops/Create.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Create_vue_vue_type_template_id_21dd0ea6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=21dd0ea6& */ "./resources/js/views/shops/Create.vue?vue&type=template&id=21dd0ea6&");
+/* harmony import */ var _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js& */ "./resources/js/views/shops/Create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Create_vue_vue_type_template_id_21dd0ea6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Create_vue_vue_type_template_id_21dd0ea6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/shops/Create.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Create.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/views/shops/Create.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Create.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Create.vue?vue&type=template&id=21dd0ea6&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/views/shops/Create.vue?vue&type=template&id=21dd0ea6& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_21dd0ea6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=template&id=21dd0ea6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Create.vue?vue&type=template&id=21dd0ea6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_21dd0ea6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_21dd0ea6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Edit.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/views/shops/Edit.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Edit_vue_vue_type_template_id_decbfe0a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Edit.vue?vue&type=template&id=decbfe0a& */ "./resources/js/views/shops/Edit.vue?vue&type=template&id=decbfe0a&");
+/* harmony import */ var _Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Edit.vue?vue&type=script&lang=js& */ "./resources/js/views/shops/Edit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Edit_vue_vue_type_template_id_decbfe0a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Edit_vue_vue_type_template_id_decbfe0a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/shops/Edit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Edit.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/js/views/shops/Edit.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Edit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Edit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Edit.vue?vue&type=template&id=decbfe0a&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/views/shops/Edit.vue?vue&type=template&id=decbfe0a& ***!
+  \**************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_template_id_decbfe0a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Edit.vue?vue&type=template&id=decbfe0a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Edit.vue?vue&type=template&id=decbfe0a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_template_id_decbfe0a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Edit_vue_vue_type_template_id_decbfe0a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Index.vue":
+/*!********************************************!*\
+  !*** ./resources/js/views/shops/Index.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Index_vue_vue_type_template_id_77444f9e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=77444f9e& */ "./resources/js/views/shops/Index.vue?vue&type=template&id=77444f9e&");
+/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/views/shops/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Index_vue_vue_type_template_id_77444f9e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Index_vue_vue_type_template_id_77444f9e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/shops/Index.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Index.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/views/shops/Index.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/shops/Index.vue?vue&type=template&id=77444f9e&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/views/shops/Index.vue?vue&type=template&id=77444f9e& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_77444f9e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=template&id=77444f9e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/shops/Index.vue?vue&type=template&id=77444f9e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_77444f9e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_77444f9e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

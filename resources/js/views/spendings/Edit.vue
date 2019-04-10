@@ -88,7 +88,7 @@
           payment_method = this.purchase.payment_method.name
         }
         console.log(payment_method)
-        axios.put(route('purchase.update', this.$route.params.id), {
+        axios.put(RouteService.getUrl(route('purchase.update', this.$route.params.id)), {
           supplier_id : this.purchase.supplier_id.id,
           payment_method : payment_method,
           note : this.purchase.note,
@@ -104,7 +104,7 @@
          });
       },
       editPurchase(id){
-        axios.get(route('purchase.edit', id))
+        axios.get(RouteService.getUrl(route('purchase.edit', id)))
         .then((response)=>{
           this.purchasesData = response.data.purchase
           this.suppliersData = response.data.suppliers

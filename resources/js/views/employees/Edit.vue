@@ -54,7 +54,7 @@
 
     methods:{
       updateEmployee(){
-        axios.put(route('employee.update', this.$route.params.id), {
+        axios.put(RouteService.getUrl(route('employee.update', this.$route.params.id)), {
           name : this.employee.name,
           email : this.employee.email,
           join_date : this.employee.join_date,
@@ -70,7 +70,7 @@
          });
       },
       editEmployee(id){
-        axios.get(route('employee.edit', id))
+        axios.get(RouteService.getUrl(route('employee.edit', id)))
         .then((response)=>{
           this.employeesData = response.data
           this.employee.name = this.employeesData.name

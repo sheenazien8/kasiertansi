@@ -56,9 +56,19 @@
                             <div class="navbar-login navbar-login-session">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <p>
-                                          <button @click="logout()" class="btn btn-block btn-default btn-danger"><i class="icon icon-logout"></i> Logout</button>
-                                        </p>
+                                      <p>
+                                        <b-button v-b-modal.modal-1 class="btn btn-block btn-outline-light text-dark">
+                                          <i class="icon icon-settings"></i> Setting
+                                        </b-button>
+                                      </p>
+                                      <p>
+                                        <b-button class="btn btn-block btn-outline-light text-dark">
+                                          <i class="icon icon-user"></i> Profile
+                                        </b-button>
+                                      </p>
+                                      <p>
+                                        <button @click="logout()" class="btn btn-block btn-default btn-info"><i class="icon icon-logout"></i> Logout</button>
+                                      </p>
                                     </div>
                                 </div>
                             </div>
@@ -68,6 +78,26 @@
                 </ul>
             </div>
         </nav>
+        <b-modal id="modal-1" title="Setting" @ok="settingUpdate()">
+          <form>
+            <div class="form-group">
+              <label for="name">Shop's Name</label>
+              <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name" v-model="shop.name">
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea v-model="shop.address" id="address" class="form-control" placeholder="Enter Address">
+              </textarea">
+            </div>
+            <div class="form-group">
+              <label>Language</label>
+              <select class="form-control">
+                <option value="id">Indonesia</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </form>
+        </b-modal>
     </header>
   </template>
 <script>
@@ -77,7 +107,8 @@
         user : [],
         image:{
             user: require('./../../images/icons8-male-user-80.png')
-        }
+        },
+        shop : {}
       }
     },
     mounted(){
@@ -86,7 +117,7 @@
 
     methods:{
       getUser(){
-        axios.get(route('details'))
+        axios.get(RouteService.getUrl(route('details')))
         .then((response) =>{
           this.user = response.data
         })
@@ -102,6 +133,19 @@
         })
         .catch((response) =>{
           console.log(response)
+
+        })
+      },
+      settingUpdate(){
+        axios.post(RouteService.getUrl(route('shop.store')), {
+          name : this.shop.name,
+          address : this.shop.address
+        })
+        .then((response) => {
+          this.getUser();
+          // console.log(response)
+        })
+        .catch((response) => {
 
         })
       }

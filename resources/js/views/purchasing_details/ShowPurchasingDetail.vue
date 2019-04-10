@@ -112,12 +112,14 @@
               </div>
               <div class="form-group">
                <label for="name" class="col-form-label">Unit</label>
-                <v-select :onSearch="getCreateDataItems" :options="unitsData" label="unit" value="id" selected="name" placeholder="Type 2 Character"
+                <v-select :onSearch="getCreateDataItems" :options="unitsData" label="unit" value="id" selected="name"
+                placeholder="Type 2 Character"
                 v-model="item.unit_id"/>
               </div>
               <div class="form-group">
                 <label for="name" class="col-form-label">Code</label>
-                <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''" v-model="item.code">
+                <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''"
+                v-model="item.code">
                 <div v-if="errors.code">
                   <span class="text-danger">{{ errors.code[0] }}</span>
                 </div>
@@ -166,7 +168,6 @@
   </div>
 </template>
 <script>
-  import NumberHelper from './../../services/NumberHelper.js'
   export default {
     data(){
       return{
@@ -211,9 +212,7 @@
             text: 'Add Your item before pay!'
           });
         }else {
-          axios.put(route('paid_purchase', id),{
-
-          })
+          axios.put(RouteService.getUrl(route('paid_purchase', id)))
           .then((response) =>{
             if (!this.purchase.is_paid) {
               console.log('ok')
@@ -237,7 +236,7 @@
             text: "You can't add item!"
           });
         }else {
-          axios.post(route('purchasing_detail.store', id), {
+          axios.post(RouteService.getUrl(route('purchasing_detail.store', id)), {
             purchase_id : id,
             item_id : this.itemReadonly.id,
             qty : this.itemReadonly.qty,
@@ -263,7 +262,7 @@
       },
 
       setPrice(){
-        axios.post(route('price.store', this.itemReadonly.id),{
+        axios.post(RouteService.getUrl(route('price.store', this.itemReadonly.id)),{
           initial_price : this.price.initial_price,
           selling_price : this.price.selling_price
         })
@@ -283,9 +282,7 @@
       },
 
       getCreateDataItems(query){
-        axios.get(route('item.create')+ '?query='+query,{
-
-        })
+        axios.get(RouteService.getUrl(route('item.create')+ '?query='+query))
         .then((response) =>{
           this.categoriesData = response.data.categories
           this.unitsData = response.data.units
@@ -296,7 +293,7 @@
       },
 
       createItems(){
-        axios.post(route('item.store'), {
+        axios.post(RouteService.getUrl(route('item.store')), {
           name : this.item.name,
           code : this.item.code,
           category_id : this.item.category_id.id,
@@ -333,7 +330,7 @@
         getDetailPriceItems(){
           this.itemReadonly.name = this.changeItem.name
           this.itemReadonly.id = this.changeItem.id
-          axios.get(route('get.price', this.changeItem.id),{
+          axios.get(RouteService.getUrl(route('get.price', this.changeItem.id)),{
 
           })
           .then((response) =>{
@@ -346,9 +343,7 @@
 
       getItemsData(search){
         if (search.length >= 1) {
-          axios.get(route('item.search', search), {
-
-          })
+          axios.get(RouteService.getUrl(route('item.search', search)))
           .then((response) =>{
             this.items = response.data
           })
@@ -361,7 +356,6 @@
       },
 
       getPurchasingDetails(id){
-        console.log(NumberHelper.formatPrice(1200000))
         axios.get(route('purchasing_detail.index', this.purchase.id),{
 
         })
@@ -377,9 +371,7 @@
       deletePuchase(id){
         var bool = confirm('You Wanna Cancel this?');
         if (bool) {
-          axios.delete(route('purchasing_detail.destroy', [this.purchase.id, id]),{
-
-          })
+          axios.delete(RouteService.getUrl(route('purchasing_detail.destroy', [this.purchase.id, id])))
           .then((response) =>{
             this.getPurchasingDetails(this.purchase.id)
             this.$notify({

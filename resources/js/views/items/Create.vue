@@ -66,9 +66,7 @@
 
     methods:{
       getCreateDataItems(){
-        axios.get(route('item.create'),{
-
-        })
+        axios.get(RouteService.getUrl(route('item.create')))
         .then((response) =>{
           this.categoriesData = response.data.categories
           this.unitsData = response.data.units
@@ -78,7 +76,7 @@
         })
       },
       createItems(){
-        axios.post(route('item.store'), {
+        axios.post(RouteService.getUrl(route('item.store')), {
           name : this.item.name,
           code : this.item.code,
           category_id : this.item.category_id.id,

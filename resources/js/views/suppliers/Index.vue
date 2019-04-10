@@ -75,9 +75,7 @@ export default {
 
     methods:{
       getSupplier(){
-        axios.get(route('supplier.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('supplier.index')))
         .then((response) =>{
           this.suppliers = response.data.data
         })

@@ -72,9 +72,7 @@ export default {
 
     methods:{
       getPuchase(){
-        axios.get(route('spending.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('spending.index')))
         .then((response) =>{
           this.spendings = response.data
         })

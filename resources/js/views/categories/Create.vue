@@ -52,7 +52,7 @@
 
     methods:{
       createCategory(){
-        axios.post(route('category.store'), {
+        axios.post(RouteService.getUrl(route('category.store')), {
           name : this.category.name,
           description : this.category.description
         })

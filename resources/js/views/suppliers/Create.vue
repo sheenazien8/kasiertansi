@@ -60,7 +60,7 @@
 
     methods:{
       createSupplier(){
-        axios.post(route('supplier.store'), {
+        axios.post(RouteService.getUrl(route('supplier.store')), {
           name : this.supplier.name,
           contact : this.supplier.contact,
           address : this.supplier.address,

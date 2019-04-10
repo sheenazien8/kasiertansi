@@ -70,9 +70,7 @@ export default {
 
     methods:{
       getEmployee(){
-        axios.get(route('employee.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('employee.index')))
         .then((response) =>{
           this.employees = response.data.data
         })
@@ -83,9 +81,7 @@ export default {
       deleteEmployee(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('employee.destroy', id),{
-
-          })
+          axios.delete(RouteService.getUrl(route('employee.destroy', id)))
           .then((response) =>{
             this.getEmployee()
           })

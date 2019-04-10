@@ -8,13 +8,15 @@ require('./bootstrap');
 require('jquery-ujs');
 
 import router from './router/router';
-import Notifications from 'vue-notification'
-import VSelect from 'vue-select'
-import BootstrapVue from 'bootstrap-vue'
-import Paginate from 'vuejs-paginate'
+import Notifications from 'vue-notification';
+import VSelect from 'vue-select';
+import BootstrapVue from 'bootstrap-vue';
+import Paginate from 'vuejs-paginate';
+import RouteService from './services/RouteService';
 // import Datepicker from 'vuejs-datepicker';
 
 window.Vue = require('vue');
+window.RouteService = RouteService;
 Vue.prototype.$eventBus = new Vue();
 
 Vue.use(Notifications)
@@ -27,8 +29,6 @@ Vue.use(BootstrapVue)
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('navbar', require('./views/layouts/Navbar.vue').default);

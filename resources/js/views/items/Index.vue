@@ -90,7 +90,7 @@ export default {
         this.item_id = id
       },
       setPrice(){
-        axios.post(route('price.store', this.item_id),{
+        axios.post(RouteService.getUrl(route('price.store', this.item_id)),{
           initial_price : this.price.initial_price,
           selling_price : this.price.selling_price
         })

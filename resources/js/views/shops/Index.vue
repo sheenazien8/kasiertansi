@@ -67,9 +67,7 @@ export default {
 
     methods:{
       getShop(){
-        axios.get(route('shop.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('shop.index')))
         .then((response) =>{
           this.shops = response.data.data
         })
@@ -80,9 +78,7 @@ export default {
       deleteShop(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('shop.destroy', id),{
-
-          })
+          axios.delete(RouteService.getUrl(route('shop.destroy', id)))
           .then((response) =>{
             this.getShop()
           })

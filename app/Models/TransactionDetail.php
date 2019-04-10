@@ -25,4 +25,16 @@ class TransactionDetail extends Model
     {
         return $this->sum('price');
     }
+
+    public function getTotalPriceValueAttribute()
+    {
+        $id = $this->transaction_id;
+        return $this->where('transaction_id', $id)->sum('total_price');
+    }
+
+    public function getTotalQtyValueAttribute()
+    {
+        $id = $this->transaction_id;
+        return $this->where('transaction_id', $id)->sum('total_qty');
+    }
 }

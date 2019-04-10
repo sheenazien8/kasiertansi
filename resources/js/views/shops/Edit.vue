@@ -40,7 +40,9 @@
 
     methods:{
       updateShop(){
-        axios.put(route('shop.update', this.$route.params.id), {name : this.shop.name})
+        axios.put(RouteService.getUrl(route('shop.update', this.$route.params.id)), {
+          name : this.shop.name
+        })
          .then((response) => {
            this.$router.replace('/shop');
          })

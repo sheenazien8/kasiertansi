@@ -55,9 +55,7 @@
     methods:{
       createPurchasingDetail(){
         let id = this.$route.params.id
-        axios.get(route('purchasing_detail.create', id), {
-
-        })
+        axios.get(RouteService.getUrl(route('purchasing_detail.create', id)))
         .then((response) =>{
           this.itemsData = response.data
           console.log(this.itemsData)
@@ -68,7 +66,7 @@
       },
       storePurchasingDetail(){
         let id = this.$route.params.id
-        axios.post(route('purchasing_detail.store', id), {
+        axios.post(RouteService.getUrl(route('purchasing_detail.store', id)), {
           purchase_id : id,
           itemsData : this.items.item
         })

@@ -123,7 +123,7 @@
 
     methods:{
       createSupplier(){
-        axios.post(route('supplier.store'), {
+        axios.post(RouteService.getUrl(route('supplier.store')), {
           name : this.supplier.name,
           contact : this.supplier.contact,
           address : this.supplier.address,
@@ -145,8 +145,7 @@
          });
       },
       getCreateDataPurchases(){
-        axios.get(route('purchase.create'), {
-        })
+        axios.get(RouteService.getUrl(route('purchase.create')))
         .then((response) =>{
           this.suppliersData = response.data
         })
@@ -155,7 +154,7 @@
         })
       },
       createPurchase(){
-        axios.post(route('purchase.store'), {
+        axios.post(RouteService.getUrl(route('purchase.store')), {
           supplier_id : this.purchase.supplier_id.id,
           payment_method : this.purchase.payment_method.name,
           note : this.purchase.note,

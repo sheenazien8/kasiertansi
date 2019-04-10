@@ -77,7 +77,7 @@
         if (this.item.unit_id) {
           unit_id = this.item.unit_id.id;
         }
-        axios.put(route('item.update', this.$route.params.id), {
+        axios.put(RouteService.getUrl(route('item.update', this.$route.params.id)), {
           name : this.item.name,
           code : this.item.code,
           category_id : category_id,
@@ -93,7 +93,7 @@
          });
       },
       editItem(id){
-        axios.get(route('item.edit', id))
+        axios.get(RouteService.getUrl(route('item.edit', id)))
         .then((response)=>{
           this.itemsData = response.data.item
           this.item.name = this.itemsData.name

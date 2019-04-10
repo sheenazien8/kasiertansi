@@ -39,6 +39,9 @@ import IncomeIndex from './../views/incomes/Index.vue'
 import IncomeCreate from './../views/incomes/Create.vue'
 import IncomeEdit from './../views/incomes/Edit.vue'
 import IncomeShow from './../views/incomes/Show.vue'
+import ShopIndex from './../views/shops/Index.vue'
+import ShopCreate from './../views/shops/Create.vue'
+import ShopEdit from './../views/shops/Edit.vue'
 
 const router = new VueRouter({
     mode: 'history',
@@ -216,6 +219,21 @@ const router = new VueRouter({
             path: '/income/:date',
             name: 'income.show',
             component: IncomeShow,
+        },
+        {
+            path: '/shop',
+            name: 'shop',
+            component: ShopIndex,
+        },
+        {
+            path: '/shop/create',
+            name: 'shop.create',
+            component: ShopCreate,
+        },
+        {
+            path: '/shop/edit/:id',
+            name: 'shop.edit',
+            component: ShopEdit,
         },
     ],
 });

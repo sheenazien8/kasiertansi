@@ -44,7 +44,9 @@
 
     methods:{
       updateUnit(){
-        axios.put(route('unit.update', this.$route.params.id), {unit : this.unit.unit})
+        axios.put(RouteService.getUrl(route('unit.update', this.$route.params.id)), {
+          unit : this.unit.unit
+        })
          .then((response) => {
            this.$router.replace('/unit');
          })
@@ -55,7 +57,7 @@
          });
       },
       editUnit(id){
-        axios.get(route('unit.edit', id))
+        axios.get(RouteService.getUrl(route('unit.edit', id)))
         .then((response)=>{
           this.unitsData = response.data
           this.unit.unit = this.unitsData.unit

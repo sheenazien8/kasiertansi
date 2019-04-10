@@ -91,9 +91,7 @@ export default {
 
     methods:{
       getRole(){
-        axios.get(route('role.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('role.index')))
         .then((response) =>{
           this.roles = response.data
         })
@@ -102,9 +100,7 @@ export default {
         })
       },
       getRoleId(id){
-        axios.get(route('get.role', id),{
-
-        })
+        axios.get(RouteService.getUrl(route('get.role', id)))
         .then((response) => {
           this.users = response.data
           console.log(this.users);
@@ -116,9 +112,7 @@ export default {
       deleteRole(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('role.destroy', id),{
-
-          })
+          axios.delete(RouteService.getUrl(route('role.destroy', id)))
           .then((response) =>{
             this.getRole()
           })

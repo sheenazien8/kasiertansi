@@ -72,9 +72,7 @@ export default {
 
     methods:{
       getCategory(){
-        axios.get(route('category.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('category.index')))
         .then((response) =>{
           this.categories = response.data.data
         })
@@ -85,9 +83,7 @@ export default {
       deleteCategory(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('category.destroy', id),{
-
-          })
+          axios.delete(RouteService.getUrl(route('category.destroy', id)))
           .then((response) =>{
             this.getCategory()
           })

@@ -49,9 +49,7 @@ export default {
 
     methods:{
       getUnit(){
-        axios.get(route('unit.index'),{
-
-        })
+        axios.get(RouteService.getUrl(route('unit.index')))
         .then((response) =>{
           this.units = response.data
         })
@@ -62,9 +60,7 @@ export default {
       deleteUnit(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('unit.destroy', id),{
-
-          })
+          axios.delete(RouteService.getUrl(route('unit.destroy', id)))
           .then((response) =>{
             this.getUnit()
           })

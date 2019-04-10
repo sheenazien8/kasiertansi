@@ -61,7 +61,7 @@
 
     methods:{
       updateSupplier(){
-        axios.put(route('supplier.update', this.$route.params.id), {
+        axios.put(RouteService.getUrl(route('supplier.update', this.$route.params.id)), {
           name : this.supplier.name,
           contact : this.supplier.contact,
           address : this.supplier.address,
@@ -76,7 +76,7 @@
          });
       },
       editSupplier(id){
-        axios.get(route('supplier.edit', id))
+        axios.get(RouteService.getUrl(route('supplier.edit', id)))
         .then((response)=>{
           this.suppliersData = response.data
           this.supplier.name = this.suppliersData.name

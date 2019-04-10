@@ -54,7 +54,7 @@
 
     methods:{
       createEmployee(){
-        axios.post(route('employee.store'), {
+        axios.post(RouteService.getUrl(route('employee.store')), {
           name : this.employee.name,
           email : this.employee.email,
           join_date : this.employee.join_date,

@@ -1,8 +1,7 @@
 class RouteService  {
   getUrl(route){
-    var route = route.url().replace('http://'+'window.location.host', '');
-
-    return route;
+    var routes = route.url().replace('http://'+window.location.host, '');
+    return routes;
   }
 }
 

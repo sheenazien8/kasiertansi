@@ -5002,7 +5002,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.itemReadonly.name = this.changeItem.name;
       this.itemReadonly.id = this.changeItem.id;
-      axios.get(RouteService.getUrl(route('get.price', this.changeItem.id)), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('get.price', this.changeItem.id))).then(function (response) {
         _this6.itemReadonly.price = response.data.initial_price;
       }).catch(function (response) {});
     },
@@ -90625,8 +90625,8 @@ function () {
   _createClass(RouteService, [{
     key: "getUrl",
     value: function getUrl(route) {
-      var route = route.url().replace('http://' + 'window.location.host', '');
-      return route;
+      var routes = route.url().replace('http://' + window.location.host, '');
+      return routes;
     }
   }]);
 

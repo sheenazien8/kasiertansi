@@ -330,9 +330,7 @@
         getDetailPriceItems(){
           this.itemReadonly.name = this.changeItem.name
           this.itemReadonly.id = this.changeItem.id
-          axios.get(RouteService.getUrl(route('get.price', this.changeItem.id)),{
-
-          })
+          axios.get(RouteService.getUrl(route('get.price', this.changeItem.id)))
           .then((response) =>{
             this.itemReadonly.price = response.data.initial_price
           })

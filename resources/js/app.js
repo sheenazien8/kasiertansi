@@ -37,7 +37,7 @@ Vue.component('v-select', VSelect);
 Vue.component('v-paginate', Paginate)
 // Vue.component('datepicker', Datepicker)
 
-import App from './components/Dashboard.vue'
+import App from './components/Template.vue'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

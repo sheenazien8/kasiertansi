@@ -13,7 +13,7 @@ import ItemIndex from './../views/items/Index.vue'
 import ItemCreate from './../views/items/Create.vue'
 import ItemEdit from './../views/items/Edit.vue'
 import ItemEditStock from './../views/items/EditStock.vue'
-import Dashboard from './../components/Dashboard.vue'
+import Dashboard from './../views/dashboard/Dashboard.vue'
 import Login from './../views/auth/Login.vue'
 import EmployeeIndex from './../views/employees/Index.vue'
 import EmployeeCreate from './../views/employees/Create.vue'
@@ -49,6 +49,7 @@ const router = new VueRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
+            component: Dashboard
         },
         {
             path: '/category',

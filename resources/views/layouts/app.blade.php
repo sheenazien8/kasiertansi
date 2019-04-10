@@ -19,6 +19,12 @@
 </head>
 <body class="skin-default-dark fixed-layout">
   <div id="app">
+    <div class="preloader">
+      <div class="loader">
+          <div class="loader__figure"></div>
+          <h1 class="loader__label title-logo">Wellcome To Kasiertansi</h1>
+      </div>
+    </div>
     <notifications position="top center" style="padding: 20px;"></notifications>
     <navbar></navbar>
     <sidebar></sidebar>
@@ -52,5 +58,15 @@
   </script>
   @routes
   <script src="{{ asset('js/app.js') }}"></script>
+  <script>
+    $(document).ready(function() {
+      setTimeout(function(){
+          console.log($('.preloader'))
+        $('.preloader').fadeOut('slow', function() {
+          $(this).remove();
+        });
+       }, 2000);
+    });
+  </script>
 </body>
 </html>

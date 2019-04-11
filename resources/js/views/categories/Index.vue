@@ -1,5 +1,6 @@
 <template>
 <div>
+  <breadcrumb title="Category"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">

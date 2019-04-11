@@ -17,6 +17,7 @@ Route::post('register', 'API\UserController@register')->name('register');
 
 // Route::post('logout', 'API\UserController@logout')->name('logout');
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('get/data/dashboard', 'API\DashboardController@getDataDashboard')->name('get.data.dashboard');
     Route::get('details', 'API\UserController@details')->name('details');
     Route::resource('category', 'API\CategoryController');
     Route::resource('unit', 'API\UnitController');

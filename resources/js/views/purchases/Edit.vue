@@ -1,5 +1,6 @@
 <template>
   <div>
+    <breadcrumb title="Purchasing Edit"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form>

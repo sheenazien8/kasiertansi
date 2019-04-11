@@ -13,10 +13,13 @@ import VSelect from 'vue-select';
 import BootstrapVue from 'bootstrap-vue';
 import Paginate from 'vuejs-paginate';
 import RouteService from './services/RouteService';
+import TitleService from './services/TitleService';
+import Chart from 'chart.js';
 // import Datepicker from 'vuejs-datepicker';
 
 window.Vue = require('vue');
 window.RouteService = RouteService;
+window.TitleService = TitleService;
 Vue.prototype.$eventBus = new Vue();
 
 Vue.use(Notifications)
@@ -33,9 +36,9 @@ Vue.use(BootstrapVue)
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('navbar', require('./views/layouts/Navbar.vue').default);
 Vue.component('sidebar', require('./views/layouts/Sidebar.vue').default);
+Vue.component('breadcrumb', require('./views/layouts/Breadcumb.vue').default);
 Vue.component('v-select', VSelect);
 Vue.component('v-paginate', Paginate)
-// Vue.component('datepicker', Datepicker)
 
 import App from './components/Template.vue'
 

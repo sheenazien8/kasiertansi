@@ -19,37 +19,26 @@
 </head>
 <body class="skin-default-dark fixed-layout">
   <div id="app">
-    <div class="preloader">
-      <div class="loader">
-          <div class="loader__figure"></div>
-          <h1 class="loader__label title-logo">Wellcome To Kasiertansi</h1>
-      </div>
+  <notifications position="top center" style="padding: 20px;"></notifications>
+  <div class="preloader">
+    <div class="loader">
+        <div class="loader__figure"></div>
+        <p class="loader__label title-logo">Wellcome To Kasiertansi</p>
     </div>
-    <notifications position="top center" style="padding: 20px;"></notifications>
+  </div>
+  <div id="main-wrapper">
     <navbar></navbar>
     <sidebar></sidebar>
     <div class="page-wrapper">
-    <div class="container-fluid">
-        <div class="row page-titles">
-            <div class="col-md-5 align-self-center">
-                <h4 class="text-themecolor">Blank Page</h4>
-            </div>
-            <div class="col-md-7 align-self-center text-right">
-                <div class="d-flex justify-content-end align-items-center">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">Blank Page</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <app></app>
-            </div>
-        </div>
+      <div class="container-fluid">
+        <app></app>
+      </div>
     </div>
   </div>
+  <footer class="footer font-italic text-muted" style="font-size: 13px">
+      &copy; Kasiertansi 2019 zitech team;
+  </footer>
+
   </div>
   <script>
       window.Laravel = {!! json_encode([
@@ -61,11 +50,10 @@
   <script>
     $(document).ready(function() {
       setTimeout(function(){
-          console.log($('.preloader'))
         $('.preloader').fadeOut('slow', function() {
           $(this).remove();
         });
-       }, 2000);
+       }, 500);
     });
   </script>
 </body>

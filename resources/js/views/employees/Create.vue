@@ -1,5 +1,6 @@
 <template>
   <div>
+    <breadcrumb title="Employee Create"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form v-on:submit.prevent="createEmployee()">

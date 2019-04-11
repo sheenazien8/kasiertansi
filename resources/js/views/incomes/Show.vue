@@ -1,5 +1,6 @@
 <template>
   <div>
+    <breadcrumb title="Income Show"></breadcrumb>
     <div class="card">
       <div class="card-header">
         <h3 class="text-header">

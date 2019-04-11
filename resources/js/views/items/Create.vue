@@ -1,5 +1,6 @@
 <template>
   <div>
+    <breadcrumb title="Item Create"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form v-on:submit.prevent="createItems()">

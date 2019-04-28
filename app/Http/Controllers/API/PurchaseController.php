@@ -20,10 +20,11 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases = Purchase::where('user_id', auth()->id())
+                                ->with('supplier')
                                 ->orderBy('created_at','desc')
                                 ->paginate(5);
 
-        return response()->json($purchases->load('supplier'));
+        return response()->json($purchases);
     }
 
     /**

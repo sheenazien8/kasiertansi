@@ -1,11 +1,11 @@
 <template>
 <div>
-  <breadcrumb title="Income"></breadcrumb>
+  <breadcrumb title="Pendapatan"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Income List per Tanggal</h3>
+          <h3>Daftar Pendapatan per tanggal</h3>
         </div>
       </div>
     </div>
@@ -15,8 +15,8 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Date</th>
-              <th scope="col">Total Price</th>
+              <th scope="col">Tanggal</th>
+              <th scope="col">Pendapatan</th>
               <th scope="col"></th>
             </tr>
           </thead>

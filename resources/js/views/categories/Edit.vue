@@ -1,18 +1,18 @@
 <template>
   <div>
-    <breadcrumb title="Category Edit"></breadcrumb>
+    <breadcrumb title="Edit Kategori"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form v-on:submit.prevent="updateCategory()">
         <div class="form-group">
-            <label for="name" class="col-form-label">Name *</label>
+            <label for="name" class="col-form-label">Nama *</label>
             <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="category.name">
             <div v-if="errors.name">
               <span class="text-danger">{{ errors.name[0] }}</span>
             </div>
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Description</label>
+            <label for="name" class="col-form-label">Deskrisi</label>
             <textarea id="" class="form-control" :class="errors.description
             ? 'is-invalid' : ''"  v-model="category.description"></textarea>
             <div v-if="errors.description">
@@ -22,10 +22,10 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Simpan</button>
             </div>
             <div class="col-md-6">
-              <router-link :to="{ name: 'category' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
+              <router-link :to="{ name: 'category' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Batal</router-link>
             </div>
           </div>
         </div>

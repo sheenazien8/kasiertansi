@@ -1,33 +1,33 @@
 <template>
   <div>
-    <breadcrumb title="Purchasing Detail"></breadcrumb>
+    <breadcrumb title="Detail Pembelian"></breadcrumb>
     <div class="card">
       <div class="row">
         <div class="col-xl-12">
           <div class="card-header">
-            <h3>Puchasing Detail</h3>
+            <h3>Detail Pembelian</h3>
           </div>
         </div>
         <div class="col-md-12 col-xl-12">
           <div class="">
             <div class="col mt-2">
-              <b-button v-b-modal.modal-1 variant="primary"><i class="icon icon-plus"></i> Add New Item</b-button>
+              <b-button v-b-modal.modal-1 variant="primary"><i class="icon icon-plus"></i> Tambah Barang Baru</b-button>
             </div>
           </div>
           <div class="row p-2">
             <div class="col-md-3">
-              <v-select :onSearch="getItemsData" :options="items" label="name" value="id" placeholder="Type 2 Character"
+              <v-select :onSearch="getItemsData" :options="items" label="name" value="id" placeholder="Ketik 2 Huruf"
               v-model="changeItem" @change="getDetailPriceItems()"></v-select>
             </div>
             <div class="col-md-6">
               <input type="text" readonly v-model="itemReadonly.name" class="form-control col-md-3 ">
-              <input type="number" placeholder="Stock" v-model="itemReadonly.qty" class="form-control col-md-3 "
+              <input type="number" placeholder="Stok" v-model="itemReadonly.qty" class="form-control col-md-3 "
               @keyup="calculatePrice()">
-              <input type="text" placeholder="Price" min="1" readonly v-model="itemReadonly.price"
+              <input type="text" placeholder="Harga" min="1" readonly v-model="itemReadonly.price"
               class="form-control col-md-3 ">
               <b-button v-b-modal.modal-2 variant="primary" class=""
               :class="!itemReadonly.id ? 'cursor-disabled disabled' : ''"
-              v-model="itemReadonly.id">$ Set Price</b-button>
+              v-model="itemReadonly.id">$ Set Harga</b-button>
             </div>
             <div class="col-md-3">
               <input type="text" placeholder="Total Price" min="1" readonly v-model="itemReadonly.total_price"
@@ -47,11 +47,11 @@
             <thead class="thead-light">
               <tr>
                 <th>#</th>
-                <th>Code</th>
-                <th>Item</th>
+                <th>Kode</th>
+                <th>Barang</th>
                 <th>Qty</th>
-                <th>Price</th>
-                <th>Total Price</th>
+                <th>Harga</th>
+                <th>Total Harga</th>
                 <th></th>
               </tr>
             </thead>
@@ -61,8 +61,8 @@
                 <td>{{ purchasing.item.code }}</td>
                 <td>{{ purchasing.item.name }}</td>
                 <td>{{ purchasing.qty }}</td>
-                <td>{{ purchasing.item.price.initial_price }}</td>
-                <td>{{ purchasing.total_price }}</td>
+                <td>{{ formatPrice(purchasing.item.price.initial_price) }}</td>
+                <td>{{ formatPrice(purchasing.total_price) }}</td>
                 <td class="text-right pr-0">
                   <button @click="!purchase.is_paid ? deletePuchase(purchasing.id) : ''"
                   class="btn btn-danger btn-sm" title="Cancel"
@@ -75,7 +75,7 @@
                 <td colspan="2"></td>
                 <td><b>Total :</b></td>
                 <td colspan="2"><b>{{ purchasingData.length > 0 ? purchasingData[0].total_qty : 0 }}</b></td>
-                <td><b>{{ purchasingData.length > 0 ? purchasingData[0].total_price_value : 0 }}</b></td>
+                <td><b>{{ purchasingData.length > 0 ? formatPrice(purchasingData[0].total_price_value) : 0 }}</b></td>
                 <td></td>
               </tr>
             </tbody>
@@ -94,18 +94,18 @@
             <button class="btn btn-info btn-sm float-right mr-2"
             :class="!purchase.is_paid ? 'disabled cursor-disabled' : ''"
             @click="purchase.is_paid ? paidPurchasing(purchase.id) : ''">
-              <i class="icon icon-pencil"></i> Update
+              <i class="icon icon-pencil"></i> Rubah
             </button>
           </div>
         </div>
       </div>
-      <b-modal id="modal-1" size="lg" title="Create New Item" @ok="createItems()">
+      <b-modal id="modal-1" size="lg" title="Tambah Item Baru" @ok="createItems()">
           <div class="col-md-12">
           <div class="row">
             <div class="col-md-6">
               <form>
                 <div class="form-group">
-                  <label for="name" class="col-form-label">Category</label>
+                  <label for="name" class="col-form-label">Kategory</label>
                   <v-select :onSearch="getCreateDataItems" :options="categoriesData" label="name" placeholder="Type 2 Character"
                   :class="errors.category_id ? 'is-invalid' : ''" value="id" v-model="item.category_id"/>
                   <div v-if="errors.name">
@@ -119,7 +119,7 @@
                   v-model="item.unit_id"/>
                 </div>
                 <div class="form-group">
-                  <label for="name" class="col-form-label">Code</label>
+                  <label for="name" class="col-form-label">Kode</label>
                   <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''"
                   v-model="item.code">
                   <div v-if="errors.code">
@@ -127,7 +127,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="name" class="col-form-label">Name</label>
+                  <label for="name" class="col-form-label">Nama</label>
                   <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="item.name">
                   <div v-if="errors.name">
                     <span class="text-danger">{{ errors.name[0] }}</span>
@@ -144,25 +144,25 @@
                 </div>
               </div>
               <div class="form-group">
-                <label>Initial Price</label>
+                <label>Harga Beli</label>
                 <input type="number" class="form-control" v-model="price.initial_price">
               </div>
               <div class="form-group">
-                <label>Selling Price</label>
+                <label>Harga Jual</label>
                 <input type="number" class="form-control" v-model="price.selling_price">
               </div>
             </div>
           </div>
         </div>
       </b-modal>
-      <b-modal :id="this.itemReadonly.id ? 'modal-2' : ''" title="Set Price per Stock" @ok="setPrice()">
+      <b-modal :id="this.itemReadonly.id ? 'modal-2' : ''" title="Set Harga per Stok" @ok="setPrice()">
         <form>
           <div class="form-group">
-              <label>Initial Price</label>
+              <label>Harga Beli</label>
               <input type="number" class="form-control" v-model="price.initial_price">
           </div>
           <div class="form-group">
-              <label>Selling Price</label>
+              <label>Harga Jual</label>
               <input type="number" class="form-control" v-model="price.selling_price">
           </div>
         </form>
@@ -171,7 +171,9 @@
   </div>
 </template>
 <script>
+  import NumberMixins from './../../services/NumberMixins.js'
   export default {
+    mixins : [NumberMixins],
     data(){
       return{
         purchase :{

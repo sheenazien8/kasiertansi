@@ -1,11 +1,11 @@
 <template>
   <div>
-    <breadcrumb title="Item Create"></breadcrumb>
+    <breadcrumb title="Tambah Barang"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form v-on:submit.prevent="createItems()">
         <div class="form-group">
-            <label for="name" class="col-form-label">Category</label>
+            <label for="name" class="col-form-label">Kategori</label>
             <v-select :options="categoriesData" label="name" :class="errors.category_id ? 'is-invalid' : ''" value="id" v-model="item.category_id"/>
             <div v-if="errors.name">
               <span class="text-danger">{{ errors.category_id[0] }}</span>
@@ -16,14 +16,14 @@
             <v-select :options="unitsData" label="unit" value="id" selected="name" v-model="item.unit_id"/>
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Code</label>
+            <label for="name" class="col-form-label">Kode</label>
             <input id="name" type="text" class="form-control" :class="errors.code ? 'is-invalid' : ''" v-model="item.code">
         </div>
         <div v-if="errors.code">
           <span class="text-danger">{{ errors.code[0] }}</span>
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Name</label>
+            <label for="name" class="col-form-label">Nama</label>
             <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''" v-model="item.name">
         </div>
         <div v-if="errors.name">
@@ -32,10 +32,10 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <button type="submit" class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+              <button type="submit" class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Simpan</button>
             </div>
             <div class="col-md-6">
-              <router-link :to="{ name: 'item' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
+              <router-link :to="{ name: 'item' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Batal</router-link>
             </div>
           </div>
         </div>

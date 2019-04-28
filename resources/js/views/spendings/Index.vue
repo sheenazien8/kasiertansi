@@ -1,11 +1,11 @@
 <template>
 <div>
-  <breadcrumb title="Spending"></breadcrumb>
+  <breadcrumb title="Pengeluaran"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Spending List per Tanggal</h3>
+          <h3>Pengeluaran per Tanggal</h3>
         </div>
       </div>
     </div>
@@ -15,8 +15,8 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Date</th>
-              <th scope="col">Total Price</th>
+              <th scope="col">Tanggal</th>
+              <th scope="col">Total Harga</th>
               <th scope="col"></th>
             </tr>
           </thead>

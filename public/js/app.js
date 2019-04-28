@@ -1796,6 +1796,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../services/NumberMixins.js */ "./resources/js/services/NumberMixins.js");
 //
 //
 //
@@ -1900,7 +1901,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       itemsData: [],
@@ -2281,14 +2288,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2299,21 +2298,32 @@ __webpack_require__.r(__webpack_exports__);
     this.getCategory();
   },
   methods: {
-    getCategory: function getCategory() {
+    pagination: function pagination(page) {
       var _this = this;
 
+      axios.get(RouteService.getUrl(route('category.index', {
+        'page': page
+      }))).then(function (response) {
+        _this.categories = response.data;
+        console.log(_this.categories);
+      }).catch(function (response) {});
+      console.log(page);
+    },
+    getCategory: function getCategory() {
+      var _this2 = this;
+
       axios.get(RouteService.getUrl(route('category.index'))).then(function (response) {
-        _this.categories = response.data.data;
+        _this2.categories = response.data;
       }).catch(function (response) {});
     },
     deleteCategory: function deleteCategory(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(RouteService.getUrl(route('category.destroy', id))).then(function (response) {
-          _this2.getCategory();
+          _this3.getCategory();
         }).catch(function (response) {});
       }
     }
@@ -2331,6 +2341,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../services/NumberMixins.js */ "./resources/js/services/NumberMixins.js");
 //
 //
 //
@@ -2503,34 +2514,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
-      data: {}
+      data: {},
+      label: []
     };
   },
   mounted: function mounted() {
     this.getDataDashboard();
-    var ctx = document.getElementById('planet-chart');
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['October', 'November', 'December', 'January', 'February', 'March', 'April'],
-        datasets: [{
-          label: '# Seling Prosentase',
-          data: [95, 89, 47, 85, 22, 53, 68],
-          backgroundColor: 'rgba(116, 96, 238, 0.2)',
-          borderColor: '#7460EE'
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            stacked: true
-          }]
-        }
-      }
-    });
   },
   methods: {
     getDataDashboard: function getDataDashboard() {
@@ -2540,12 +2551,49 @@ __webpack_require__.r(__webpack_exports__);
         _this.data = response.data;
       }).catch(function (response) {});
     },
+    getIncome: function getIncome(day) {
+      var _this2 = this;
+
+      axios.post(RouteService.getUrl(route('get.data.income')), {
+        day: day
+      }).then(function (response) {
+        _this2.label = Object.keys(response.data);
+
+        _this2.createChart('id', Object.values(response.data));
+      }).catch(function (response) {});
+    },
     createChart: function createChart(chartId, chartData) {
-      var ctx = document.getElementById(chartId);
+      var ctx = document.getElementById('planet-chart');
       var myChart = new Chart(ctx, {
-        type: chartData.type,
-        data: chartData.data,
-        options: chartData.options
+        type: 'line',
+        data: {
+          labels: this.label,
+          datasets: [{
+            label: '# Seling Prosentase',
+            data: [20, 40, 69, 83, 55, 76, 88],
+            backgroundColor: 'rgba(116, 96, 238, 0.2)',
+            borderColor: '#7460EE'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: 0,
+                max: 100,
+                stepSize: 20
+              }
+            }]
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          }
+        },
+        tooltips: {
+          mode: 'index',
+          intersect: false
+        }
       });
     }
   }
@@ -2792,14 +2840,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2810,21 +2850,30 @@ __webpack_require__.r(__webpack_exports__);
     this.getEmployee();
   },
   methods: {
-    getEmployee: function getEmployee() {
+    pagination: function pagination(page) {
       var _this = this;
 
+      axios.get(RouteService.getUrl(route('employee.index', {
+        'page': page
+      }))).then(function (response) {
+        _this.employees = response.data;
+      }).catch(function (response) {});
+    },
+    getEmployee: function getEmployee() {
+      var _this2 = this;
+
       axios.get(RouteService.getUrl(route('employee.index'))).then(function (response) {
-        _this.employees = response.data.data;
+        _this2.employees = response.data;
       }).catch(function (response) {});
     },
     deleteEmployee: function deleteEmployee(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(RouteService.getUrl(route('employee.destroy', id))).then(function (response) {
-          _this2.getEmployee();
+          _this3.getEmployee();
         }).catch(function (response) {});
       }
     }
@@ -3671,6 +3720,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../services/NumberMixins.js */ "./resources/js/services/NumberMixins.js");
 //
 //
 //
@@ -3742,7 +3792,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       items: [],
@@ -3757,42 +3831,51 @@ __webpack_require__.r(__webpack_exports__);
     this.getItem();
   },
   methods: {
+    pagination: function pagination(page) {
+      var _this = this;
+
+      axios.get(RouteService.getUrl(route('items.index', {
+        'page': page
+      }))).then(function (response) {
+        _this.items = response.data;
+      }).catch(function (response) {});
+    },
     getId: function getId(id) {
       this.item_id = id;
     },
     setPrice: function setPrice() {
-      var _this = this;
+      var _this2 = this;
 
       axios.post(RouteService.getUrl(route('price.store', this.item_id)), {
         initial_price: this.price.initial_price,
         selling_price: this.price.selling_price
       }).then(function (response) {
-        _this.$notify({
+        _this2.$notify({
           type: 'success',
           text: 'Success Set Price'
         });
 
-        _this.price.initial_price = '';
-        _this.price.selling_price = '';
+        _this2.price.initial_price = '';
+        _this2.price.selling_price = '';
 
-        _this.getItem();
+        _this2.getItem();
       }).catch(function (response) {});
     },
     getItem: function getItem() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get(route('item.index'), {}).then(function (response) {
-        _this2.items = response.data;
+        _this3.items = response.data;
       }).catch(function (response) {});
     },
     deleteItem: function deleteItem(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(route('item.destroy', id), {}).then(function (response) {
-          _this3.getItem();
+          _this4.getItem();
         }).catch(function (response) {});
       }
     }
@@ -3992,8 +4075,7 @@ __webpack_require__.r(__webpack_exports__);
         name: this.shop.name,
         address: this.shop.address
       }).then(function (response) {
-        _this2.getUser(); // console.log(response)
-
+        _this2.getUser();
       }).catch(function (response) {});
     }
   }
@@ -4010,6 +4092,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -4122,45 +4206,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      employee: {
-        name: '',
-        email: '',
-        password: ''
+      role: {
+        name: ''
       },
-      employeesData: []
+      employees: [],
+      employee: {
+        data: ''
+      },
+      permissions: [],
+      permission: {
+        data: []
+      }
     };
   },
   mounted: function mounted() {
-    this.editEmployee(this.$route.params.id);
+    this.getRole(this.$route.params.id);
+    this.getEmployee();
+    this.getPermission();
   },
   methods: {
-    updateEmployee: function updateEmployee() {
+    updateRole: function updateRole() {
       var _this = this;
 
-      axios.put(RouteService.getUrl(route('employee.update', this.$route.params.id)), {
-        name: this.employee.name,
-        email: this.employee.email,
-        join_date: this.employee.join_date,
-        password: this.employee.password
+      axios.patch(RouteService.getUrl(route('role.update', this.$route.params.id)), {
+        permissions: this.permission.data,
+        employees: this.employee.data,
+        name: this.role.name
       }).then(function (response) {
-        _this.$router.replace('/employee');
-      }).catch(function (response) {
-        if (response.response.status == 500) alert('Something Goes Wrong');
-        _this.errors = response.response.data.errors;
-        console.log(response);
-      });
+        _this.$notify({
+          type: 'success',
+          text: 'Success Update Permission'
+        });
+
+        _this.$router.replace('/management_permission');
+      }).catch(function (response) {});
     },
-    editEmployee: function editEmployee(id) {
+    getRole: function getRole(id) {
       var _this2 = this;
 
-      axios.get(RouteService.getUrl(route('employee.edit', id))).then(function (response) {
-        _this2.employeesData = response.data;
-        _this2.employee.name = _this2.employeesData.name;
-        _this2.employee.join_date = _this2.employeesData.join_date;
-        _this2.employee.email = _this2.employeesData.user.email;
+      axios.get(RouteService.getUrl(route('role.name', id)), {}).then(function (response) {
+        _this2.role.name = response.data.name;
+        _this2.permission.data = response.data.permissions;
+        _this2.employee.data = response.data.employees;
+      }).catch(function (response) {});
+    },
+    getPermission: function getPermission() {
+      var _this3 = this;
+
+      axios.get(RouteService.getUrl(route('get.permission')), {}).then(function (response) {
+        _this3.permissions = response.data;
+      }).catch(function (response) {});
+    },
+    getEmployee: function getEmployee() {
+      var _this4 = this;
+
+      axios.get(RouteService.getUrl(route('get.employee')), {}).then(function (response) {
+        _this4.employees = response.data;
       }).catch(function (response) {});
     }
   }
@@ -4253,6 +4359,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4265,29 +4374,37 @@ __webpack_require__.r(__webpack_exports__);
     this.getRole();
   },
   methods: {
-    getRole: function getRole() {
+    pagination: function pagination(page) {
       var _this = this;
 
-      axios.get(RouteService.getUrl(route('role.index'))).then(function (response) {
+      axios.get(RouteService.getUrl(route('role.index', {
+        'page': page
+      }))).then(function (response) {
         _this.roles = response.data;
       }).catch(function (response) {});
     },
-    getRoleId: function getRoleId(id) {
+    getRole: function getRole() {
       var _this2 = this;
 
+      axios.get(RouteService.getUrl(route('role.index'))).then(function (response) {
+        _this2.roles = response.data;
+      }).catch(function (response) {});
+    },
+    getRoleId: function getRoleId(id) {
+      var _this3 = this;
+
       axios.get(RouteService.getUrl(route('get.role', id))).then(function (response) {
-        _this2.users = response.data;
-        console.log(_this2.users);
+        _this3.users = response.data;
       }).catch(function (response) {});
     },
     deleteRole: function deleteRole(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(RouteService.getUrl(route('role.destroy', id))).then(function (response) {
-          _this3.getRole();
+          _this4.getRole();
         }).catch(function (response) {});
       }
     }
@@ -4712,14 +4829,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4730,21 +4839,31 @@ __webpack_require__.r(__webpack_exports__);
     this.getPuchase();
   },
   methods: {
-    getPuchase: function getPuchase() {
+    pagination: function pagination(page) {
       var _this = this;
 
-      axios.get(RouteService.getUrl(route('purchase.index'))).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchase.index', {
+        'page': page
+      }))).then(function (response) {
         _this.purchases = response.data;
       }).catch(function (response) {});
     },
-    deletePuchase: function deletePuchase(id) {
+    getPuchase: function getPuchase() {
       var _this2 = this;
+
+      axios.get(RouteService.getUrl(route('purchase.index'))).then(function (response) {
+        _this2.purchases = response.data;
+        console.log(_this2.purchases);
+      }).catch(function (response) {});
+    },
+    deletePuchase: function deletePuchase(id) {
+      var _this3 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(RouteService.getUrl(route('purchase.destroy', id)), {}).then(function (response) {
-          _this2.getPuchase();
+          _this3.getPuchase();
         }).catch(function (response) {});
       }
     }
@@ -4961,6 +5080,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../services/NumberMixins.js */ "./resources/js/services/NumberMixins.js");
 //
 //
 //
@@ -5133,7 +5253,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       purchase: {
@@ -5493,6 +5615,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -6247,6 +6373,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6358,14 +6486,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6376,21 +6496,30 @@ __webpack_require__.r(__webpack_exports__);
     this.getSupplier();
   },
   methods: {
-    getSupplier: function getSupplier() {
+    pagination: function pagination(page) {
       var _this = this;
 
+      axios.get(RouteService.getUrl(route('supplier.index', {
+        'page': page
+      }))).then(function (response) {
+        _this.suppliers = response.data;
+      }).catch(function (response) {});
+    },
+    getSupplier: function getSupplier() {
+      var _this2 = this;
+
       axios.get(RouteService.getUrl(route('supplier.index'))).then(function (response) {
-        _this.suppliers = response.data.data;
+        _this2.suppliers = response.data;
       }).catch(function (response) {});
     },
     deleteSupplier: function deleteSupplier(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(route('supplier.destroy', id), {}).then(function (response) {
-          _this2.getSupplier();
+          _this3.getSupplier();
         }).catch(function (response) {});
       }
     }
@@ -6596,6 +6725,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6606,21 +6748,32 @@ __webpack_require__.r(__webpack_exports__);
     this.getUnit();
   },
   methods: {
-    getUnit: function getUnit() {
+    pagination: function pagination(page) {
       var _this = this;
 
-      axios.get(RouteService.getUrl(route('unit.index'))).then(function (response) {
+      axios.get(RouteService.getUrl(route('unit.index', {
+        'page': page
+      }))).then(function (response) {
         _this.units = response.data;
+        console.log(_this.units);
+      }).catch(function (response) {});
+      console.log(page);
+    },
+    getUnit: function getUnit() {
+      var _this2 = this;
+
+      axios.get(RouteService.getUrl(route('unit.index'))).then(function (response) {
+        _this2.units = response.data;
       }).catch(function (response) {});
     },
     deleteUnit: function deleteUnit(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
         axios.delete(RouteService.getUrl(route('unit.destroy', id))).then(function (response) {
-          _this2.getUnit();
+          _this3.getUnit();
         }).catch(function (response) {});
       }
     }
@@ -97920,7 +98073,11 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(_vm._s(transaction_detail.price))
+                              _vm._v(
+                                _vm._s(
+                                  _vm.formatPrice(transaction_detail.price)
+                                )
+                              )
                             ]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(transaction_detail.qty))]),
@@ -97962,7 +98119,7 @@ var render = function() {
                     staticClass: "form-control input-none text-right",
                     staticStyle: { "font-size": "20px" },
                     attrs: { type: "text", readonly: "" },
-                    domProps: { value: _vm.total_price }
+                    domProps: { value: _vm.formatPrice(_vm.total_price) }
                   })
                 ]),
                 _vm._v(" "),
@@ -98035,7 +98192,7 @@ var render = function() {
                   },
                   [
                     _c("i", { staticClass: "icon icon-check" }),
-                    _vm._v(" Simpan")
+                    _vm._v(" Simpan\n              ")
                   ]
                 ),
                 _vm._v(" "),
@@ -98051,7 +98208,7 @@ var render = function() {
                   },
                   [
                     _c("i", { staticClass: "icon icon-printer" }),
-                    _vm._v(" Simpan & Cetak")
+                    _vm._v(" Simpan & Cetak\n              ")
                   ]
                 )
               ])
@@ -98072,11 +98229,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Nama")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Code")]),
+        _c("th", [_vm._v("kode")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Price")]),
+        _c("th", [_vm._v("Harga")]),
         _vm._v(" "),
         _c("th", [_vm._v("Qty")]),
         _vm._v(" "),
@@ -98088,19 +98245,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", [_c("b", [_vm._v("Must Pay!")])])
+    return _c("label", [_c("b", [_vm._v("Yang Harus Dibayar!")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", [_c("b", [_vm._v("Payment")])])
+    return _c("label", [_c("b", [_vm._v("Pembayan")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", [_c("b", [_vm._v("Change")])])
+    return _c("label", [_c("b", [_vm._v("Kembalian")])])
   }
 ]
 render._withStripped = true
@@ -98127,7 +98284,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Category Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Kategori" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -98146,7 +98303,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -98185,7 +98342,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Description")]
+                  [_vm._v("Deskrisi")]
                 ),
                 _vm._v(" "),
                 _c("textarea", {
@@ -98235,7 +98392,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "category" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -98262,7 +98419,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -98291,7 +98448,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Category Edit" } }),
+      _c("breadcrumb", { attrs: { title: "Edit Kategori" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -98310,7 +98467,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -98349,7 +98506,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Description")]
+                  [_vm._v("Deskrisi")]
                 ),
                 _vm._v(" "),
                 _c("textarea", {
@@ -98399,7 +98556,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "category" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -98426,7 +98583,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -98455,7 +98612,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Category" } }),
+      _c("breadcrumb", { attrs: { title: "Kategori" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "row" }, [
@@ -98464,7 +98621,7 @@ var render = function() {
               "div",
               { staticClass: "card-header" },
               [
-                _c("h3", [_vm._v("Category List")]),
+                _c("h3", [_vm._v("Daftar Kategori")]),
                 _vm._v(" "),
                 _c(
                   "router-link",
@@ -98487,7 +98644,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.categories, function(category, index) {
+                _vm._l(_vm.categories.data, function(category, index) {
                   return _c("tr", [
                     _c("th", { attrs: { scope: "row" } }, [
                       _vm._v(_vm._s(++index))
@@ -98505,7 +98662,7 @@ var render = function() {
                               "btn btn-sm p-1 btn-danger float-right mr-2",
                             on: {
                               click: function($event) {
-                                return _vm.deleteCategory(category.id)
+                                return _vm.deletecategory(category.id)
                               }
                             }
                           },
@@ -98537,10 +98694,31 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("hr")
-      ]),
-      _vm._v(" "),
-      _vm._m(1)
+        _c("hr"),
+        _vm._v(" "),
+        _vm.categories.last_page > 1
+          ? _c(
+              "div",
+              { staticClass: "d-flex justify-content-center" },
+              [
+                _c("v-paginate", {
+                  attrs: {
+                    "page-count": _vm.categories.last_page,
+                    "click-handler": _vm.pagination,
+                    "prev-text": "&laquo;",
+                    "next-text": "&raquo;",
+                    "prev-link-class": "page-link",
+                    "next-link-class": "page-link",
+                    "container-class": "pagination",
+                    "page-class": "page-item",
+                    "page-link-class": "page-link"
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
+      ])
     ],
     1
   )
@@ -98554,67 +98732,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nama")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center" }, [
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Previous" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("1")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("2")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("3")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Next" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
-              ]
-            )
-          ])
-        ])
       ])
     ])
   }
@@ -98663,12 +98783,12 @@ var render = function() {
                           staticClass: "count",
                           staticStyle: { "font-size": "1.5em" }
                         },
-                        [_vm._v(_vm._s(_vm.data.incomes))]
+                        [_vm._v(_vm._s(_vm.formatPrice(_vm.data.incomes)))]
                       )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "stat-heading" }, [
-                      _vm._v("Income Today")
+                      _vm._v("Pendapatan Hari Ini")
                     ])
                   ])
                 ])
@@ -98697,7 +98817,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "stat-heading" }, [
-                      _vm._v("Items Sold")
+                      _vm._v("Barang Terjual")
                     ])
                   ])
                 ])
@@ -98728,7 +98848,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "stat-heading" }, [
-                      _vm._v("Employees")
+                      _vm._v("Karyawan")
                     ])
                   ])
                 ])
@@ -98738,19 +98858,79 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(4),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-lg-8" }, [
+          _c("div", { staticClass: "card oh" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "div",
+                { staticClass: "d-flex m-b-30 align-items-center no-block" },
+                [
+                  _c("h5", { staticClass: "card-title " }, [
+                    _vm._v("Penjualan Tahunan")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "ml-auto" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        attrs: { id: "oneweek" },
+                        on: {
+                          click: function($event) {
+                            return _vm.getIncome("7")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                         1 Minggu\n                       "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-primary",
+                        attrs: { id: "oneweek" },
+                        on: {
+                          click: function($event) {
+                            return _vm.getIncome("30")
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                         Bulan\n                       "
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("canvas", { attrs: { id: "planet-chart" } })
+            ]),
+            _vm._v(" "),
+            _vm._m(4)
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(5)
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-6" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(5),
+            _vm._m(6),
             _vm._v(" "),
             _c(
               "ul",
               { staticClass: "feeds p-b-20" },
               _vm._l(_vm.data.invoice_number, function(invoice) {
                 return _c("li", [
-                  _vm._m(6, true),
+                  _vm._m(7, true),
                   _vm._v(" " + _vm._s(invoice.invoice_number) + " "),
                   _c("span", { staticClass: "text-muted" }, [
                     _vm._v(_vm._s(invoice.created_at))
@@ -98808,9 +98988,7 @@ var staticRenderFns = [
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "stat-heading" }, [
-                  _vm._v("Distributary")
-                ])
+                _c("div", { staticClass: "stat-heading" }, [_vm._v("Cabang")])
               ])
             ])
           ])
@@ -98830,178 +99008,158 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-8" }, [
-        _c("div", { staticClass: "card oh" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c(
-              "div",
-              { staticClass: "d-flex m-b-30 align-items-center no-block" },
-              [
-                _c("h5", { staticClass: "card-title " }, [
-                  _vm._v("Yearly Sales")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "ml-auto" })
-              ]
-            ),
-            _vm._v(" "),
-            _c("canvas", { attrs: { id: "planet-chart" } })
+    return _c("div", { staticClass: "card-body bg-light" }, [
+      _c("div", { staticClass: "row text-center m-b-20" }, [
+        _c("div", { staticClass: "col-lg-4 col-md-4 m-t-20" }, [
+          _c("h2", { staticClass: "m-b-0 font-light" }, [_vm._v("6000")]),
+          _vm._v(" "),
+          _c("span", { staticClass: "text-muted" }, [_vm._v("Total sale")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-4 col-md-4 m-t-20" }, [
+          _c("h2", { staticClass: "m-b-0 font-light" }, [_vm._v("4000")]),
+          _vm._v(" "),
+          _c("span", { staticClass: "text-muted" }, [_vm._v("Iphone")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-4 col-md-4 m-t-20" }, [
+          _c("h2", { staticClass: "m-b-0 font-light" }, [_vm._v("2000")]),
+          _vm._v(" "),
+          _c("span", { staticClass: "text-muted" }, [_vm._v("Ipad")])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-4" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("h5", { staticClass: "card-title" }, [_vm._v("Today's Schedule")]),
+          _vm._v(" "),
+          _c("h6", { staticClass: "card-subtitle" }, [
+            _vm._v("check out your daily schedule")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body bg-light" }, [
-            _c("div", { staticClass: "row text-center m-b-20" }, [
-              _c("div", { staticClass: "col-lg-4 col-md-4 m-t-20" }, [
-                _c("h2", { staticClass: "m-b-0 font-light" }, [_vm._v("6000")]),
-                _c("span", { staticClass: "text-muted" }, [
-                  _vm._v("Total sale")
+          _c("div", { staticClass: "steamline m-t-40" }, [
+            _c("div", { staticClass: "sl-item" }, [
+              _c("div", { staticClass: "sl-left bg-success" }, [
+                _c("i", { staticClass: "fa fa-user" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "sl-right" }, [
+                _c("div", { staticClass: "font-medium" }, [
+                  _vm._v("Meeting today "),
+                  _c("span", { staticClass: "sl-date" }, [_vm._v(" 5pm")])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "desc" }, [
+                  _vm._v("you can write anything ")
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-lg-4 col-md-4 m-t-20" }, [
-                _c("h2", { staticClass: "m-b-0 font-light" }, [_vm._v("4000")]),
-                _c("span", { staticClass: "text-muted" }, [_vm._v("Iphone")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-lg-4 col-md-4 m-t-20" }, [
-                _c("h2", { staticClass: "m-b-0 font-light" }, [_vm._v("2000")]),
-                _c("span", { staticClass: "text-muted" }, [_vm._v("Ipad")])
               ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-4" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h5", { staticClass: "card-title" }, [
-              _vm._v("Today's Schedule")
             ]),
             _vm._v(" "),
-            _c("h6", { staticClass: "card-subtitle" }, [
-              _vm._v("check out your daily schedule")
+            _c("div", { staticClass: "sl-item" }, [
+              _c("div", { staticClass: "sl-left bg-info" }, [
+                _c("i", { staticClass: "fa fa-image" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "sl-right" }, [
+                _c("div", { staticClass: "font-medium" }, [
+                  _vm._v("Send documents to Clark")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "desc" }, [
+                  _vm._v("Lorem Ipsum is simply ")
+                ])
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "steamline m-t-40" }, [
-              _c("div", { staticClass: "sl-item" }, [
-                _c("div", { staticClass: "sl-left bg-success" }, [
-                  _c("i", { staticClass: "fa fa-user" })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "sl-right" }, [
-                  _c("div", { staticClass: "font-medium" }, [
-                    _vm._v("Meeting today "),
-                    _c("span", { staticClass: "sl-date" }, [_vm._v(" 5pm")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "desc" }, [
-                    _vm._v("you can write anything ")
-                  ])
-                ])
+            _c("div", { staticClass: "sl-item" }, [
+              _c("div", { staticClass: "sl-left" }, [
+                _c("img", {
+                  staticClass: "img-circle",
+                  attrs: { alt: "user", src: "" }
+                })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "sl-item" }, [
-                _c("div", { staticClass: "sl-left bg-info" }, [
-                  _c("i", { staticClass: "fa fa-image" })
+              _c("div", { staticClass: "sl-right" }, [
+                _c("div", { staticClass: "font-medium" }, [
+                  _vm._v("John Doe "),
+                  _c("span", { staticClass: "sl-date" }, [_vm._v(" 5pm")])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "sl-right" }, [
-                  _c("div", { staticClass: "font-medium" }, [
-                    _vm._v("Send documents to Clark")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "desc" }, [
-                    _vm._v("Lorem Ipsum is simply ")
-                  ])
+                _c("div", { staticClass: "desc" }, [
+                  _vm._v("Call today with gohn doe ")
                 ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "sl-item" }, [
+              _c("div", { staticClass: "sl-left" }, [
+                _c("img", {
+                  staticClass: "img-circle",
+                  attrs: { alt: "user", src: "" }
+                })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "sl-item" }, [
-                _c("div", { staticClass: "sl-left" }, [
-                  _c("img", {
-                    staticClass: "img-circle",
-                    attrs: { alt: "user", src: "" }
-                  })
+              _c("div", { staticClass: "sl-right" }, [
+                _c("div", { staticClass: "font-medium" }, [
+                  _vm._v("Go to the Doctor "),
+                  _c("span", { staticClass: "sl-date" }, [
+                    _vm._v("5 minutes ago")
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "sl-right" }, [
-                  _c("div", { staticClass: "font-medium" }, [
-                    _vm._v("John Doe "),
-                    _c("span", { staticClass: "sl-date" }, [_vm._v(" 5pm")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "desc" }, [
-                    _vm._v("Call today with gohn doe ")
-                  ])
+                _c("div", { staticClass: "desc" }, [
+                  _vm._v("Contrary to popular belief")
                 ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "sl-item" }, [
+              _c("div", { staticClass: "sl-left" }, [
+                _c("img", {
+                  staticClass: "img-circle",
+                  attrs: { alt: "user", src: "" }
+                })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "sl-item" }, [
-                _c("div", { staticClass: "sl-left" }, [
-                  _c("img", {
-                    staticClass: "img-circle",
-                    attrs: { alt: "user", src: "" }
-                  })
+              _c("div", { staticClass: "sl-right" }, [
+                _c("div", [
+                  _c("a", { attrs: { href: "#" } }, [_vm._v("Tiger Sroff")]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "sl-date" }, [
+                    _vm._v("5 minutes ago")
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "sl-right" }, [
-                  _c("div", { staticClass: "font-medium" }, [
-                    _vm._v("Go to the Doctor "),
-                    _c("span", { staticClass: "sl-date" }, [
-                      _vm._v("5 minutes ago")
-                    ])
-                  ]),
+                _c("div", { staticClass: "desc" }, [
+                  _vm._v(
+                    "Approve meeting with tiger\n                               "
+                  ),
+                  _c("br"),
                   _vm._v(" "),
-                  _c("div", { staticClass: "desc" }, [
-                    _vm._v("Contrary to popular belief")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "sl-item" }, [
-                _c("div", { staticClass: "sl-left" }, [
-                  _c("img", {
-                    staticClass: "img-circle",
-                    attrs: { alt: "user", src: "" }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "sl-right" }, [
-                  _c("div", [
-                    _c("a", { attrs: { href: "#" } }, [_vm._v("Tiger Sroff")]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "sl-date" }, [
-                      _vm._v("5 minutes ago")
-                    ])
-                  ]),
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "btn m-t-10 m-r-5 btn-rounded btn-outline-success",
+                      attrs: { href: "javascript:void(0)" }
+                    },
+                    [_vm._v("Apporve")]
+                  ),
                   _vm._v(" "),
-                  _c("div", { staticClass: "desc" }, [
-                    _vm._v(
-                      "Approve meeting with tiger\n                               "
-                    ),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "btn m-t-10 m-r-5 btn-rounded btn-outline-success",
-                        attrs: { href: "javascript:void(0)" }
-                      },
-                      [_vm._v("Apporve")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "btn m-t-10 btn-rounded btn-outline-danger",
-                        attrs: { href: "javascript:void(0)" }
-                      },
-                      [_vm._v("Refuse")]
-                    )
-                  ])
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn m-t-10 btn-rounded btn-outline-danger",
+                      attrs: { href: "javascript:void(0)" }
+                    },
+                    [_vm._v("Refuse")]
+                  )
                 ])
               ])
             ])
@@ -99015,10 +99173,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-body" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Invoice")]),
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Faktur")]),
       _vm._v(" "),
       _c("h6", { staticClass: "card-subtitle" }, [
-        _vm._v("You can see the latest invoice")
+        _vm._v("Anda dapat melihat faktur terbaru")
       ])
     ])
   },
@@ -99055,7 +99213,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Employee Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Karyawan" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -99074,7 +99232,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -99134,7 +99292,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Join Date *")]
+                  [_vm._v("Tanggal Gabung *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -99168,7 +99326,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("span", { staticStyle: { "font-size": "11px" } }, [
-                  _vm._v("empty to use default password(12345678)")
+                  _vm._v("kosongi untuk menggunakan password default(12345678)")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -99209,7 +99367,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "employee" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -99236,7 +99394,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan ")]
       )
     ])
   }
@@ -99265,7 +99423,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Employee Edit" } }),
+      _c("breadcrumb", { attrs: { title: "Edit Karyawan" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -99284,7 +99442,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -99344,7 +99502,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Join Date *")]
+                  [_vm._v("Tanggal Gabung *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -99378,7 +99536,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("span", { staticStyle: { "font-size": "11px" } }, [
-                  _vm._v("empty to use default password(12345678)")
+                  _vm._v("kosongi untuk menggunakan password default(12345678)")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -99475,7 +99633,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Employee" } }),
+      _c("breadcrumb", { attrs: { title: "Karyawan" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "row" }, [
@@ -99484,7 +99642,7 @@ var render = function() {
               "div",
               { staticClass: "card-header" },
               [
-                _c("h3", [_vm._v("Employee List")]),
+                _c("h3", [_vm._v("Daftar Karyawan")]),
                 _vm._v(" "),
                 _c(
                   "router-link",
@@ -99509,7 +99667,7 @@ var render = function() {
                 [
                   _vm._m(0),
                   _vm._v(" "),
-                  _vm._l(_vm.employees, function(employee, index) {
+                  _vm._l(_vm.employees.data, function(employee, index) {
                     return _c("tr", [
                       _c("td", [_vm._v(_vm._s(++index))]),
                       _vm._v(" "),
@@ -99560,7 +99718,28 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _vm.employees.last_page > 1
+          ? _c(
+              "div",
+              { staticClass: "d-flex justify-content-center" },
+              [
+                _c("v-paginate", {
+                  attrs: {
+                    "page-count": _vm.employees.last_page,
+                    "click-handler": _vm.pagination,
+                    "prev-text": "&laquo;",
+                    "next-text": "&raquo;",
+                    "prev-link-class": "page-link",
+                    "next-link-class": "page-link",
+                    "container-class": "pagination",
+                    "page-class": "page-item",
+                    "page-link-class": "page-link"
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
       ])
     ],
     1
@@ -99574,69 +99753,11 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("#")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Name")]),
+      _c("th", [_vm._v("Nama")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Join Date")]),
+      _c("th", [_vm._v("Tanggal Gabung")]),
       _vm._v(" "),
       _c("th")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center" }, [
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Previous" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("1")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("2")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("3")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Next" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
-              ]
-            )
-          ])
-        ])
-      ])
     ])
   }
 ]
@@ -100353,7 +100474,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Income" } }),
+      _c("breadcrumb", { attrs: { title: "Pendapatan" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _vm._m(0),
@@ -100420,7 +100541,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-xl-12" }, [
         _c("div", { staticClass: "card-header" }, [
-          _c("h3", [_vm._v("Income List per Tanggal")])
+          _c("h3", [_vm._v("Daftar Pendapatan per tanggal")])
         ])
       ])
     ])
@@ -100433,9 +100554,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Tanggal")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Price")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Pendapatan")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
@@ -100702,7 +100823,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Item Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Barang" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -100724,7 +100845,7 @@ var render = function() {
                   _c(
                     "label",
                     { staticClass: "col-form-label", attrs: { for: "name" } },
-                    [_vm._v("Category")]
+                    [_vm._v("Kategori")]
                   ),
                   _vm._v(" "),
                   _c("v-select", {
@@ -100787,7 +100908,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Code")]
+                  [_vm._v("Kode")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -100826,7 +100947,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name")]
+                  [_vm._v("Nama")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -100876,7 +100997,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "item" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -100904,7 +101025,7 @@ var staticRenderFns = [
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary",
           attrs: { type: "submit" }
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -100933,7 +101054,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Item Edit" } }),
+      _c("breadcrumb", { attrs: { title: "Edit Barang" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -100955,7 +101076,7 @@ var render = function() {
                   _c(
                     "label",
                     { staticClass: "col-form-label", attrs: { for: "name" } },
-                    [_vm._v("Category")]
+                    [_vm._v("Kategori")]
                   ),
                   _vm._v(" "),
                   _c("v-select", {
@@ -101018,7 +101139,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name")]
+                  [_vm._v("Nama")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -101057,7 +101178,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Code")]
+                  [_vm._v("Kode")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -101107,7 +101228,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "item" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -101135,7 +101256,7 @@ var staticRenderFns = [
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary",
           attrs: { type: "submit" }
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -101280,7 +101401,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Item" } }),
+      _c("breadcrumb", { attrs: { title: "Barang" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "row" }, [
@@ -101289,7 +101410,7 @@ var render = function() {
               "h3",
               { staticClass: "card-header" },
               [
-                _vm._v("\n          Item List\n          "),
+                _vm._v("\n          Daftar Barang\n          "),
                 _c(
                   "router-link",
                   {
@@ -101328,7 +101449,7 @@ var render = function() {
                       { class: item.current_stock <= 0 ? "bg-danger" : "" },
                       [
                         _vm._v(
-                          "\n              " +
+                          "\n                " +
                             _vm._s(
                               item.current_stock != 0 && item.current_stock
                                 ? item.current_stock
@@ -101342,7 +101463,11 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         "\n                  " +
-                          _vm._s(item.price ? item.price.initial_price : "") +
+                          _vm._s(
+                            item.price
+                              ? _vm.formatPrice(item.price.initial_price)
+                              : ""
+                          ) +
                           "\n              "
                       )
                     ]),
@@ -101350,7 +101475,11 @@ var render = function() {
                     _c("td", [
                       _vm._v(
                         "\n                  " +
-                          _vm._s(item.price ? item.price.selling_price : "") +
+                          _vm._s(
+                            item.price
+                              ? _vm.formatPrice(item.price.initial_price)
+                              : ""
+                          ) +
                           "\n              "
                       )
                     ]),
@@ -101414,7 +101543,30 @@ var render = function() {
                 0
               )
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.items.last_page > 1
+            ? _c(
+                "div",
+                { staticClass: "d-flex justify-content-center" },
+                [
+                  _c("v-paginate", {
+                    attrs: {
+                      "page-count": _vm.items.last_page,
+                      "click-handler": _vm.pagination,
+                      "prev-text": "&laquo;",
+                      "next-text": "&raquo;",
+                      "prev-link-class": "page-link",
+                      "next-link-class": "page-link",
+                      "container-class": "pagination",
+                      "page-class": "page-item",
+                      "page-link-class": "page-link"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
@@ -101511,17 +101663,17 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nama")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Category")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Kategori")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Code")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Kode")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Current Stock")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Stock Terakhir")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Initial Prices")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Harga Beli")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Selling Prices")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Harga Jual")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
@@ -101725,7 +101877,7 @@ var render = function() {
                                       staticClass: "icon icon-settings"
                                     }),
                                     _vm._v(
-                                      " Setting\n                                    "
+                                      " Pengaturan\n                                    "
                                     )
                                   ]
                                 )
@@ -101745,7 +101897,7 @@ var render = function() {
                                   [
                                     _c("i", { staticClass: "icon icon-user" }),
                                     _vm._v(
-                                      " Profile\n                                    "
+                                      " Profil\n                                    "
                                     )
                                   ]
                                 )
@@ -101995,7 +102147,7 @@ var render = function() {
                           attrs: { to: { name: "purchase" } }
                         },
                         [
-                          _vm._v("Purchase Order "),
+                          _vm._v("\n                          PO Pembelian "),
                           _c("span", { staticClass: "bg-square float-right" }, [
                             _vm._v("PO")
                           ])
@@ -102031,7 +102183,7 @@ var render = function() {
                           attrs: { to: { name: "cashier" } }
                         },
                         [
-                          _vm._v("Cashier\n                          "),
+                          _vm._v("Kasir\n                          "),
                           _c("span", { staticClass: "bg-square float-right" }, [
                             _vm._v("CS")
                           ])
@@ -102067,7 +102219,7 @@ var render = function() {
                           attrs: { to: { name: "category" } }
                         },
                         [
-                          _vm._v("Catergory "),
+                          _vm._v("\n                            Kategori "),
                           _c("i", {
                             staticClass: "bg-square icon icon-pie-chart"
                           })
@@ -102088,7 +102240,7 @@ var render = function() {
                           attrs: { to: { name: "unit" } }
                         },
                         [
-                          _vm._v("Unit "),
+                          _vm._v("\n                            Unit "),
                           _c("i", { staticClass: "bg-square icon icon-login" })
                         ]
                       )
@@ -102107,7 +102259,7 @@ var render = function() {
                           attrs: { to: { name: "item" } }
                         },
                         [
-                          _vm._v("Item "),
+                          _vm._v("\n                            Barang "),
                           _c("i", {
                             staticClass: "bg-square icon icon-paper-clip"
                           })
@@ -102128,7 +102280,7 @@ var render = function() {
                           attrs: { to: { name: "supplier" } }
                         },
                         [
-                          _vm._v("Supplier "),
+                          _vm._v("\n                            Supplier "),
                           _c("i", {
                             staticClass: "bg-square icon icon-directions"
                           })
@@ -102164,7 +102316,7 @@ var render = function() {
                           attrs: { to: { name: "employee" } }
                         },
                         [
-                          _vm._v("Employee "),
+                          _vm._v("\n                          Karyawan "),
                           _c("i", {
                             staticClass: "bg-square icon icon-user-follow"
                           })
@@ -102185,7 +102337,9 @@ var render = function() {
                           attrs: { to: { name: "management_permission" } }
                         },
                         [
-                          _vm._v("Management Pemission "),
+                          _vm._v(
+                            "\n                          Managemen Permisi "
+                          ),
                           _c("i", {
                             staticClass: "bg-square icon icon-graduation"
                           })
@@ -102221,7 +102375,9 @@ var render = function() {
                           attrs: { to: { name: "spending" } }
                         },
                         [
-                          _vm._v("Spendings Report "),
+                          _vm._v(
+                            "\n                          Laporan Pengeluaran "
+                          ),
                           _c("i", { staticClass: "bg-square icon icon-doc" })
                         ]
                       )
@@ -102240,7 +102396,9 @@ var render = function() {
                           attrs: { to: { name: "income" } }
                         },
                         [
-                          _vm._v("Income Report "),
+                          _vm._v(
+                            "\n                          Laporan Pendapatan "
+                          ),
                           _c("i", { staticClass: "bg-square icon icon-doc" })
                         ]
                       )
@@ -102308,7 +102466,7 @@ var staticRenderFns = [
         }
       },
       [
-        _vm._v("\n                  Purchasing "),
+        _vm._v("\n                  Pembelian "),
         _c("span", [_c("i", { staticClass: "bg-square icon icon-bag" })])
       ]
     )
@@ -102331,7 +102489,7 @@ var staticRenderFns = [
         }
       },
       [
-        _vm._v("\n                  Selling "),
+        _vm._v("\n                  Penjualan "),
         _c("span", [_c("i", { staticClass: "bg-square icon icon-handbag" })])
       ]
     )
@@ -102354,7 +102512,7 @@ var staticRenderFns = [
         }
       },
       [
-        _vm._v("\n                    Master "),
+        _vm._v("\n                    Data Master "),
         _c("i", { staticClass: "bg-square icon icon-layers" })
       ]
     )
@@ -102377,7 +102535,7 @@ var staticRenderFns = [
         }
       },
       [
-        _vm._v("\n                    User "),
+        _vm._v("\n                    Pengguna "),
         _c("i", { staticClass: "bg-square icon icon-people" })
       ]
     )
@@ -102400,7 +102558,7 @@ var staticRenderFns = [
         }
       },
       [
-        _vm._v("\n                    Report "),
+        _vm._v("\n                    Laporan "),
         _c("i", { staticClass: "bg-square icon icon-docs" })
       ]
     )
@@ -102430,7 +102588,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Management Permission Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Jabtan" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -102449,7 +102607,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -102479,7 +102637,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Description")]
+                  [_vm._v("Deskripsi")]
                 ),
                 _vm._v(" "),
                 _c("textarea", {
@@ -102519,7 +102677,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "role" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("\n              Batal\n            ")]
                       )
                     ],
                     1
@@ -102546,7 +102704,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -102575,7 +102733,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Management Permission Edit" } }),
+      _c("breadcrumb", { attrs: { title: "Rubah Permisi" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -102585,7 +102743,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.updateEmployee()
+                  return _vm.updateRole($event)
                 }
               }
             },
@@ -102594,7 +102752,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -102602,117 +102760,83 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.employee.name,
-                      expression: "employee.name"
+                      value: _vm.role.name,
+                      expression: "role.name"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { id: "name", type: "text" },
-                  domProps: { value: _vm.employee.name },
+                  domProps: { value: _vm.role.name },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.employee, "name", $event.target.value)
+                      _vm.$set(_vm.role, "name", $event.target.value)
                     }
                   }
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Email *")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.employee.email,
-                      expression: "employee.email"
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "col-form-label", attrs: { for: "" } },
+                    [_vm._v("Jabatan")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-select", {
+                    attrs: {
+                      options: _vm.permissions,
+                      label: "display_name",
+                      multiple: "",
+                      "max-height": "100px",
+                      placeholder: ""
+                    },
+                    model: {
+                      value: _vm.permission.data,
+                      callback: function($$v) {
+                        _vm.$set(_vm.permission, "data", $$v)
+                      },
+                      expression: "permission.data"
                     }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { id: "name", type: "email" },
-                  domProps: { value: _vm.employee.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.employee, "email", $event.target.value)
-                    }
-                  }
-                })
-              ]),
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Join Date *")]
-                ),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.employee.join_date,
-                      expression: "employee.join_date"
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "col-form-label", attrs: { for: "" } },
+                    [_vm._v("Karyawan")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-select", {
+                    attrs: {
+                      options: _vm.employees,
+                      label: "name",
+                      multiple: "",
+                      "max-height": "100px",
+                      placeholder: ""
+                    },
+                    model: {
+                      value: _vm.employee.data,
+                      callback: function($$v) {
+                        _vm.$set(_vm.employee, "data", $$v)
+                      },
+                      expression: "employee.data"
                     }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { id: "name", type: "date" },
-                  domProps: { value: _vm.employee.join_date },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.employee, "join_date", $event.target.value)
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "label",
-                  { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Password")]
-                ),
-                _vm._v(" "),
-                _c("span", { staticStyle: { "font-size": "11px" } }, [
-                  _vm._v("empty to use default password(12345678)")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.employee.password,
-                      expression: "employee.password"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { id: "name", type: "password" },
-                  domProps: { value: _vm.employee.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.employee, "password", $event.target.value)
-                    }
-                  }
-                })
-              ]),
+                  })
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("div", { staticClass: "row" }, [
@@ -102727,9 +102851,9 @@ var render = function() {
                         {
                           staticClass:
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
-                          attrs: { to: { name: "employee" } }
+                          attrs: { to: { name: "management_permission" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal\n            ")]
                       )
                     ],
                     1
@@ -102756,7 +102880,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -102785,7 +102909,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Management Permission" } }),
+      _c("breadcrumb", { attrs: { title: "Managemen Permisi" } }),
       _vm._v(" "),
       _c(
         "div",
@@ -102797,7 +102921,7 @@ var render = function() {
                 "div",
                 { staticClass: "card-header" },
                 [
-                  _c("h3", [_vm._v("Role List")]),
+                  _c("h3", [_vm._v("Daftar Jabtan")]),
                   _vm._v(" "),
                   _c(
                     "router-link",
@@ -102822,7 +102946,7 @@ var render = function() {
                   [
                     _vm._m(0),
                     _vm._v(" "),
-                    _vm._l(_vm.roles, function(role, index) {
+                    _vm._l(_vm.roles.data, function(role, index) {
                       return _c("tr", [
                         _c("td", [_vm._v(_vm._s(++index))]),
                         _vm._v(" "),
@@ -102896,12 +103020,7 @@ var render = function() {
             "b-modal",
             {
               staticClass: "p-0",
-              attrs: {
-                id: "modal-1",
-                size: "lg",
-                title: "List User",
-                "hide-footer": "true"
-              }
+              attrs: { id: "modal-1", size: "lg", title: "List User" }
             },
             [
               _c("table", { staticClass: "table" }, [
@@ -102909,7 +103028,9 @@ var render = function() {
                   _c("tr", [
                     _c("th", [_vm._v("Name")]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("Email")])
+                    _c("th", [_vm._v("Email")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Join Date")])
                   ])
                 ]),
                 _vm._v(" "),
@@ -102917,9 +103038,11 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.users, function(user, index) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(user.email))]),
+                      _c("td", [_vm._v(_vm._s(user.name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(user.userable.name))])
+                      _c("td", [_vm._v(_vm._s(user.user.email))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(user.join_date))])
                     ])
                   }),
                   0
@@ -102928,7 +103051,28 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(1)
+          _vm.roles.last_page > 1
+            ? _c(
+                "div",
+                { staticClass: "d-flex justify-content-center" },
+                [
+                  _c("v-paginate", {
+                    attrs: {
+                      "page-count": _vm.roles.last_page,
+                      "click-handler": _vm.pagination,
+                      "prev-text": "&laquo;",
+                      "next-text": "&raquo;",
+                      "prev-link-class": "page-link",
+                      "next-link-class": "page-link",
+                      "container-class": "pagination",
+                      "page-class": "page-item",
+                      "page-link-class": "page-link"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       )
@@ -102944,67 +103088,9 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("#")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Name")]),
+      _c("th", [_vm._v("Nama")]),
       _vm._v(" "),
       _c("th")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center" }, [
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Previous" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("1")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("2")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("3")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Next" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
-              ]
-            )
-          ])
-        ])
-      ])
     ])
   }
 ]
@@ -103032,7 +103118,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Purchasing Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Pembelian" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -103041,7 +103127,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Purchasing Date")]
+                [_vm._v("Tanggal Pembelian")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -103080,7 +103166,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Invoice Number")]
+                [_vm._v("Nomor Faktur")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -103178,7 +103264,7 @@ var render = function() {
                       },
                       [
                         _c("i", { staticClass: "icon icon-plus" }),
-                        _vm._v(" Add New Supplier\n            ")
+                        _vm._v(" Tambah Supplier Baru\n            ")
                       ]
                     )
                   ],
@@ -103194,7 +103280,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Payment Method")]
+                  [_vm._v("Metode Pembayaran")]
                 ),
                 _vm._v(" "),
                 _c("v-select", {
@@ -103228,7 +103314,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Note")]
+                [_vm._v("Catatan")]
               ),
               _vm._v(" "),
               _c("textarea", {
@@ -103279,7 +103365,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Save")]
+                    [_vm._v("Simpan")]
                   )
                 ]),
                 _vm._v(" "),
@@ -103294,7 +103380,7 @@ var render = function() {
                           "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                         attrs: { to: { name: "purchase" } }
                       },
-                      [_vm._v("Cancel")]
+                      [_vm._v("Batal")]
                     )
                   ],
                   1
@@ -103465,7 +103551,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Purchasing Edit" } }),
+      _c("breadcrumb", { attrs: { title: "Edit Pembelian" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -103474,7 +103560,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Purchasing Date")]
+                [_vm._v("Tanggal Pembelian")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -103513,7 +103599,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Invoice Number")]
+                [_vm._v("Nomor Faktur")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -103596,7 +103682,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Payment Method")]
+                  [_vm._v("Methode Pembayaran")]
                 ),
                 _vm._v(" "),
                 _c("v-select", {
@@ -103630,7 +103716,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Note")]
+                [_vm._v("Catatan")]
               ),
               _vm._v(" "),
               _c("textarea", {
@@ -103680,7 +103766,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Save")]
+                    [_vm._v("Simpan")]
                   )
                 ]),
                 _vm._v(" "),
@@ -103695,7 +103781,7 @@ var render = function() {
                           "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                         attrs: { to: { name: "purchase" } }
                       },
-                      [_vm._v("Cancel")]
+                      [_vm._v("Batal")]
                     )
                   ],
                   1
@@ -103734,7 +103820,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Purchasing" } }),
+      _c("breadcrumb", { attrs: { title: "Pembelian" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "row" }, [
@@ -103743,7 +103829,7 @@ var render = function() {
               "div",
               { staticClass: "card-header" },
               [
-                _c("h3", [_vm._v("Puchasing List")]),
+                _c("h3", [_vm._v("Daftar Pembelian")]),
                 _vm._v(" "),
                 _c(
                   "router-link",
@@ -103766,7 +103852,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.purchases, function(purchase, index) {
+                _vm._l(_vm.purchases.data, function(purchase, index) {
                   return _c("tr", [
                     _c("th", { attrs: { scope: "row" } }, [
                       _vm._v(_vm._s(++index))
@@ -103844,7 +103930,28 @@ var render = function() {
           _c("hr")
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _vm.purchases.last_page > 1
+          ? _c(
+              "div",
+              { staticClass: "d-flex justify-content-center" },
+              [
+                _c("v-paginate", {
+                  attrs: {
+                    "page-count": _vm.purchases.last_page,
+                    "click-handler": _vm.pagination,
+                    "prev-text": "&laquo;",
+                    "next-text": "&raquo;",
+                    "prev-link-class": "page-link",
+                    "next-link-class": "page-link",
+                    "container-class": "pagination",
+                    "page-class": "page-item",
+                    "page-link-class": "page-link"
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
       ])
     ],
     1
@@ -103859,75 +103966,17 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Supplier Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nama Supplier")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Invoice Number")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nomor Faktur")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Payment Method")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Metode Pembayaran")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Tanggal Pembayaran")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Note")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Catatan")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center" }, [
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Previous" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("1")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("2")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("3")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Next" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
-              ]
-            )
-          ])
-        ])
       ])
     ])
   }
@@ -104249,7 +104298,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Purchasing Detail" } }),
+      _c("breadcrumb", { attrs: { title: "Detail Pembelian" } }),
       _vm._v(" "),
       _c(
         "div",
@@ -104278,7 +104327,7 @@ var render = function() {
                       },
                       [
                         _c("i", { staticClass: "icon icon-plus" }),
-                        _vm._v(" Add New Item")
+                        _vm._v(" Tambah Barang Baru")
                       ]
                     )
                   ],
@@ -104297,7 +104346,7 @@ var render = function() {
                         options: _vm.items,
                         label: "name",
                         value: "id",
-                        placeholder: "Type 2 Character"
+                        placeholder: "Ketik 2 Huruf"
                       },
                       on: {
                         change: function($event) {
@@ -104356,7 +104405,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control col-md-3 ",
-                      attrs: { type: "number", placeholder: "Stock" },
+                      attrs: { type: "number", placeholder: "Stok" },
                       domProps: { value: _vm.itemReadonly.qty },
                       on: {
                         keyup: function($event) {
@@ -104383,7 +104432,7 @@ var render = function() {
                       staticClass: "form-control col-md-3 ",
                       attrs: {
                         type: "text",
-                        placeholder: "Price",
+                        placeholder: "Harga",
                         min: "1",
                         readonly: ""
                       },
@@ -104424,7 +104473,7 @@ var render = function() {
                           expression: "itemReadonly.id"
                         }
                       },
-                      [_vm._v("$ Set Price")]
+                      [_vm._v("$ Set Harga")]
                     )
                   ],
                   1
@@ -104501,10 +104550,20 @@ var render = function() {
                         _c("td", [_vm._v(_vm._s(purchasing.qty))]),
                         _vm._v(" "),
                         _c("td", [
-                          _vm._v(_vm._s(purchasing.item.price.initial_price))
+                          _vm._v(
+                            _vm._s(
+                              _vm.formatPrice(
+                                purchasing.item.price.initial_price
+                              )
+                            )
+                          )
                         ]),
                         _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(purchasing.total_price))]),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(_vm.formatPrice(purchasing.total_price))
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "text-right pr-0" }, [
                           _c(
@@ -104551,7 +104610,9 @@ var render = function() {
                           _vm._v(
                             _vm._s(
                               _vm.purchasingData.length > 0
-                                ? _vm.purchasingData[0].total_price_value
+                                ? _vm.formatPrice(
+                                    _vm.purchasingData[0].total_price_value
+                                  )
                                 : 0
                             )
                           )
@@ -104611,7 +104672,7 @@ var render = function() {
                   },
                   [
                     _c("i", { staticClass: "icon icon-pencil" }),
-                    _vm._v(" Update\n          ")
+                    _vm._v(" Rubah\n          ")
                   ]
                 )
               ])
@@ -104621,7 +104682,7 @@ var render = function() {
           _c(
             "b-modal",
             {
-              attrs: { id: "modal-1", size: "lg", title: "Create New Item" },
+              attrs: { id: "modal-1", size: "lg", title: "Tambah Item Baru" },
               on: {
                 ok: function($event) {
                   return _vm.createItems()
@@ -104643,7 +104704,7 @@ var render = function() {
                               staticClass: "col-form-label",
                               attrs: { for: "name" }
                             },
-                            [_vm._v("Category")]
+                            [_vm._v("Kategory")]
                           ),
                           _vm._v(" "),
                           _c("v-select", {
@@ -104716,7 +104777,7 @@ var render = function() {
                             staticClass: "col-form-label",
                             attrs: { for: "name" }
                           },
-                          [_vm._v("Code")]
+                          [_vm._v("Kode")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -104758,7 +104819,7 @@ var render = function() {
                             staticClass: "col-form-label",
                             attrs: { for: "name" }
                           },
-                          [_vm._v("Name")]
+                          [_vm._v("Nama")]
                         ),
                         _vm._v(" "),
                         _c("input", {
@@ -104839,7 +104900,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", [_vm._v("Initial Price")]),
+                      _c("label", [_vm._v("Harga Beli")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -104869,7 +104930,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
-                      _c("label", [_vm._v("Selling Price")]),
+                      _c("label", [_vm._v("Harga Jual")]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -104908,7 +104969,7 @@ var render = function() {
             {
               attrs: {
                 id: this.itemReadonly.id ? "modal-2" : "",
-                title: "Set Price per Stock"
+                title: "Set Harga per Stok"
               },
               on: {
                 ok: function($event) {
@@ -104919,7 +104980,7 @@ var render = function() {
             [
               _c("form", [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Initial Price")]),
+                  _c("label", [_vm._v("Harga Beli")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -104949,7 +105010,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Selling Price")]),
+                  _c("label", [_vm._v("Harga Jual")]),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -104994,7 +105055,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-xl-12" }, [
       _c("div", { staticClass: "card-header" }, [
-        _c("h3", [_vm._v("Puchasing Detail")])
+        _c("h3", [_vm._v("Detail Pembelian")])
       ])
     ])
   },
@@ -105006,15 +105067,15 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Code")]),
+        _c("th", [_vm._v("Kode")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Item")]),
+        _c("th", [_vm._v("Barang")]),
         _vm._v(" "),
         _c("th", [_vm._v("Qty")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Price")]),
+        _c("th", [_vm._v("Harga")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total Price")]),
+        _c("th", [_vm._v("Total Harga")]),
         _vm._v(" "),
         _c("th")
       ])
@@ -105079,7 +105140,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Name")]
+                [_vm._v("Nama")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -105120,7 +105181,7 @@ var render = function() {
                           "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                         attrs: { to: { name: "shop" } }
                       },
-                      [_vm._v("Cancel")]
+                      [_vm._v("Batal")]
                     )
                   ],
                   1
@@ -105145,7 +105206,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -105189,7 +105250,7 @@ var render = function() {
               _c(
                 "label",
                 { staticClass: "col-form-label", attrs: { for: "name" } },
-                [_vm._v("Name")]
+                [_vm._v("Nama")]
               ),
               _vm._v(" "),
               _c("input", {
@@ -105230,7 +105291,7 @@ var render = function() {
                           "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                         attrs: { to: { name: "shop" } }
                       },
-                      [_vm._v("Cancel")]
+                      [_vm._v("Batal")]
                     )
                   ],
                   1
@@ -105255,7 +105316,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -105318,7 +105379,7 @@ var render = function() {
                     { staticClass: "col-md-12" },
                     [
                       _c("p", { staticClass: "float-left" }, [
-                        _c("b", [_vm._v("Shop : " + _vm._s(shop.name))])
+                        _c("b", [_vm._v("Toko : " + _vm._s(shop.name))])
                       ]),
                       _vm._v(" "),
                       _c(
@@ -106148,7 +106209,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Spending" } }),
+      _c("breadcrumb", { attrs: { title: "Pengeluaran" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _vm._m(0),
@@ -106215,7 +106276,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-xl-12" }, [
         _c("div", { staticClass: "card-header" }, [
-          _c("h3", [_vm._v("Spending List per Tanggal")])
+          _c("h3", [_vm._v("Pengeluaran per Tanggal")])
         ])
       ])
     ])
@@ -106228,9 +106289,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Tanggal")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Price")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Total Harga")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
@@ -106494,7 +106555,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Supplier Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Supplier" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -106513,7 +106574,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -106552,7 +106613,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Contact")]
+                  [_vm._v("Kontak")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -106591,7 +106652,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Address")]
+                  [_vm._v("Alamat")]
                 ),
                 _vm._v(" "),
                 _c("textarea", {
@@ -106641,7 +106702,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "supplier" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -106668,7 +106729,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -106716,7 +106777,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name *")]
+                  [_vm._v("Nama *")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -106755,7 +106816,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Contact")]
+                  [_vm._v("Kontak")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -106794,7 +106855,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Address")]
+                  [_vm._v("Alamat")]
                 ),
                 _vm._v(" "),
                 _c("textarea", {
@@ -106844,7 +106905,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "supplier" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("\n              Batal\n            ")]
                       )
                     ],
                     1
@@ -106871,7 +106932,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -106909,7 +106970,7 @@ var render = function() {
               "div",
               { staticClass: "card-header" },
               [
-                _c("h3", [_vm._v("Supplier List")]),
+                _c("h3", [_vm._v("Daftar Supplier")]),
                 _vm._v(" "),
                 _c(
                   "router-link",
@@ -106932,7 +106993,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.suppliers, function(supplier, index) {
+                _vm._l(_vm.suppliers.data, function(supplier, index) {
                   return _c("tr", [
                     _c("th", { attrs: { scope: "row" } }, [
                       _vm._v(_vm._s(++index))
@@ -106988,7 +107049,28 @@ var render = function() {
           _c("hr")
         ]),
         _vm._v(" "),
-        _vm._m(1)
+        _vm.suppliers.last_page > 1
+          ? _c(
+              "div",
+              { staticClass: "d-flex justify-content-center" },
+              [
+                _c("v-paginate", {
+                  attrs: {
+                    "page-count": _vm.suppliers.last_page,
+                    "click-handler": _vm.pagination,
+                    "prev-text": "&laquo;",
+                    "next-text": "&raquo;",
+                    "prev-link-class": "page-link",
+                    "next-link-class": "page-link",
+                    "container-class": "pagination",
+                    "page-class": "page-item",
+                    "page-link-class": "page-link"
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
       ])
     ],
     1
@@ -107010,64 +107092,6 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Contact")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex justify-content-center" }, [
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c("ul", { staticClass: "pagination" }, [
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Previous" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Previous")])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("1")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("2")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-              _vm._v("3")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "page-link",
-                attrs: { href: "#", "aria-label": "Next" }
-              },
-              [
-                _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")]),
-                _vm._v(" "),
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Next")])
-              ]
-            )
-          ])
-        ])
       ])
     ])
   }
@@ -107096,7 +107120,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("breadcrumb", { attrs: { title: "Unit Create" } }),
+      _c("breadcrumb", { attrs: { title: "Tambah Unit" } }),
       _vm._v(" "),
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
@@ -107115,7 +107139,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name")]
+                  [_vm._v("Nama")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -107165,7 +107189,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "unit" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -107192,7 +107216,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -107240,7 +107264,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "col-form-label", attrs: { for: "name" } },
-                  [_vm._v("Name")]
+                  [_vm._v("Nama")]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -107290,7 +107314,7 @@ var render = function() {
                             "btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info",
                           attrs: { to: { name: "unit" } }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Batal")]
                       )
                     ],
                     1
@@ -107317,7 +107341,7 @@ var staticRenderFns = [
           staticClass:
             "btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary"
         },
-        [_vm._v("Save")]
+        [_vm._v("Simpan")]
       )
     ])
   }
@@ -107355,7 +107379,7 @@ var render = function() {
             { staticClass: "col-xl-12" },
             [
               _c("h3", { staticClass: "card-header" }, [
-                _vm._v("\n          Unit List\n        ")
+                _vm._v("\n          Daftar Satuan\n        ")
               ]),
               _vm._v(" "),
               _c(
@@ -107378,7 +107402,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.units, function(unit, index) {
+                _vm._l(_vm.units.data, function(unit, index) {
                   return _c("tr", [
                     _c("th", { attrs: { scope: "row" } }, [
                       _vm._v(_vm._s(++index))
@@ -107422,7 +107446,30 @@ var render = function() {
                 0
               )
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.units.last_page > 1
+            ? _c(
+                "div",
+                { staticClass: "d-flex justify-content-center" },
+                [
+                  _c("v-paginate", {
+                    attrs: {
+                      "page-count": _vm.units.last_page,
+                      "click-handler": _vm.pagination,
+                      "prev-text": "&laquo;",
+                      "next-text": "&raquo;",
+                      "prev-link-class": "page-link",
+                      "next-link-class": "page-link",
+                      "container-class": "pagination",
+                      "page-class": "page-item",
+                      "page-link-class": "page-link"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
         ])
       ])
     ],
@@ -107438,7 +107485,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Name")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Nama")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
@@ -123892,6 +123939,26 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   }]
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./resources/js/services/NumberMixins.js":
+/*!***********************************************!*\
+  !*** ./resources/js/services/NumberMixins.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+  }
+});
 
 /***/ }),
 

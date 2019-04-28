@@ -19,4 +19,11 @@ class Role extends LaratrustRole
             $query->user_id = auth()->id();
         });
     }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class, 'role_employee');
+    }
+
+
 }

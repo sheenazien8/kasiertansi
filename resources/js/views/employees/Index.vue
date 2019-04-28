@@ -1,11 +1,11 @@
 <template>
 <div>
-  <breadcrumb title="Employee"></breadcrumb>
+  <breadcrumb title="Karyawan"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Employee List</h3>
+          <h3>Daftar Karyawan</h3>
           <router-link :to="{ name: 'employee.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
         </div>
       </div>
@@ -16,11 +16,11 @@
           <thead class="thead-light">
             <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Join Date</th>
+              <th>Nama</th>
+              <th>Tanggal Gabung</th>
               <th></th>
             </tr>
-            <tr v-for="(employee, index) in employees">
+            <tr v-for="(employee, index) in employees.data">
               <td>{{ ++index }}</td>
               <td>{{ employee.name }}</td>
               <td>{{ employee.join_date }}</td>
@@ -33,27 +33,19 @@
         </table>
       </div>
     </div>
-    <div class="d-flex justify-content-center">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+        <div class="d-flex justify-content-center" v-if="employees.last_page > 1">
+          <v-paginate
+            :page-count="employees.last_page"
+            :click-handler="pagination"
+            :prev-text="'&laquo;'"
+            :next-text="'&raquo;'"
+            :prev-link-class="'page-link'"
+            :next-link-class="'page-link'"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+            :page-link-class="'page-link'">
+          </v-paginate>
+        </div>
   </div>
 </div>
 </template>
@@ -70,10 +62,19 @@ export default {
     },
 
     methods:{
+     pagination(page){
+        axios.get(RouteService.getUrl(route('employee.index', {'page' : page})))
+          .then((response) =>{
+            this.employees = response.data
+          })
+          .catch((response) =>{
+
+          })
+      },
       getEmployee(){
         axios.get(RouteService.getUrl(route('employee.index')))
         .then((response) =>{
-          this.employees = response.data.data
+          this.employees = response.data
         })
         .catch((response) =>{
 

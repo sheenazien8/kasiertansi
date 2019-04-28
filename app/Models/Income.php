@@ -9,6 +9,7 @@ class Income extends Model
     protected $fillable = [
         'date',
         'total_price',
+        'total_profit',
         'total_qty',
     ];
 
@@ -23,5 +24,10 @@ class Income extends Model
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+    public function getDayPriceAttribute()
+    {
+        $date = $this->date;
+        return $this->where('date', $date)->sum('total_price');
     }
 }

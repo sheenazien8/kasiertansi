@@ -18,6 +18,7 @@ Route::post('register', 'API\UserController@register')->name('register');
 // Route::post('logout', 'API\UserController@logout')->name('logout');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('get/data/dashboard', 'API\DashboardController@getDataDashboard')->name('get.data.dashboard');
+    Route::post('get/data/income', 'API\DashboardController@getDataIncme')->name('get.data.income');
     Route::get('details', 'API\UserController@details')->name('details');
     Route::resource('category', 'API\CategoryController');
     Route::resource('unit', 'API\UnitController');
@@ -34,6 +35,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('role', 'API\ManagementPermissionController');
     Route::resource('shop', 'API\ShopController');
     Route::get('get/role/{role}', 'API\ManagementPermissionController@getUserWhereRole')->name('get.role');
+    Route::get('get/role/{role}/name', 'API\ManagementPermissionController@getRoleName')->name('role.name');
+    Route::get('get/employee', 'API\ManagementPermissionController@getEmployee')->name('get.employee');
+    Route::get('get/permission', 'API\ManagementPermissionController@getPermission')->name('get.permission');
     Route::resource('transaction_detail', 'API\TransactionDetailController');
     Route::post('transaction_detail/session/storage', 'API\TransactionDetailController@sessionStorage')->name('save.session.storage');
     Route::resource('spending', 'API\SpendingController');

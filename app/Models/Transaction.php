@@ -13,6 +13,7 @@ class Transaction extends Model
         'paying',
         'change',
         'total_price',
+        'total_profit',
         'total_qty',
     ];
 

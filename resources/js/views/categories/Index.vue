@@ -1,11 +1,11 @@
 <template>
 <div>
-  <breadcrumb title="Category"></breadcrumb>
+  <breadcrumb title="Kategori"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Category List</h3>
+          <h3>Daftar Kategori</h3>
           <router-link :to="{ name: 'category.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
         </div>
       </div>
@@ -16,16 +16,16 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th scope="col">Nama</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(category, index) in categories">
+            <tr v-for="(category, index) in categories.data">
               <th scope="row">{{ ++index }}</th>
               <td>{{ category.name }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>
+                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deletecategory(category.id)"><i class="icon icon-trash"></i></button>
                 <router-link :to="{ name: 'category.edit', params: {id : category.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
               </td>
             </tr>
@@ -34,29 +34,21 @@
         </div>
       </div>
       <hr>
+      <div class="d-flex justify-content-center" v-if="categories.last_page > 1">
+        <v-paginate
+          :page-count="categories.last_page"
+          :click-handler="pagination"
+          :prev-text="'&laquo;'"
+          :next-text="'&raquo;'"
+          :prev-link-class="'page-link'"
+          :next-link-class="'page-link'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'">
+        </v-paginate>
+      </div>
     </div>
-    <div class="d-flex justify-content-center">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+ </div>
 </div>
 </template>
 <script>
@@ -72,10 +64,21 @@ export default {
     },
 
     methods:{
+      pagination(page){
+        axios.get(RouteService.getUrl(route('category.index', {'page' : page})))
+          .then((response) =>{
+            this.categories = response.data
+            console.log(this.categories)
+          })
+          .catch((response) =>{
+
+          })
+        console.log(page)
+      },
       getCategory(){
         axios.get(RouteService.getUrl(route('category.index')))
         .then((response) =>{
-          this.categories = response.data.data
+          this.categories = response.data
         })
         .catch((response) =>{
 

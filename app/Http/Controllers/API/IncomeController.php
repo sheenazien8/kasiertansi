@@ -16,9 +16,10 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $incomes = Income::selectRaw('date, SUM(total_price) as total_price')->where('user_id', auth()->id())
-                            ->groupBy('date')
-                            ->get();
+        $incomes = Income::selectRaw('date, SUM(total_price) as total_price')
+                        ->where('user_id', auth()->id())
+                        ->groupBy('date')
+                        ->get();
 
         return response()->json($incomes);
     }
@@ -30,7 +31,7 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -46,6 +47,7 @@ class IncomeController extends Controller
             'date' => date('Y-m-d'),
             'total_price' => $transaction->total_price,
             'total_qty' => $transaction->total_qty,
+            'total_profit' => $transaction->total_profit,
         ]);
         $income = new Income();
         $income->fill($request->json()->all());

@@ -58,12 +58,12 @@
                                     <div class="col-lg-12">
                                       <p>
                                         <b-button v-b-modal.setting-modal class="btn btn-block btn-outline-light text-dark">
-                                          <i class="icon icon-settings"></i> Setting
+                                          <i class="icon icon-settings"></i> Pengaturan
                                         </b-button>
                                       </p>
                                       <p>
                                         <b-button class="btn btn-block btn-outline-light text-dark">
-                                          <i class="icon icon-user"></i> Profile
+                                          <i class="icon icon-user"></i> Profil
                                         </b-button>
                                       </p>
                                       <p>
@@ -145,7 +145,6 @@
         })
         .then((response) => {
           this.getUser();
-          // console.log(response)
         })
         .catch((response) => {
 

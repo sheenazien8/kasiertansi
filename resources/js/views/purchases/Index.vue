@@ -1,11 +1,11 @@
 <template>
 <div>
-  <breadcrumb title="Purchasing"></breadcrumb>
+  <breadcrumb title="Pembelian"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Puchasing List</h3>
+          <h3>Daftar Pembelian</h3>
           <router-link :to="{ name: 'purchase.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
         </div>
       </div>
@@ -16,16 +16,16 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Supplier Name</th>
-              <th scope="col">Invoice Number</th>
-              <th scope="col">Payment Method</th>
-              <th scope="col">Date</th>
-              <th scope="col">Note</th>
+              <th scope="col">Nama Supplier</th>
+              <th scope="col">Nomor Faktur</th>
+              <th scope="col">Metode Pembayaran</th>
+              <th scope="col">Tanggal Pembayaran</th>
+              <th scope="col">Catatan</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(purchase, index) in purchases">
+            <tr v-for="(purchase, index) in purchases.data">
               <th scope="row">{{ ++index }}</th>
               <td>{{ purchase.supplier.name }}</td>
               <td>{{ purchase.invoice_number }}</td>
@@ -49,26 +49,18 @@
       </div>
       <hr>
     </div>
-    <div class="d-flex justify-content-center">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+    <div class="d-flex justify-content-center" v-if="purchases.last_page > 1">
+      <v-paginate
+        :page-count="purchases.last_page"
+        :click-handler="pagination"
+        :prev-text="'&laquo;'"
+        :next-text="'&raquo;'"
+        :prev-link-class="'page-link'"
+        :next-link-class="'page-link'"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :page-link-class="'page-link'">
+      </v-paginate>
     </div>
   </div>
 </div>
@@ -86,10 +78,20 @@ export default {
     },
 
     methods:{
+        pagination(page){
+        axios.get(RouteService.getUrl(route('purchase.index', {'page' : page})))
+          .then((response) =>{
+            this.purchases = response.data
+          })
+          .catch((response) =>{
+
+          })
+      },
       getPuchase(){
         axios.get(RouteService.getUrl(route('purchase.index')))
         .then((response) =>{
           this.purchases = response.data
+          console.log(this.purchases)
         })
         .catch((response) =>{
 

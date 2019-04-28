@@ -1,12 +1,14 @@
 <template>
 <div>
-  <breadcrumb title="Item"></breadcrumb>
+  <breadcrumb title="Barang"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <h3 class="card-header">
-          Item List
-          <router-link :to="{ name: 'item.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
+          Daftar Barang
+          <router-link :to="{ name: 'item.create' }" class="float">
+            <i class="icon icon-plus my-float"></i>
+          </router-link>
         </h3>
       </div>
     </div>
@@ -16,12 +18,12 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Category</th>
-              <th scope="col">Code</th>
-              <th scope="col">Current Stock</th>
-              <th scope="col">Initial Prices</th>
-              <th scope="col">Selling Prices</th>
+              <th scope="col">Nama</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Kode</th>
+              <th scope="col">Stock Terakhir</th>
+              <th scope="col">Harga Beli</th>
+              <th scope="col">Harga Jual</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -32,24 +34,44 @@
               <td>{{ item.category.name }}</td>
               <td>{{ item.code }}</td>
               <td :class="item.current_stock <= 0 ? 'bg-danger': ''">
-              {{ item.current_stock != 0 && item.current_stock ? item.current_stock : 'OUT OF STOCK!'}}
+                {{ item.current_stock != 0 && item.current_stock ? item.current_stock : 'OUT OF STOCK!'}}
             </td>
               <td>
-                  {{ item.price ? item.price.initial_price : '' }}
+                  {{ item.price ? formatPrice(item.price.initial_price) : '' }}
               </td>
               <td>
-                  {{ item.price ? item.price.selling_price : '' }}
+                  {{ item.price ? formatPrice(item.price.initial_price) : '' }}
               </td>
               <td>
-                <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteItem(item.id)"><i class="icon icon-trash"></i></button>
-                <router-link title="Edit Item" :to="{ name: 'item.edit', params: {id : item.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-                <b-button v-b-modal.modal-1 variant="warning" size="sm" class="float-right mr-2" @click="getId(item.id)">
+                <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right mr-2"
+                  @click="deleteItem(item.id)">
+                  <i class="icon icon-trash"></i>
+                </button>
+                <router-link title="Edit Item" :to="{ name: 'item.edit', params: {id : item.id}}"
+                  class="btn btn-sm p-1 btn-info float-right mr-2">
+                  <i class="icon icon-pencil"></i>
+                </router-link>
+                <b-button v-b-modal.modal-1 variant="warning" size="sm" class="float-right mr-2"
+                  @click="getId(item.id)">
                   $
                 </b-button>
               </td>
             </tr>
           </tbody>
         </table>
+     </div>
+     <div class="d-flex justify-content-center" v-if="items.last_page > 1">
+        <v-paginate
+          :page-count="items.last_page"
+          :click-handler="pagination"
+          :prev-text="'&laquo;'"
+          :next-text="'&raquo;'"
+          :prev-link-class="'page-link'"
+          :next-link-class="'page-link'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'">
+        </v-paginate>
       </div>
     </div>
   </div>
@@ -70,7 +92,10 @@
 </div>
 </template>
 <script>
+import NumberMixins from './../../services/NumberMixins.js';
+
 export default {
+    mixins : [NumberMixins],
     data() {
       return {
         items : [],
@@ -87,6 +112,15 @@ export default {
     },
 
     methods:{
+       pagination(page){
+        axios.get(RouteService.getUrl(route('items.index', {'page' : page})))
+          .then((response) =>{
+            this.items = response.data
+          })
+          .catch((response) =>{
+
+          })
+      },
       getId(id){
         this.item_id = id
       },

@@ -14,9 +14,13 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-12">
-            <p class="float-left"><b>Shop : {{ shop.name }}</b></p>
-            <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteShop(shop.id)"><i class="icon icon-trash"></i></button>
-            <router-link :to="{ name: 'shop.edit', params: {id : shop.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+            <p class="float-left"><b>Toko : {{ shop.name }}</b></p>
+            <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteShop(shop.id)">
+              <i class="icon icon-trash"></i>
+            </button>
+            <router-link :to="{ name: 'shop.edit', params: {id : shop.id}}" class="btn btn-sm p-1 btn-info float-right mr-2" >
+              <i class="icon icon-pencil"></i>
+            </router-link>
             </div>
           </div>
           <div class="row">

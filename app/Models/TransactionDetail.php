@@ -9,6 +9,7 @@ class TransactionDetail extends Model
     protected $fillable = [
         'qty',
         'price',
+        'profit'
     ];
 
     public function transaction()

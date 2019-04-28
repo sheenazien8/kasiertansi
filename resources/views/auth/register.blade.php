@@ -29,16 +29,40 @@
           <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group">
-              <input class="form-control" type="text" name='name' placeholder="name"/>
+              <input class="form-control" type="text" name='name' placeholder="name"
+              value="{{ old('name') }}" required autofocus/>
+               @if ($errors->has('name'))
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('name') }}</strong>
+              </span>
+              @endif
             </div>
             <div class="form-group">
-              <input class="form-control" type="text" name='email' placeholder="email"/>
+              <input class="form-control" type="text" name='email' placeholder="email"
+              value="{{ old('email') }}" required autofocus/>
+               @if ($errors->has('email'))
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('email') }}</strong>
+              </span>
+              @endif
             </div>
             <div class="form-group">
-              <input class="form-control" type="password" name='password' placeholder="password"/>
+              <input class="form-control" type="password" name='password' placeholder="password"
+              value="{{ old('password') }}" required autofocus/>
+               @if ($errors->has('password'))
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('password') }}</strong>
+              </span>
+              @endif
             </div>
             <div class="form-group">
-              <input class="form-control" type="text" name='password_confirmation' placeholder="Password Confirmation"/>
+              <input class="form-control" type="password" name='password_confirmation' placeholder="Password Confirmation"
+              value="{{ old('password_confirmation') }}" required autofocus/>
+               @if ($errors->has('password_confirmation'))
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('password_confirmation') }}</strong>
+              </span>
+              @endif
             </div>
             <div class="checkbox">
               <label>

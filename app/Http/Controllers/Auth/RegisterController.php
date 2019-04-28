@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Owner;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -63,10 +65,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = new User();
+        $user->fill([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $owner = new Owner();
+        $owner->name = $data['name'];
+        $owner->join_date = Carbon::now()->format('Y-m-d');
+        $owner->save();
+        $user->userable()->associate($owner);
+        $user->save();
+
+        return $user;
     }
 }

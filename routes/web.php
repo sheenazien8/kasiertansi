@@ -13,10 +13,10 @@ use App\Models\Item;
 |
 */
 
+Auth::routes();
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Auth::routes();
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/{any}', 'DashboardController@index')->where('any', '.*');
 });

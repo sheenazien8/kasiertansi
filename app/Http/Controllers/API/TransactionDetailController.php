@@ -53,7 +53,7 @@ class TransactionDetailController extends Controller
     {
         $transactionService = new TransactionService();
         $item = $transactionService->reduceCurrentStock($request);
-        $transactionDetail = $transactionService->getConstructorClass($request);
+        $transactionDetail = $transactionService->getConstructorClass($request, $item);
         $transactionDetail->fill($request->json()->all());
         $transactionDetail->item()->associate($item);
         $transactionDetail->save();

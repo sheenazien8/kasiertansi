@@ -1,11 +1,11 @@
 <template>
   <div>
-    <breadcrumb title="Employee Edit"></breadcrumb>
+    <breadcrumb title="Edit Karyawan"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form v-on:submit.prevent="updateEmployee()">
         <div class="form-group">
-            <label for="name" class="col-form-label">Name *</label>
+            <label for="name" class="col-form-label">Nama *</label>
             <input id="name" type="text" class="form-control"  v-model="employee.name">
         </div>
         <div class="form-group">
@@ -13,11 +13,11 @@
             <input id="name" type="email" class="form-control"  v-model="employee.email">
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Join Date *</label>
+            <label for="name" class="col-form-label">Tanggal Gabung *</label>
             <input id="name" type="date" class="form-control"  v-model="employee.join_date">
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Password</label> <span style="font-size: 11px;">empty to use default password(12345678)</span>
+            <label for="name" class="col-form-label">Password</label> <span style="font-size: 11px;">kosongi untuk menggunakan password default(12345678)</span>
             <input id="name" type="password" class="form-control"  v-model="employee.password">
         </div>
         <div class="form-group">

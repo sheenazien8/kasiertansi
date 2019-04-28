@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-xl-12">
         <h3 class="card-header">
-          Unit List
+          Daftar Satuan
         </h3>
           <router-link :to="{ name: 'unit.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
       </div>
@@ -16,12 +16,12 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th scope="col">Nama</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(unit, index) in units">
+            <tr v-for="(unit, index) in units.data">
               <th scope="row">{{ ++index }}</th>
               <td>{{ unit.unit }}</td>
               <td>
@@ -31,6 +31,19 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="d-flex justify-content-center" v-if="units.last_page > 1">
+        <v-paginate
+          :page-count="units.last_page"
+          :click-handler="pagination"
+          :prev-text="'&laquo;'"
+          :next-text="'&raquo;'"
+          :prev-link-class="'page-link'"
+          :next-link-class="'page-link'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'">
+        </v-paginate>
       </div>
     </div>
   </div>
@@ -49,6 +62,17 @@ export default {
     },
 
     methods:{
+       pagination(page){
+        axios.get(RouteService.getUrl(route('unit.index', {'page' : page})))
+          .then((response) =>{
+            this.units = response.data
+            console.log(this.units)
+          })
+          .catch((response) =>{
+
+          })
+        console.log(page)
+      },
       getUnit(){
         axios.get(RouteService.getUrl(route('unit.index')))
         .then((response) =>{

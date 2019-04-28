@@ -7,7 +7,6 @@
         <div class="card-header">
           <h3>Transaksi No.
             <input type="text" readonly class="col-md-3 input-none" v-model="transaction.invoice_number">
-            <!-- v-model="transaction.invoice_number" -->
           </h3>
         </div>
       </div>
@@ -24,7 +23,8 @@
                   :onSearch="getItemsData" v-model="transaction.item" @change="getDetailItems(transaction.item)">
                   </v-select>
                 </div>
-                <input type="text" class="col-md-3 mr-1 form-control" readonly placeholder="Selling Price" v-model="item.price">
+                <input type="text" class="col-md-3 mr-1 form-control"
+                readonly placeholder="Selling Price" v-model="item.price">
                 <input type="number" class="col-md-3 mr-1 form-control"
                 :placeholder="item.current_stock <= 0  ? 'Stock Anda kurang' : 'Masukkan Qty'"
                 :class="transaction.qty > item.current_stock ? 'bg-danger' : ''"
@@ -40,9 +40,9 @@
                   <thead class="thead-light">
                     <tr>
                       <th>#</th>
-                      <th>Name</th>
-                      <th>Code</th>
-                      <th>Price</th>
+                      <th>Nama</th>
+                      <th>kode</th>
+                      <th>Harga</th>
                       <th>Qty</th>
                       <th></th>
                     </tr>
@@ -60,7 +60,7 @@
                       <td>{{ ++index }}</td>
                       <td>{{ transaction_detail.item.name }}</td>
                       <td>{{ transaction_detail.item.code }}</td>
-                      <td>{{ transaction_detail.price }}</td>
+                      <td>{{ formatPrice(transaction_detail.price) }}</td>
                       <td>{{ transaction_detail.qty }}</td>
                       <td class="text-right">
                         <button @click="cancelItem(transaction_detail.id)"
@@ -79,22 +79,26 @@
           <div class="card">
             <div class="card-body">
               <div class="form-group">
-                <label><b>Must Pay!</b></label>
+                <label><b>Yang Harus Dibayar!</b></label>
                 <input type="text" class="form-control input-none text-right"
-                style="font-size: 20px" readonly :value="total_price">
+                style="font-size: 20px" readonly :value="formatPrice(total_price)">
               </div>
               <div class="form-group">
-                <label><b>Payment</b></label>
+                <label><b>Pembayan</b></label>
                 <input type="text" class="form-control text-right"
                 style="font-size: 20px" v-model="transaction.paying" @keyup="calculatePrice()">
               </div>
               <div class="form-group">
-                <label><b>Change</b></label>
+                <label><b>Kembalian</b></label>
                 <input type="text" class="form-control input-none text-right"
                 style="font-size: 20px" readonly v-model="transaction.change">
               </div>
-              <button class="btn btn-primary btn-block" @click="insertInvoice()"><i class="icon icon-check"></i> Simpan</button>
-              <button class="btn btn-primary btn-block" @onclick="insertAndPrintInvoice()"><i class="icon icon-printer"></i> Simpan & Cetak</button>
+              <button class="btn btn-primary btn-block" @click="insertInvoice()">
+                <i class="icon icon-check"></i> Simpan
+              </button>
+              <button class="btn btn-primary btn-block" @onclick="insertAndPrintInvoice()">
+                <i class="icon icon-printer"></i> Simpan & Cetak
+              </button>
             </div>
           </div>
         </div>
@@ -103,7 +107,10 @@
 </div>
 </template>
 <script>
+import NumberMixins from './../../services/NumberMixins.js';
+
 export default {
+  mixins : [NumberMixins],
   data(){
     return {
       itemsData : [],

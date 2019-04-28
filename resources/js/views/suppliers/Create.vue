@@ -1,25 +1,25 @@
 <template>
   <div>
-    <breadcrumb title="Supplier Create"></breadcrumb>
+    <breadcrumb title="Tambah Supplier"></breadcrumb>
     <div class="card">
       <div class="card-body">
         <form v-on:submit.prevent="createSupplier()">
         <div class="form-group">
-          <label for="name" class="col-form-label">Name *</label>
+          <label for="name" class="col-form-label">Nama *</label>
           <input id="name" type="text" class="form-control" :class="errors.name ? 'is-invalid' : ''"  v-model="supplier.name">
           <div v-if="errors.name">
             <span class="text-danger">{{ errors.name[0] }}</span>
           </div>
         </div>
         <div class="form-group">
-          <label for="name" class="col-form-label">Contact</label>
+          <label for="name" class="col-form-label">Kontak</label>
           <input id="name" type="text" class="form-control" :class="errors.contact ? 'is-invalid' : ''"  v-model="supplier.contact">
           <div v-if="errors.contact">
             <span class="text-danger">{{ errors.contact[0] }}</span>
           </div>
         </div>
         <div class="form-group">
-          <label for="name" class="col-form-label">Address</label>
+          <label for="name" class="col-form-label">Alamat</label>
           <textarea id="name" class="form-control" :class="errors.address ? 'is-invalid' : ''"  v-model="supplier.address"
            ></textarea>
           <div v-if="errors.address">
@@ -29,10 +29,10 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Simpan</button>
             </div>
             <div class="col-md-6">
-              <router-link :to="{ name: 'supplier' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
+              <router-link :to="{ name: 'supplier' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Batal</router-link>
             </div>
           </div>
         </div>

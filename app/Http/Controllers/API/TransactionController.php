@@ -44,15 +44,17 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $transactionService = new TransactionService();
+        $total_profit = $transactionService->getProfitFromRequest($request->json('transactionDetails'));
         $codeGeneratorService = new CodeGeneratorService();
         $invoice_number = $codeGeneratorService->generateCode();
         $request->json()->add([
             'invoice_number' => $invoice_number,
+            'total_profit' => $total_profit
         ]);
         $transaction = new Transaction();
         $transaction->fill($request->json()->all());
         $transaction->save();
-        $transactionService = new TransactionService();
         $transactionService->insertTransactionDetail($request, $transaction);
 
         return response()->json($transaction);

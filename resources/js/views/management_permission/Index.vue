@@ -1,12 +1,14 @@
 <template>
 <div>
-  <breadcrumb title="Management Permission"></breadcrumb>
+  <breadcrumb title="Managemen Permisi"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Role List</h3>
-          <router-link :to="{ name: 'management_permission.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
+          <h3>Daftar Jabtan</h3>
+          <router-link :to="{ name: 'management_permission.create' }" class="float">
+            <i class="icon icon-plus my-float"></i>
+          </router-link>
         </div>
       </div>
     </div>
@@ -16,16 +18,23 @@
           <thead class="thead-light">
             <tr>
               <th>#</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th></th>
             </tr>
-            <tr v-for="(role, index) in roles">
+            <tr v-for="(role, index) in roles.data">
               <td>{{ ++index }}</td>
               <td>{{ role.display_name }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteRole(role.id)"><i class="icon icon-trash"></i></button>
-                <router-link :to="{ name: 'management_permission.edit', params: {id : role.id}}" class="btn btn-sm p-1 btn-warning float-right mr-2"><i class="icon icon-pencil"></i></router-link>
-                <b-button v-b-modal.modal-1 size="sm" variant="info" class="modal-1 float-right mr-2" @click="getRoleId(role.id)">
+                <button class="btn btn-sm p-1 btn-danger float-right mr-2"
+                  @click="deleteRole(role.id)">
+                  <i class="icon icon-trash"></i>
+                </button>
+                <router-link :to="{ name: 'management_permission.edit', params: {id : role.id}}"
+                  class="btn btn-sm p-1 btn-warning float-right mr-2">
+                  <i class="icon icon-pencil"></i>
+                </router-link>
+                <b-button v-b-modal.modal-1 size="sm" variant="info" class="modal-1 float-right mr-2"
+                  @click="getRoleId(role.id)">
                   <i class="icon icon-magnifier"></i>
                 </b-button>
               </td>
@@ -34,43 +43,37 @@
         </table>
       </div>
     </div>
-    <b-modal id="modal-1" size="lg" title="List User" hide-footer="true" class="p-0">
+    <b-modal id="modal-1" size="lg" title="List User" class="p-0">
       <table class="table">
         <thead class="thead-light">
           <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Join Date</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(user, index) in users">
-            <td>{{ user.email }}</td>
-            <td>{{ user.userable.name }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.user.email }}</td>
+            <td>{{ user.join_date }}</td>
           </tr>
         </tbody>
       </table>
     </b-modal>
-    <div class="d-flex justify-content-center">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+      <div class="d-flex justify-content-center" v-if="roles.last_page > 1">
+        <v-paginate
+          :page-count="roles.last_page"
+          :click-handler="pagination"
+          :prev-text="'&laquo;'"
+          :next-text="'&raquo;'"
+          :prev-link-class="'page-link'"
+          :next-link-class="'page-link'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'">
+        </v-paginate>
+      </div>
   </div>
 </div>
 </template>
@@ -91,6 +94,15 @@ export default {
     },
 
     methods:{
+      pagination(page){
+        axios.get(RouteService.getUrl(route('role.index', {'page' : page})))
+          .then((response) =>{
+            this.roles = response.data
+          })
+          .catch((response) =>{
+
+          })
+      },
       getRole(){
         axios.get(RouteService.getUrl(route('role.index')))
         .then((response) =>{
@@ -104,7 +116,6 @@ export default {
         axios.get(RouteService.getUrl(route('get.role', id)))
         .then((response) => {
           this.users = response.data
-          console.log(this.users);
         })
         .catch((response) => {
 

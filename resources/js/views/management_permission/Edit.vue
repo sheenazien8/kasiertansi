@@ -1,32 +1,34 @@
 <template>
   <div>
-    <breadcrumb title="Management Permission Edit"></breadcrumb>
+    <breadcrumb title="Rubah Permisi"></breadcrumb>
     <div class="card">
       <div class="card-body">
-        <form v-on:submit.prevent="updateEmployee()">
+        <form v-on:submit.prevent="updateRole">
         <div class="form-group">
-            <label for="name" class="col-form-label">Name *</label>
-            <input id="name" type="text" class="form-control"  v-model="employee.name">
+          <label for="name" class="col-form-label">Nama *</label>
+          <input id="name" type="text" class="form-control"  v-model="role.name">
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Email *</label>
-            <input id="name" type="email" class="form-control"  v-model="employee.email">
+          <label for="" class="col-form-label">Jabatan</label>
+          <v-select :options="permissions" label="display_name" multiple max-height="100px" placeholder=""
+          v-model="permission.data">
+          </v-select>
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Join Date *</label>
-            <input id="name" type="date" class="form-control"  v-model="employee.join_date">
-        </div>
-        <div class="form-group">
-            <label for="name" class="col-form-label">Password</label> <span style="font-size: 11px;">empty to use default password(12345678)</span>
-            <input id="name" type="password" class="form-control"  v-model="employee.password">
+          <label for="" class="col-form-label">Karyawan</label>
+          <v-select :options="employees" label="name" multiple max-height="100px" placeholder=""
+          v-model="employee.data">
+          </v-select>
         </div>
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Save</button>
+              <button class="btn btn-sm btn-rounded btn-block col-md-6 col-sm-3 btn-outline-primary">Simpan</button>
             </div>
             <div class="col-md-6">
-              <router-link :to="{ name: 'employee' }" class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Cancel</router-link>
+              <router-link :to="{ name: 'management_permission' }"
+              class="btn btn-sm float-right btn-rounded btn-block col-md-6 col-sm-3 btn-outline-info" >Batal
+              </router-link>
             </div>
           </div>
         </div>
@@ -40,45 +42,77 @@
   export default {
     data() {
       return {
-        employee : {
-          name : '',
-          email : '',
-          password : ''
+        role : {
+          name : ''
         },
-        employeesData : []
+        employees : [],
+        employee : {
+          data : ''
+        },
+        permissions : [],
+        permission : {
+          data : []
+        }
       }
     },
 
     mounted(){
-      this.editEmployee(this.$route.params.id)
+      this.getRole(this.$route.params.id)
+      this.getEmployee();
+      this.getPermission();
     },
 
     methods:{
-      updateEmployee(){
-        axios.put(RouteService.getUrl(route('employee.update', this.$route.params.id)), {
-          name : this.employee.name,
-          email : this.employee.email,
-          join_date : this.employee.join_date,
-          password : this.employee.password,
+      updateRole(){
+        axios.patch(RouteService.getUrl(route('role.update', this.$route.params.id)), {
+          permissions : this.permission.data,
+          employees : this.employee.data,
+          name : this.role.name
         })
          .then((response) => {
-           this.$router.replace('/employee');
+          this.$notify({
+            type: 'success',
+            text: 'Success Update Permission'
+          });
+           this.$router.replace('/management_permission');
          })
          .catch((response) =>{
-           if(response.response.status == 500) alert('Something Goes Wrong');
-           this.errors = response.response.data.errors;
-           console.log(response);
+
          });
       },
-      editEmployee(id){
-        axios.get(RouteService.getUrl(route('employee.edit', id)))
-        .then((response)=>{
-          this.employeesData = response.data
-          this.employee.name = this.employeesData.name
-          this.employee.join_date = this.employeesData.join_date
-          this.employee.email = this.employeesData.user.email
+      getRole(id){
+        axios.get(RouteService.getUrl(route('role.name', id)),{
+
         })
-        .catch((response) =>{
+        .then((response) => {
+          this.role.name = response.data.name
+          this.permission.data = response.data.permissions
+          this.employee.data = response.data.employees
+        })
+        .catch((response) => {
+
+        })
+      },
+
+      getPermission(){
+        axios.get(RouteService.getUrl(route('get.permission')),{
+
+        })
+        .then((response) =>{
+          this.permissions = response.data
+        })
+        .catch((response) => {
+
+        })
+      },
+      getEmployee(){
+        axios.get(RouteService.getUrl(route('get.employee')),{
+
+        })
+        .then((response) =>{
+          this.employees = response.data
+        })
+        .catch((response) => {
 
         })
       }

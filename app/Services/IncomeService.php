@@ -10,7 +10,7 @@ class IncomeService
     public function getTodayIncome()
     {
         $carbon = Carbon::now();
-        $incomes = Income::select('total_price')->where('user_id', auth()->id())
+        $incomes = Income::select('total_price')->where('user_id', auth_cache()->id)
             ->where('date', $carbon->today()->format('Y-m-d'))
             ->get()->sum('total_price');
 
@@ -22,7 +22,7 @@ class IncomeService
         if ($request->day == 30) {
             $carbon = Carbon::today();
             $lastTirtyDay = Carbon::today()->subDays(30)->format('Y-m-d');
-            $incomes = Income::select($column)->where('user_id', auth()->id())
+            $incomes = Income::select($column)->where('user_id', auth_cache()->id)
                 ->whereBetween('date', [$lastTirtyDay, $carbon->format('Y-m-d')])
                 ->orderBy('date')->get();
 
@@ -33,7 +33,7 @@ class IncomeService
         dd('ok');
         $carbon = Carbon::today();
         $lastWeek = Carbon::today()->subWeek()->format('Y-m-d');
-        $incomes = Income::select($column)->where('user_id', auth()->id())
+        $incomes = Income::select($column)->where('user_id', auth_cache()->id)
             ->whereBetween('date', [$lastWeek, $carbon->format('Y-m-d')])
             ->orderBy('date')->get();
         $result = $this->countByRequest($incomes);
@@ -51,6 +51,6 @@ class IncomeService
             $result[Carbon::parse($value[0]['date'])->format('D')] = array_sum($total_price);
         }
 
-       return $result;
+        return $result;
     }
 }

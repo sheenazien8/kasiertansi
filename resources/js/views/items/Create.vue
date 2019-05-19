@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label for="name" class="col-form-label">Unit</label>
-            <v-select :options="unitsData" label="unit" value="id" selected="name" v-model="item.unit_id"/>
+            <v-select :options="unitsData" label="unit" value="id" :class="errors.code ? 'is-invalid' : ''" selected="name" v-model="item.unit_id"/>
         </div>
         <div class="form-group">
             <label for="name" class="col-form-label">Kode</label>
@@ -71,6 +71,7 @@
         .then((response) =>{
           this.categoriesData = response.data.categories
           this.unitsData = response.data.units
+          this.item.code = response.data.codeItem
         })
         .catch((response) =>{
 

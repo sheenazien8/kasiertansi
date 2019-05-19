@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Daftar Jabtan</h3>
+          <h3>Daftar Jabatan</h3>
           <router-link :to="{ name: 'management_permission.create' }" class="float">
             <i class="icon icon-plus my-float"></i>
           </router-link>

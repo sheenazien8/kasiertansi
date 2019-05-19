@@ -18,7 +18,7 @@ class ManagementPermissionController extends Controller
      */
     public function index()
     {
-        $roles = Role::where('user_id', auth()->id())
+        $roles = Role::where('user_id', auth_cache()->id)
                         ->orderBy('created_at', 'desc')
                         ->paginate(5);
 
@@ -140,7 +140,7 @@ class ManagementPermissionController extends Controller
     public static function getEmployee()
     {
         $employees = Employee::select('id', 'name')
-                            ->where('owner_id', auth()->user()->userable->id)
+                            ->where('owner_id', auth_cache()->userable->id)
                             ->whereDoesntHave('roles')
                             ->get();
 

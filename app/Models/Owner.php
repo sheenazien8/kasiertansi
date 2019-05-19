@@ -16,4 +16,8 @@ class Owner extends Model
     {
         return $this->hasMany(Employee::class);
     }
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
+    }
 }

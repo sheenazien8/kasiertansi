@@ -11,6 +11,7 @@ class Purchase extends Model
         'status',
         'note',
         'invoice_number',
+        'rekening_number',
         'purchase_date'
     ];
 
@@ -18,7 +19,7 @@ class Purchase extends Model
     {
         parent::boot();
         static::creating(function ($query) {
-            $query->user_id = auth()->id();
+            $query->user_id = auth_cache()->id;
         });
     }
 

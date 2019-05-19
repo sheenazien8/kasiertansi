@@ -9,7 +9,7 @@
           <input id="name" type="text" class="form-control"  v-model="role.name">
         </div>
         <div class="form-group">
-          <label for="" class="col-form-label">Jabatan</label>
+          <label for="" class="col-form-label">Permisi</label>
           <v-select :options="permissions" label="display_name" multiple max-height="100px" placeholder=""
           v-model="permission.data">
           </v-select>

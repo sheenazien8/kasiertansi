@@ -19,9 +19,9 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::where('user_id', auth()->id())
+        $purchases = Purchase::where('user_id', auth_cache()->id)
                                 ->with('supplier')
-                                ->orderBy('created_at','desc')
+                                ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 
         return response()->json($purchases);
@@ -36,7 +36,7 @@ class PurchaseController extends Controller
     public function create()
     {
         $suppliers = Supplier::select('id', 'name')
-                                ->where('user_id', auth()->id())
+                                ->where('user_id', auth_cache()->id)
                                 ->get();
 
         return response()->json($suppliers);
@@ -79,7 +79,7 @@ class PurchaseController extends Controller
     public function edit(Purchase $purchase)
     {
         $suppliers = Supplier::select('id', 'name')
-                                ->where('user_id', auth()->id())
+                                ->where('user_id', auth_cache()->id)
                                 ->get();
 
         return response()->json([
@@ -146,7 +146,7 @@ class PurchaseController extends Controller
                 'total_qty' => $total_qty,
                 'total_price' => $total_price
             ]);
-        }else {
+        } else {
             $purchase->is_paid = false;
             foreach ($purchase->purchasingDetails as $purchasing) {
                 $stock = $purchasing->item->current_stock - $purchasing->qty;

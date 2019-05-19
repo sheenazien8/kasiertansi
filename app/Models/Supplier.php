@@ -16,7 +16,7 @@ class Supplier extends Model
     {
         parent::boot();
         static::creating(function ($query) {
-            $query->user_id = auth()->id();
+            $query->user_id = auth_cache()->id;
         });
     }
 

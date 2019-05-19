@@ -19,8 +19,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::where('user_id', auth()->id())
-                                ->orderBy('created_at','desc')
+        dd('ok');
+        $transactions = Transaction::where('user_id', auth_cache()->id)
+                                ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 
         return response()->json($transactions);
@@ -33,7 +34,6 @@ class TransactionController extends Controller
      */
     public function create()
     {
-
     }
 
     /**

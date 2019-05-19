@@ -50,4 +50,5 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::resource('price', 'API\PriceController');
         Route::get('get/price', 'API\PriceController@getPriceByItem')->name('get.price');
     });
+    Route::post('/uploadfile/photo', 'API\UploadFilecontroller@uploadPhotoProfile')->name('uploadfile.photo');
 });

@@ -18,7 +18,7 @@ class PurchasingDetailController extends Controller
      */
     public function index(Purchase $purchase)
     {
-        $purchasingDetails = PurchasingDetail::where('user_id', auth()->id())
+        $purchasingDetails = PurchasingDetail::where('user_id', auth_cache()->id)
                                                 ->where('purchase_id', $purchase->id)
                                                 ->get();
 
@@ -33,7 +33,7 @@ class PurchasingDetailController extends Controller
     public function create()
     {
         $items = Item::select('id', 'name')
-                        ->where('user_id', auth()->id())
+                        ->where('user_id', auth_cache()->id)
                         ->get();
 
         return response()->json($items);
@@ -73,8 +73,8 @@ class PurchasingDetailController extends Controller
      */
     public function edit(PurchasingDetail $purchasingDetail)
     {
-        $items = Item::select('id', 'name')->where('user_id', auth()->id())->get();
-        $categories = Category::select('id', 'name')->where('user_id', auth()->id())->get();
+        $items = Item::select('id', 'name')->where('user_id', auth_cache()->id)->get();
+        $categories = Category::select('id', 'name')->where('user_id', auth_cache()->id)->get();
 
         return response()->json([
             'items' => $items,

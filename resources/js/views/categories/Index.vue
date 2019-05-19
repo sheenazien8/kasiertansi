@@ -25,8 +25,10 @@
               <th scope="row">{{ ++index }}</th>
               <td>{{ category.name }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deletecategory(category.id)"><i class="icon icon-trash"></i></button>
-                <router-link :to="{ name: 'category.edit', params: {id : category.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>
+                <router-link :to="{ name: 'category.edit', params: {id : category.id}}"
+                  class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i>
+                </router-link>
               </td>
             </tr>
           </tbody>
@@ -68,7 +70,6 @@ export default {
         axios.get(RouteService.getUrl(route('category.index', {'page' : page})))
           .then((response) =>{
             this.categories = response.data
-            console.log(this.categories)
           })
           .catch((response) =>{
 

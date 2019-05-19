@@ -15,7 +15,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::where('user_id', auth()->id())
+        $suppliers = Supplier::where('user_id', auth_cache()->id)
                                 ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 
@@ -106,7 +106,7 @@ class SupplierController extends Controller
     public function searchSupplier($query)
     {
         $supplier = Supplier::select('id', 'name')
-                    ->where('user_id', auth()->id())
+                    ->where('user_id', auth_cache()->id)
                     ->where('name', 'LIKE', "%%".$query."%%")->get();
 
         return response()->json($supplier);

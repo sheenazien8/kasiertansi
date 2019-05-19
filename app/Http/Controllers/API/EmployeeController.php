@@ -18,9 +18,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $owner = auth()->user()->userable->id;
+        $owner = auth_cache()->userable->id;
         $employees = Employee::where('owner_id', $owner)
-                                ->orderBy('created_at','desc')
+                                ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 
         return response()->json($employees);
@@ -51,7 +51,7 @@ class EmployeeController extends Controller
         }
         $role = Role::where('name', 'employee')->first();
         $user = new User();
-        $owner = auth()->user()->userable;
+        $owner = auth_cache()->userable;
         $employee = new Employee();
         $employee->fill($request->json()->all());
         $employee->owner()->associate($owner);
@@ -101,7 +101,7 @@ class EmployeeController extends Controller
             ]);
         }
         $user = $employee->user;
-        $owner = auth()->user()->userable;
+        $owner = auth_cache()->userable;
         $employee->fill($request->json()->all());
         $employee->owner()->associate($owner);
         $employee->save();

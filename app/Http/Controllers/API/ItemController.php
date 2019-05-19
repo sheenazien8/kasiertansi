@@ -7,6 +7,7 @@ use App\Http\Requests\ItemRequest;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Unit;
+use App\Services\CodeGeneratorService;
 
 class ItemController extends Controller
 {
@@ -17,7 +18,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $item = Item::where('user_id', auth()->id())->get();
+        $item = Item::where('user_id', auth_cache()->id)->get();
 
         return response()->json($item->load('category', 'unit', 'prices', 'price'));
     }
@@ -30,12 +31,17 @@ class ItemController extends Controller
     public function create(ItemRequest $request)
     {
         $query = $request->input('query');
-        $units = Unit::select('id', 'unit')->where('unit', 'LIKE', "%%".$query."%%")->get();
-        $categories = Category::select('id', 'name')->where('name', 'LIKE', "%%".$query."%%")->get();
+        $units = Unit::select('id', 'unit')
+                        ->where('unit', 'LIKE', "%%".$query."%%")->get();
+        $categories = Category::select('id', 'name')
+                        ->where('name', 'LIKE', "%%".$query."%%")->get();
+        $codeServices = new CodeGeneratorService();
+        $codeItem = $codeServices->generateCodeItem();
 
         return response()->json([
            'units' => $units,
            'categories' => $categories,
+           'codeItem' => $codeItem,
         ]);
     }
 
@@ -77,8 +83,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        $units = Unit::select('id', 'unit')->where('user_id', auth()->id())->get();
-        $categories = Category::select('id', 'name')->where('user_id', auth()->id())->get();
+        $units = Unit::select('id', 'unit')->where('user_id', auth_cache()->id)->get();
+        $categories = Category::select('id', 'name')->where('user_id', auth_cache()->id)->get();
 
         return response()->json([
             'units' => $units,
@@ -145,7 +151,7 @@ class ItemController extends Controller
     public function searhItems($query)
     {
         $item = Item::select('id', 'name')
-                    ->where('user_id', auth()->id())
+                    ->where('user_id', auth_cache()->id)
                     ->where('name', 'LIKE', "%%".$query."%%")->get();
 
         return response()->json($item);

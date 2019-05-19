@@ -17,7 +17,7 @@ class IncomeController extends Controller
     public function index()
     {
         $incomes = Income::selectRaw('date, SUM(total_price) as total_price')
-                        ->where('user_id', auth()->id())
+                        ->where('user_id', auth_cache()->id)
                         ->groupBy('date')
                         ->get();
 
@@ -31,7 +31,6 @@ class IncomeController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -67,7 +66,7 @@ class IncomeController extends Controller
     {
         $listIncome = Income::with('transaction.transactionDetails.item')
                                     ->where('date', $income)
-                                    ->where('user_id', auth()->id())
+                                    ->where('user_id', auth_cache()->id)
                                     ->get();
 
         return response()->json($listIncome);

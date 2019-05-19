@@ -43,6 +43,13 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="name" class="col-form-label">No Rekening</label>
+          <input type="text" class="form-control" :class="errors.rekening_number ? 'is-invalid' : ''"  v-model="purchase.rekening_number">
+          <div v-if="errors.rekening_number">
+            <span class="text-danger">{{ errors.rekening_number[0] }}</span>
+          </div>
+        </div>
+        <div class="form-group">
           <label for="name" class="col-form-label">Catatan</label>
           <textarea id="name" class="form-control" :class="errors.note ? 'is-invalid' : ''"  v-model="purchase.note"
            ></textarea>
@@ -101,6 +108,7 @@
           note : '',
           payment_method : '',
           invoice_number : '',
+          rekening_number : '',
           purchase_date : ''
         },
         supplier : {
@@ -152,7 +160,6 @@
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');
            this.errors = response.response.data.errors;
-           console.log(response);
          });
       },
       getCreateDataPurchases(query){
@@ -170,6 +177,7 @@
           payment_method : this.purchase.payment_method.name,
           note : this.purchase.note,
           invoice_number : this.purchase.invoice_number,
+          rekening_number : this.purchase.rekening_number,
           purchase_date : this.purchase.purchase_date,
         })
          .then((response) => {

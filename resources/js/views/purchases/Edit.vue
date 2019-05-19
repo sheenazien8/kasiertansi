@@ -33,6 +33,13 @@
           </div>
         </div>
         <div class="form-group">
+          <label for="name" class="col-form-label">No Rekening</label>
+          <input type="text" class="form-control" :class="errors.rekening_number ? 'is-invalid' : ''"  v-model="purchase.rekening_number">
+          <div v-if="errors.rekening_number">
+            <span class="text-danger">{{ errors.rekening_number[0] }}</span>
+          </div>
+        </div>
+        <div class="form-group">
           <label for="name" class="col-form-label">Catatan</label>
           <textarea id="name" class="form-control" :class="errors.note ? 'is-invalid' : ''"  v-model="purchase.note"
            ></textarea>
@@ -64,6 +71,7 @@
           supplier_id : '',
           note : '',
           payment_method : '',
+          rekening_number : '',
           invoice_number : '',
           purchase_date : ''
         },
@@ -94,6 +102,7 @@
           payment_method : payment_method,
           note : this.purchase.note,
           invoice_number : this.purchase.invoice_number,
+          rekening_number : this.purchase.rekening_number,
           purchase_date : this.purchase.purchase_date,
         })
          .then((response) => {
@@ -113,6 +122,7 @@
           this.purchase.payment_method = this.purchasesData.payment_method
           this.purchase.note = this.purchasesData.note
           this.purchase.invoice_number = this.purchasesData.invoice_number
+          this.purchase.rekening_number = this.purchasesData.rekening_number
           this.purchase.purchase_date = this.purchasesData.purchase_date
         })
         .catch((response) =>{

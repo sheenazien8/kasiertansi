@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Category extends Model
 {
@@ -12,7 +13,7 @@ class Category extends Model
     {
         parent::boot();
         static::creating(function ($query) {
-            $query->user_id = auth()->id();
+            $query->user_id = Cache::get('owner-cache')->id;
         });
     }
 
@@ -20,6 +21,7 @@ class Category extends Model
     {
         return $this->hasMany(Item::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

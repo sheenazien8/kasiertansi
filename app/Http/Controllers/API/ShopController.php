@@ -15,7 +15,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $shops = Shop::where('user_id', auth()->id())
+        $shops = Shop::where('user_id', auth_cache()->id)
                                 ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 

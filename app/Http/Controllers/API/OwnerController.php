@@ -14,8 +14,8 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $owners = Owner::where('user_id', auth()->id())
-                                ->orderBy('created_at','desc')
+        $owners = Owner::where('user_id', auth_cache()->id)
+                                ->orderBy('created_at', 'desc')
                                 ->paginate(5);
 
         return response()->json($owners);

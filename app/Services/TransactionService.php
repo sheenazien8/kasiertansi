@@ -28,6 +28,7 @@ class TransactionService
 
         return $result;
     }
+
     public function getConstructorClass($request, $item)
     {
         $transactionDetail = TransactionDetail::whereNull('transaction_id')
@@ -75,7 +76,7 @@ class TransactionService
     {
         $carbon = Carbon::now();
         $transactions = Transaction::select($column)
-                            ->where('user_id', auth()->id())
+                            ->where('user_id', auth_cache()->id)
                             ->where('purchase_date', $carbon->today()->format('Y-m-d'));
 
         return $transactions;

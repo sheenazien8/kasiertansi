@@ -16,10 +16,9 @@ class SpendingController extends Controller
      */
     public function index()
     {
-
         $spendings = Spending::selectRaw('date, SUM(total_price) as total_price')
                                 ->with('purchase')
-                                ->where('user_id', auth()->id())
+                                ->where('user_id', auth_cache()->id)
                                 ->groupBy('date')
                                 ->paginate(5);
 
@@ -61,7 +60,7 @@ class SpendingController extends Controller
     {
         $listSpending = Spending::with('purchase.purchasingDetails.item')
                                     ->where('date', $spending)
-                                    ->where('user_id', auth()->id())
+                                    ->where('user_id', auth_cache()->id)
                                     ->get();
 
         return response()->json($listSpending);
@@ -116,5 +115,4 @@ class SpendingController extends Controller
     {
         return response()->json($purchase->load('purchasingDetails.item'));
     }
-
 }

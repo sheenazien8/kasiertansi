@@ -23,6 +23,8 @@
     },
     "dependencies": {
         "@alfsnd/vue-bootstrap-select": "^0.4.0",
+        "@casl/ability": "^3.0.2",
+        "@casl/vue": "^0.5.1",
         "bootstrap-material-datetimepicker": "^2.7.1",
         "bootstrap-vue": "^2.0.0-rc.16",
         "chart.js": "^2.8.0",

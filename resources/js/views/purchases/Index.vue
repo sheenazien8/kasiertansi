@@ -91,7 +91,6 @@ export default {
         axios.get(RouteService.getUrl(route('purchase.index')))
         .then((response) =>{
           this.purchases = response.data
-          console.log(this.purchases)
         })
         .catch((response) =>{
 

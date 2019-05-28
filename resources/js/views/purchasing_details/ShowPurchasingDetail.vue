@@ -326,7 +326,6 @@
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');
            this.errors = response.response.data.errors;
-           console.log(response);
          });
         },
 

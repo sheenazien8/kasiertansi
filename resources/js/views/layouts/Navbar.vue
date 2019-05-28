@@ -193,7 +193,7 @@
         })
       },
       logout(){
-        axios.post(RouteService.getUrl(route('logout')),{
+        axios.post('logout',{
         })
         .then((response) =>{
           window.location.href = "/login"

@@ -91,7 +91,7 @@
             <div class="form-group">
               <label for="address">Alamat Toko</label>
               <textarea v-model="shop.address" id="address" class="form-control" placeholder="Enter Address">
-              </textarea">
+              </textarea>
             </div>
             <div class="form-group">
               <label>Bahasa</label>
@@ -122,7 +122,7 @@
             <div class="form-group">
               <label for="address">Alamat</label>
               <textarea v-model="profile.address" id="address" class="form-control" placeholder="Enter Address">
-              </textarea">
+              </textarea>
             </div>
           </form>
         </b-modal>
@@ -193,7 +193,7 @@
         })
       },
       logout(){
-        axios.post(route('logout'),{
+        axios.post(RouteService.getUrl(route('logout')),{
         })
         .then((response) =>{
           window.location.href = "/login"

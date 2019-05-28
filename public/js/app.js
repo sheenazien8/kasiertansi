@@ -4124,7 +4124,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).catch(function (response) {});
     },
     logout: function logout() {
-      axios.post(route('logout'), {}).then(function (response) {
+      axios.post(RouteService.getUrl(route('logout')), {}).then(function (response) {
         window.location.href = "/login";
       }).catch(function (response) {
         console.log(response);

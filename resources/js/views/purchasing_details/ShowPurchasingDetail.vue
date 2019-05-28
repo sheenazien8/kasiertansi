@@ -361,7 +361,7 @@
       },
 
       getPurchasingDetails(id){
-        axios.get(route('purchasing_detail.index', this.purchase.id),{
+        axios.get(RouteService.getUrl(route('purchasing_detail.index', this.purchase.id)),{
 
         })
         .then((response) =>{

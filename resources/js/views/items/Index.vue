@@ -143,7 +143,7 @@ export default {
         })
       },
       getItem(){
-        axios.get(route('item.index'),{
+        axios.get(RouteService.getUrl(route('item.index')),{
 
         })
         .then((response) =>{
@@ -156,7 +156,7 @@ export default {
       deleteItem(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('item.destroy', id),{
+          axios.delete(RouteService.getUrl(route('item.destroy', id)),{
 
           })
           .then((response) =>{

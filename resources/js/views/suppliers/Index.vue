@@ -88,7 +88,7 @@ export default {
       deleteSupplier(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
-          axios.delete(route('supplier.destroy', id),{
+          axios.delete(RouteService.getUrl(route('supplier.destroy', id)),{
 
           })
           .then((response) =>{

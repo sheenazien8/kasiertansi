@@ -32,7 +32,7 @@
               <input class="form-control" type="text" name='name' placeholder="name"
               value="{{ old('name') }}" required autofocus/>
                @if ($errors->has('name'))
-              <span class="invalid-feedback" role="alert">
+              <span class="text-danger" role="alert">
                 <strong>{{ $errors->first('name') }}</strong>
               </span>
               @endif
@@ -41,7 +41,7 @@
               <input class="form-control" type="text" name='email' placeholder="email"
               value="{{ old('email') }}" required autofocus/>
                @if ($errors->has('email'))
-              <span class="invalid-feedback" role="alert">
+              <span class="text-danger" role="alert">
                 <strong>{{ $errors->first('email') }}</strong>
               </span>
               @endif
@@ -49,8 +49,9 @@
             <div class="form-group">
               <input class="form-control" type="password" name='password' placeholder="password"
               value="{{ old('password') }}" required autofocus/>
+
                @if ($errors->has('password'))
-              <span class="invalid-feedback" role="alert">
+              <span class="text-danger" role="alert">
                 <strong>{{ $errors->first('password') }}</strong>
               </span>
               @endif
@@ -59,7 +60,7 @@
               <input class="form-control" type="password" name='password_confirmation' placeholder="Password Confirmation"
               value="{{ old('password_confirmation') }}" required autofocus/>
                @if ($errors->has('password_confirmation'))
-              <span class="invalid-feedback" role="alert">
+              <span class="text-danger" role="alert">
                 <strong>{{ $errors->first('password_confirmation') }}</strong>
               </span>
               @endif
@@ -71,9 +72,7 @@
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-outline-info btn-block">Sign Up</button>
-            </div>
-            <div class="form-group text-center">
-              <a href="#" class="btn-link">Forgot Password</a>&nbsp;|&nbsp;<a href="#">Support</a>
+              <button class="btn btn-outline-success btn-block login">Login</button>
             </div>
           </form>
         </div>
@@ -81,4 +80,16 @@
     </div>
   </div>
 </div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $('.login').on('click', function(event) {
+      console.log('ok')
+      window.location = '/login'
+      event.preventDefault()
+    });
+  });
+</script>
+</body>
 </body>

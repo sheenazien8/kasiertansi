@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -36,11 +33,12 @@
             </div>
             <div class="checkbox">
               <label>
-                <input type="checkbox"> I agree to the <a href="#" class="btn-link">Terms and Conditions</a>
+                <input type="checkbox"> Remember Me
               </label>
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-outline-info btn-block">Login</button>
+              <button class="btn btn-outline-success btn-block register">Register</button>
             </div>
             <div class="form-group text-center">
               <a href="#" class="btn-link">Forgot Password</a>&nbsp;|&nbsp;<a href="#">Support</a>
@@ -51,4 +49,15 @@
     </div>
   </div>
 </div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $('.register').on('click', function(event) {
+      console.log('ok')
+      window.location = '/register'
+      event.preventDefault()
+    });
+  });
+</script>
 </body>

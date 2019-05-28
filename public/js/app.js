@@ -3868,7 +3868,7 @@ __webpack_require__.r(__webpack_exports__);
     getItem: function getItem() {
       var _this3 = this;
 
-      axios.get(route('item.index'), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('item.index')), {}).then(function (response) {
         _this3.items = response.data;
       }).catch(function (response) {});
     },
@@ -3878,7 +3878,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('item.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('item.destroy', id)), {}).then(function (response) {
           _this4.getItem();
         }).catch(function (response) {});
       }
@@ -4124,7 +4124,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).catch(function (response) {});
     },
     logout: function logout() {
-      axios.post(RouteService.getUrl(route('logout')), {}).then(function (response) {
+      axios.post('logout', {}).then(function (response) {
         window.location.href = "/login";
       }).catch(function (response) {
         console.log(response);
@@ -5076,7 +5076,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get(RouteService.getUrl(route('purchase.index'))).then(function (response) {
         _this2.purchases = response.data;
-        console.log(_this2.purchases);
       }).catch(function (response) {});
     },
     deletePuchase: function deletePuchase(id) {
@@ -5634,7 +5633,6 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (response) {
         if (response.response.status == 500) alert('Something Goes Wrong');
         _this5.errors = response.response.data.errors;
-        console.log(response);
       });
     },
     calculatePrice: function calculatePrice() {
@@ -5663,7 +5661,7 @@ __webpack_require__.r(__webpack_exports__);
     getPurchasingDetails: function getPurchasingDetails(id) {
       var _this8 = this;
 
-      axios.get(route('purchasing_detail.index', this.purchase.id), {}).then(function (response) {
+      axios.get(RouteService.getUrl(route('purchasing_detail.index', this.purchase.id)), {}).then(function (response) {
         _this8.purchasingData = response.data;
         _this8.purchase.is_paid = response.data[0].purchase.is_paid;
       }).catch(function (response) {});
@@ -6741,7 +6739,7 @@ __webpack_require__.r(__webpack_exports__);
       var bool = confirm('You Want to Delete this?');
 
       if (bool) {
-        axios.delete(route('supplier.destroy', id), {}).then(function (response) {
+        axios.delete(RouteService.getUrl(route('supplier.destroy', id)), {}).then(function (response) {
           _this3.getSupplier();
         }).catch(function (response) {});
       }

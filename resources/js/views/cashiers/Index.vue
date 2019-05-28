@@ -84,7 +84,7 @@
                 style="font-size: 20px" readonly :value="formatPrice(total_price)">
               </div>
               <div class="form-group">
-                <label><b>Pembayan</b></label>
+                <label><b>Pembayaran</b></label>
                 <input type="text" class="form-control text-right"
                 style="font-size: 20px" v-model="transaction.paying" @keyup="calculatePrice()">
               </div>
@@ -153,19 +153,21 @@ export default {
       }
     },
     getDetailItems(item){
-      axios.get(RouteService.getUrl(route('item.show', item.id)),{
+      if (item) {
+        axios.get(RouteService.getUrl(route('item.show', item.id)),{
 
-      })
-      .then((response) =>{
-        this.item.id = response.data.id
-        this.item.code = response.data.code
-        this.item.name = response.data.name
-        this.item.current_stock = response.data.current_stock
-        this.item.price = response.data.price.selling_price
-      })
-      .catch((response) =>{
+        })
+        .then((response) =>{
+          this.item.id = response.data.id
+          this.item.code = response.data.code
+          this.item.name = response.data.name
+          this.item.current_stock = response.data.current_stock
+          this.item.price = response.data.price.selling_price
+        })
+        .catch((response) =>{
 
-      })
+        })
+      }
     },
     insertTransaction(){
       axios.post(RouteService.getUrl(route('transaction_detail.store')),{

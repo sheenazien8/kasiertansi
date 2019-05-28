@@ -1948,13 +1948,15 @@ __webpack_require__.r(__webpack_exports__);
     getDetailItems: function getDetailItems(item) {
       var _this2 = this;
 
-      axios.get(RouteService.getUrl(route('item.show', item.id)), {}).then(function (response) {
-        _this2.item.id = response.data.id;
-        _this2.item.code = response.data.code;
-        _this2.item.name = response.data.name;
-        _this2.item.current_stock = response.data.current_stock;
-        _this2.item.price = response.data.price.selling_price;
-      }).catch(function (response) {});
+      if (item) {
+        axios.get(RouteService.getUrl(route('item.show', item.id)), {}).then(function (response) {
+          _this2.item.id = response.data.id;
+          _this2.item.code = response.data.code;
+          _this2.item.name = response.data.name;
+          _this2.item.current_stock = response.data.current_stock;
+          _this2.item.price = response.data.price.selling_price;
+        }).catch(function (response) {});
+      }
     },
     insertTransaction: function insertTransaction() {
       var _this3 = this;
@@ -98472,7 +98474,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", [_c("b", [_vm._v("Pembayan")])])
+    return _c("label", [_c("b", [_vm._v("Pembayaran")])])
   },
   function() {
     var _vm = this

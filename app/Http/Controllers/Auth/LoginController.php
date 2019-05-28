@@ -38,11 +38,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-     /**
-     * Redirect the user to the GitHub authentication page.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    /**
+    * Redirect the user to the GitHub authentication page.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function redirectToProvider()
     {
         return Socialite::driver('facebook')->redirect();

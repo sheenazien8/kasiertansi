@@ -32,8 +32,10 @@ class ItemController extends Controller
     {
         $query = $request->input('query');
         $units = Unit::select('id', 'unit')
+                        ->where('user_id', auth_cache()->id)
                         ->where('unit', 'LIKE', "%%".$query."%%")->get();
         $categories = Category::select('id', 'name')
+                        ->where('user_id', auth_cache()->id)
                         ->where('name', 'LIKE', "%%".$query."%%")->get();
         $codeServices = new CodeGeneratorService();
         $codeItem = $codeServices->generateCodeItem();

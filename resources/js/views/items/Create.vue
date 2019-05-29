@@ -61,8 +61,7 @@
       }
     },
 
-    mounted(){
-      this.getCreateDataItems();
+    mounted(){this.getCreateDataItems();
     },
 
     methods:{

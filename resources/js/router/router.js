@@ -42,10 +42,14 @@ import IncomeShow from './../views/incomes/Show.vue'
 import ShopIndex from './../views/shops/Index.vue'
 import ShopCreate from './../views/shops/Create.vue'
 import ShopEdit from './../views/shops/Edit.vue'
-
+import PageNotFound  from './../views/layouts/404.vue';
 const router = new VueRouter({
     mode: 'history',
     routes: [
+        {
+          path: "*",
+          component: PageNotFound
+        },
         {
             path: '/dashboard',
             name: 'dashboard',

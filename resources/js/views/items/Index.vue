@@ -40,20 +40,20 @@
                   {{ item.price ? formatPrice(item.price.initial_price) : '' }}
               </td>
               <td>
-                  {{ item.price ? formatPrice(item.price.initial_price) : '' }}
+                  {{ item.price ? formatPrice(item.price.selling_price) : '' }}
               </td>
               <td>
-                <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right mr-2"
+                <button title="Delete Item" class="btn btn-sm p-1 btn-danger float-right"
                   @click="deleteItem(item.id)">
                   <i class="icon icon-trash"></i>
                 </button>
                 <router-link title="Edit Item" :to="{ name: 'item.edit', params: {id : item.id}}"
-                  class="btn btn-sm p-1 btn-info float-right mr-2">
+                  class="btn btn-sm p-1 btn-info float-right">
                   <i class="icon icon-pencil"></i>
                 </router-link>
-                <b-button v-b-modal.modal-1 variant="warning" size="sm" class="float-right mr-2"
+                <b-button v-b-modal.modal-1 variant="warning" size="sm" class="float-right"
                   @click="getId(item.id)">
-                  $
+                  $ Ubah Harga
                 </b-button>
               </td>
             </tr>

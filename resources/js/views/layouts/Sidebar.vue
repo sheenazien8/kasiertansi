@@ -12,17 +12,17 @@
       <div class="scroll-sidebar">
           <nav class="sidebar-nav" id="accordion">
               <ul id="sidebarnav">
+                  <li class="nav-item">
+                    <router-link class="nav-link" :to="{name : 'dashboard'}" style="font-size: 15px;">
+                      Dashboard <span><i class="bg-square icon icon-speedometer"></i></span>
+                    </router-link>
+                  </li>
                 <li class="nav-item">
-                  <router-link class="nav-link" :to="{name : 'dashboard'}" style="font-size: 15px;">
-                    Dashboard <span><i class="bg-square icon icon-speedometer"></i></span>
-                  </router-link>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="index.html" style="font-size: 15px;"
+                  <a class="nav-link pembelian-menu" href="index.html" style="font-size: 15px;"
                     data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
                     Pembelian <span><i class="bg-square icon icon-bag"></i></span>
                   </a>
-                  <div id="submenu-1" class="collapse submenu" style="" data-parent="#accordion">
+                  <div id="submenu-1" class="collapse submenu pembelian" style="" data-parent="#accordion">
                     <ul class="nav flex-column">
                       <li class="nav-item">
                           <router-link :to="{ name : 'purchase' }" class="nav-link" >
@@ -32,23 +32,23 @@
                     </ul>
                   </div>
                 </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.html" style="font-size: 15px;"
-                    data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
-                    Penjualan <span><i class="bg-square icon icon-handbag"></i></span>
-                  </a>
-                  <div id="submenu-5" class="collapse submenu" style="" data-parent="#accordion">
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                          <router-link :to="{ name : 'cashier' }" class="nav-link" >Kasir
-                            <span class="bg-square float-right">CS</span>
-                          </router-link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
+                  <li class="nav-item active">
+                    <a class="nav-link penjualan" href="index.html" style="font-size: 15px;"
+                      data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
+                      Penjualan <span><i class="bg-square icon icon-handbag"></i></span>
+                    </a>
+                    <div id="submenu-5" class="collapse submenu" style="" data-parent="#accordion">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <router-link :to="{ name : 'cashier' }" class="nav-link" >Kasir
+                              <span class="bg-square float-right">CS</span>
+                            </router-link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="index.html" style="font-size: 15px;"
+                    <a class="nav-link data-master" href="index.html" style="font-size: 15px;"
                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">
                       Data Master <i class="bg-square icon icon-layers"></i>
                     </a>
@@ -78,7 +78,7 @@
                     </div>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="index.html" style="font-size: 15px;"
+                    <a class="nav-link pengguna" href="index.html" style="font-size: 15px;"
                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">
                       Pengguna <i class="bg-square icon icon-people"></i>
                     </a>
@@ -98,7 +98,7 @@
                     </div>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="index.html" style="font-size: 15px;"
+                    <a class="nav-link laporan" href="index.html" style="font-size: 15px;"
                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">
                       Laporan <i class="bg-square icon icon-docs"></i>
                     </a>
@@ -126,14 +126,28 @@
 export default{
   data(){
     return {
-
+      permissions : []
     }
   },
   mounted(){
-
+    this.getPermission();
   },
   methods:{
+    getPermission(){
+      axios.get(RouteService.getUrl(route('details')))
+      .then((response) =>{
+        this.permissions = response.data.permissions
+      })
+      .catch((response) =>{
 
+      })
+    },
+    getPermissionRule(array){
+      let self = this
+      for (var i = array.length - 1; i >= 0; i--) {
+        console.log(self.permissions.includes(array[i]), array[i])
+      }
+    }
   }
 }
 </script>

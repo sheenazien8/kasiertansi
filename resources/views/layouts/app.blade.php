@@ -56,5 +56,6 @@
        }, 500);
     });
   </script>
+  <script src="{{ asset('js/jquerycustome.js') }}"></script>
 </body>
 </html>

@@ -15,15 +15,15 @@ class CategoriesTableSeeder extends Seeder
     {
         $users = User::all();
         $faker = Faker\Factory::create();
-        $users->each(function($user) use ($faker){
-           for ($i = 0; $i <10 ; $i++) {
+        $users->each(function ($user) use ($faker) {
+            for ($i = 0; $i <10 ; $i++) {
                 $category = new Category();
                 $category->fill([
                     'name' => $faker->name
                 ]);
                 $category->user()->associate($user);
                 $category->save();
-           }
+            }
         });
     }
 }

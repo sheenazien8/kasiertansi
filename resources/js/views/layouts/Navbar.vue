@@ -183,7 +183,7 @@
       getUser(){
         axios.get(RouteService.getUrl(route('details')))
         .then((response) =>{
-          this.user = response.data;
+          this.user = response.data.user;
           this.userable = this.user.userable;
           this.profile = this.user.userable;
           this.profile.email = this.user.email;

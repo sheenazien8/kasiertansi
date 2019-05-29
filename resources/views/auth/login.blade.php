@@ -26,10 +26,22 @@
           <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
-              <input class="form-control" type="text" name='email' placeholder="email"/>
+              <input class="form-control" type="text" name='email' placeholder="email"
+              value="{{ old('email') }}" required autofocus/>
+               @if ($errors->has('email'))
+              <span class="text-danger" role="alert">
+                <strong>{{ $errors->first('email') }}</strong>
+              </span>
+              @endif
             </div>
             <div class="form-group">
-              <input class="form-control" type="password" name='password' placeholder="password"/>
+              <input class="form-control" type="password" name='password' placeholder="password"
+              value="{{ old('password') }}" required autofocus/>
+               @if ($errors->has('password'))
+              <span class="text-danger" role="alert">
+                <strong>{{ $errors->first('password') }}</strong>
+              </span>
+              @endif
             </div>
             <div class="checkbox">
               <label>

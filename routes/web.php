@@ -17,9 +17,8 @@ Auth::routes();
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Route::group(['middleware' => 'auth'], function() {
-    Route::get('/{any}', 'DashboardController@index')->where('any', '.*');
-});
-
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/{any}', 'DashboardController@index')->where('any', '.*');
+});

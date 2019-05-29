@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
@@ -20,12 +19,11 @@ class UserController extends Controller
      */
     public function login()
     {
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('MyApp')-> accessToken;
             return response()->json(['success' => $success], $this->successStatus);
-        }
-        else{
+        } else {
             return response()->json(['error'=>'Unauthorised'], 401);
         }
     }
@@ -61,14 +59,17 @@ class UserController extends Controller
     public function details()
     {
         $user = Auth::user();
-
-        return response()->json($user->load('userable'), $this->successStatus);
+        // $permissions = $user->userable->roles->first()->permissions;
+        return response()->json([
+            'user' => $user->load('userable'),
+            // 'permissions' => $permissions->pluck('name')
+        ], $this->successStatus);
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $value = $request->bearerToken();
         if ($value) {
-
             $id = (new Parser())->parse($value)->getHeader('jti');
             $revoked = DB::table('oauth_access_tokens')->where('id', '=', $id)->update(['revoked' => 1]);
             $this->guard()->logout();

@@ -2534,6 +2534,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [_services_NumberMixins_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
@@ -4117,7 +4119,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       axios.get(RouteService.getUrl(route('details'))).then(function (response) {
-        _this2.user = response.data;
+        _this2.user = response.data.user;
         _this2.userable = _this2.user.userable;
         _this2.profile = _this2.user.userable;
         _this2.profile.email = _this2.user.email;
@@ -4280,10 +4282,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      permissions: []
+    };
   },
-  mounted: function mounted() {},
-  methods: {}
+  mounted: function mounted() {
+    this.getPermission();
+  },
+  methods: {
+    getPermission: function getPermission() {
+      var _this = this;
+
+      axios.get(RouteService.getUrl(route('details'))).then(function (response) {
+        _this.permissions = response.data.permissions;
+      }).catch(function (response) {});
+    },
+    getPermissionRule: function getPermissionRule(array) {
+      var self = this;
+
+      for (var i = array.length - 1; i >= 0; i--) {
+        console.log(self.permissions.includes(array[i]), array[i]);
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -4458,6 +4479,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.role.name = response.data.name;
         _this2.permission.data = response.data.permissions;
         _this2.employee.data = response.data.employees;
+        console.log(response.data.employees);
       }).catch(function (response) {});
     },
     getPermission: function getPermission() {
@@ -5052,6 +5074,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5514,6 +5544,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getPurchasingDetails(this.purchase.id);
   },
   methods: {
+    getItemCode: function getItemCode() {},
     paidPurchasing: function paidPurchasing(id) {
       var _this = this;
 
@@ -5525,8 +5556,6 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         axios.put(RouteService.getUrl(route('paid_purchase', id))).then(function (response) {
           if (!_this.purchase.is_paid) {
-            console.log('ok');
-
             _this.$notify({
               type: 'success',
               text: 'Success Paid Purchasing Order'
@@ -5600,6 +5629,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this4.categoriesData = response.data.categories;
         _this4.unitsData = response.data.units;
+        _this4.item.code = response.data.codeItem;
       }).catch(function (response) {});
     },
     createItems: function createItems() {
@@ -5629,7 +5659,7 @@ __webpack_require__.r(__webpack_exports__);
         _this5.item.code = '';
         _this5.item.qty = '';
         _this5.item.category_id = '';
-        _this5.item.unit_id.id = '';
+        _this5.item.unit_id = '';
       }).catch(function (response) {
         if (response.response.status == 500) alert('Something Goes Wrong');
         _this5.errors = response.response.data.errors;
@@ -98880,7 +98910,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "btn btn-sm p-1 btn-danger float-right mr-2",
+                              "btn btn-sm p-1 btn-danger float-right",
                             on: {
                               click: function($event) {
                                 return _vm.deleteCategory(category.id)
@@ -98893,8 +98923,7 @@ var render = function() {
                         _c(
                           "router-link",
                           {
-                            staticClass:
-                              "btn btn-sm p-1 btn-info float-right mr-2",
+                            staticClass: "btn btn-sm p-1 btn-info float-right",
                             attrs: {
                               to: {
                                 name: "category.edit",
@@ -99002,7 +99031,7 @@ var render = function() {
                         "span",
                         {
                           staticClass: "count",
-                          staticStyle: { "font-size": "1.5em" }
+                          staticStyle: { "font-size": "1.2em" }
                         },
                         [_vm._v(_vm._s(_vm.formatPrice(_vm.data.incomes)))]
                       )
@@ -99031,7 +99060,40 @@ var render = function() {
                         "span",
                         {
                           staticClass: "count",
-                          staticStyle: { "font-size": "1.5em" }
+                          staticStyle: { "font-size": "1.2em" }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(_vm.formatPrice(_vm.data.admission_today))
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "stat-heading" }, [
+                      _vm._v("Uang Masuk Hari Ini")
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-3 col-md-6" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body bg-success text-white" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "row" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "stat-text" }, [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "count",
+                          staticStyle: { "font-size": "1.2em" }
                         },
                         [_vm._v(_vm._s(_vm.data.items))]
                       )
@@ -99047,8 +99109,6 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
         _c("div", { staticClass: "col-lg-3 col-md-6" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-body bg-danger text-white" }, [
@@ -99062,7 +99122,7 @@ var render = function() {
                         "span",
                         {
                           staticClass: "count",
-                          staticStyle: { "font-size": "1.5em" }
+                          staticStyle: { "font-size": "1.2em" }
                         },
                         [_vm._v(_vm._s(_vm.data.employees))]
                       )
@@ -99181,40 +99241,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-3 p-0 mr-3" }, [
-      _c("i", { staticClass: "icon icon-basket size-icon" })
+      _c("i", { staticClass: "icon icon-grid size-icon" })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-3 col-md-6" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-body bg-warning text-white" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-3 p-0 mr-3" }, [
-                _c("i", { staticClass: "icon icon-grid size-icon" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "stat-text" }, [
-                  _c(
-                    "span",
-                    {
-                      staticClass: "count",
-                      staticStyle: { "font-size": "1.5em" }
-                    },
-                    [_vm._v("2986")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "stat-heading" }, [_vm._v("Cabang")])
-              ])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "col-md-3 p-0 mr-3" }, [
+      _c("i", { staticClass: "icon icon-basket size-icon" })
     ])
   },
   function() {
@@ -99903,7 +99938,7 @@ var render = function() {
                             "button",
                             {
                               staticClass:
-                                "btn btn-sm p-1 btn-danger float-right mr-2",
+                                "btn btn-sm p-1 btn-danger float-right",
                               on: {
                                 click: function($event) {
                                   return _vm.deleteEmployee(employee.id)
@@ -99917,7 +99952,7 @@ var render = function() {
                             "router-link",
                             {
                               staticClass:
-                                "btn btn-sm p-1 btn-info float-right mr-2",
+                                "btn btn-sm p-1 btn-info float-right",
                               attrs: {
                                 to: {
                                   name: "employee.edit",
@@ -101699,7 +101734,7 @@ var render = function() {
                         "\n                  " +
                           _vm._s(
                             item.price
-                              ? _vm.formatPrice(item.price.initial_price)
+                              ? _vm.formatPrice(item.price.selling_price)
                               : ""
                           ) +
                           "\n              "
@@ -101713,7 +101748,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "btn btn-sm p-1 btn-danger float-right mr-2",
+                              "btn btn-sm p-1 btn-danger float-right",
                             attrs: { title: "Delete Item" },
                             on: {
                               click: function($event) {
@@ -101727,8 +101762,7 @@ var render = function() {
                         _c(
                           "router-link",
                           {
-                            staticClass:
-                              "btn btn-sm p-1 btn-info float-right mr-2",
+                            staticClass: "btn btn-sm p-1 btn-info float-right",
                             attrs: {
                               title: "Edit Item",
                               to: { name: "item.edit", params: { id: item.id } }
@@ -101747,7 +101781,7 @@ var render = function() {
                                 modifiers: { "modal-1": true }
                               }
                             ],
-                            staticClass: "float-right mr-2",
+                            staticClass: "float-right",
                             attrs: { variant: "warning", size: "sm" },
                             on: {
                               click: function($event) {
@@ -101755,7 +101789,11 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("\n                  $\n                ")]
+                          [
+                            _vm._v(
+                              "\n                  $ Ubah Harga\n                "
+                            )
+                          ]
                         )
                       ],
                       1
@@ -102488,7 +102526,7 @@ var render = function() {
                   attrs: { to: { name: "dashboard" } }
                 },
                 [
-                  _vm._v("\n                  Dashboard "),
+                  _vm._v("\n                    Dashboard "),
                   _c("span", [
                     _c("i", { staticClass: "bg-square icon icon-speedometer" })
                   ])
@@ -102504,7 +102542,7 @@ var render = function() {
             _c(
               "div",
               {
-                staticClass: "collapse submenu",
+                staticClass: "collapse submenu pembelian",
                 attrs: { id: "submenu-1", "data-parent": "#accordion" }
               },
               [
@@ -102556,7 +102594,7 @@ var render = function() {
                           attrs: { to: { name: "cashier" } }
                         },
                         [
-                          _vm._v("Kasir\n                          "),
+                          _vm._v("Kasir\n                            "),
                           _c("span", { staticClass: "bg-square float-right" }, [
                             _vm._v("CS")
                           ])
@@ -102828,7 +102866,7 @@ var staticRenderFns = [
     return _c(
       "a",
       {
-        staticClass: "nav-link",
+        staticClass: "nav-link pembelian-menu",
         staticStyle: { "font-size": "15px" },
         attrs: {
           href: "index.html",
@@ -102851,7 +102889,7 @@ var staticRenderFns = [
     return _c(
       "a",
       {
-        staticClass: "nav-link",
+        staticClass: "nav-link penjualan",
         staticStyle: { "font-size": "15px" },
         attrs: {
           href: "index.html",
@@ -102862,7 +102900,7 @@ var staticRenderFns = [
         }
       },
       [
-        _vm._v("\n                  Penjualan "),
+        _vm._v("\n                    Penjualan "),
         _c("span", [_c("i", { staticClass: "bg-square icon icon-handbag" })])
       ]
     )
@@ -102874,7 +102912,7 @@ var staticRenderFns = [
     return _c(
       "a",
       {
-        staticClass: "nav-link",
+        staticClass: "nav-link data-master",
         staticStyle: { "font-size": "15px" },
         attrs: {
           href: "index.html",
@@ -102897,7 +102935,7 @@ var staticRenderFns = [
     return _c(
       "a",
       {
-        staticClass: "nav-link",
+        staticClass: "nav-link pengguna",
         staticStyle: { "font-size": "15px" },
         attrs: {
           href: "index.html",
@@ -102920,7 +102958,7 @@ var staticRenderFns = [
     return _c(
       "a",
       {
-        staticClass: "nav-link",
+        staticClass: "nav-link laporan",
         staticStyle: { "font-size": "15px" },
         attrs: {
           href: "index.html",
@@ -103332,7 +103370,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "btn btn-sm p-1 btn-danger float-right mr-2",
+                                  "btn btn-sm p-1 btn-danger float-right",
                                 on: {
                                   click: function($event) {
                                     return _vm.deleteRole(role.id)
@@ -103346,7 +103384,7 @@ var render = function() {
                               "router-link",
                               {
                                 staticClass:
-                                  "btn btn-sm p-1 btn-warning float-right mr-2",
+                                  "btn btn-sm p-1 btn-warning float-right",
                                 attrs: {
                                   to: {
                                     name: "management_permission.edit",
@@ -103367,7 +103405,7 @@ var render = function() {
                                     modifiers: { "modal-1": true }
                                   }
                                 ],
-                                staticClass: "modal-1 float-right mr-2",
+                                staticClass: "modal-1 float-right",
                                 attrs: { size: "sm", variant: "info" },
                                 on: {
                                   click: function($event) {
@@ -104327,6 +104365,29 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(purchase.note))]),
                     _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "span",
+                        {
+                          staticClass: "btn-sm",
+                          class: purchase.is_paid
+                            ? "badge-success"
+                            : "badge-info"
+                        },
+                        [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(
+                                purchase.is_paid
+                                  ? "Sudah Dibayar"
+                                  : "Belum Dibayar"
+                              ) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "td",
                       [
@@ -104334,7 +104395,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "btn btn-sm p-1 btn-danger float-right mr-2",
+                              "btn btn-sm p-1 btn-danger float-right",
                             attrs: { title: "delete?" },
                             on: {
                               click: function($event) {
@@ -104348,8 +104409,7 @@ var render = function() {
                         _c(
                           "router-link",
                           {
-                            staticClass:
-                              "btn btn-sm p-1 btn-info float-right mr-2",
+                            staticClass: "btn btn-sm p-1 btn-info float-right",
                             attrs: {
                               to: {
                                 name: "purchase.edit",
@@ -104365,7 +104425,7 @@ var render = function() {
                           "router-link",
                           {
                             staticClass:
-                              "btn btn-sm p-1 btn-primary float-right mr-2",
+                              "btn btn-sm p-1 btn-primary float-right",
                             attrs: {
                               to: {
                                 name: "purchasing_detail.index",
@@ -104374,7 +104434,10 @@ var render = function() {
                               title: "add purchasing details!"
                             }
                           },
-                          [_c("i", { staticClass: "icon icon-handbag" })]
+                          [
+                            _c("i", { staticClass: "icon icon-handbag" }),
+                            _vm._v(" Detail Pembelian\n                ")
+                          ]
                         )
                       ],
                       1
@@ -104434,6 +104497,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Tanggal Pembayaran")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Catatan")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
@@ -107471,7 +107536,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "btn btn-sm p-1 btn-danger float-right mr-2",
+                              "btn btn-sm p-1 btn-danger float-right",
                             on: {
                               click: function($event) {
                                 return _vm.deleteSupplier(supplier.id)
@@ -107484,8 +107549,7 @@ var render = function() {
                         _c(
                           "router-link",
                           {
-                            staticClass:
-                              "btn btn-sm p-1 btn-info float-right mr-2",
+                            staticClass: "btn btn-sm p-1 btn-info float-right",
                             attrs: {
                               to: {
                                 name: "supplier.edit",
@@ -107876,7 +107940,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "btn btn-sm p-1 btn-danger float-right mr-2",
+                              "btn btn-sm p-1 btn-danger float-right",
                             on: {
                               click: function($event) {
                                 return _vm.deleteUnit(unit.id)
@@ -107889,8 +107953,7 @@ var render = function() {
                         _c(
                           "router-link",
                           {
-                            staticClass:
-                              "btn btn-sm p-1 btn-info float-right mr-2",
+                            staticClass: "btn btn-sm p-1 btn-info float-right",
                             attrs: {
                               to: { name: "unit.edit", params: { id: unit.id } }
                             }

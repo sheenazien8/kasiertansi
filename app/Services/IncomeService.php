@@ -10,6 +10,15 @@ class IncomeService
     public function getTodayIncome()
     {
         $carbon = Carbon::now();
+        $incomes = Income::select('total_profit')->where('user_id', auth_cache()->id)
+            ->where('date', $carbon->today()->format('Y-m-d'))
+            ->get()->sum('total_profit');
+
+        return $incomes;
+    }
+    public function getAdmissionToday()
+    {
+        $carbon = Carbon::now();
         $incomes = Income::select('total_price')->where('user_id', auth_cache()->id)
             ->where('date', $carbon->today()->format('Y-m-d'))
             ->get()->sum('total_price');

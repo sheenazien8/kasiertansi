@@ -88,6 +88,7 @@
           this.role.name = response.data.name
           this.permission.data = response.data.permissions
           this.employee.data = response.data.employees
+          console.log(response.data.employees)
         })
         .catch((response) => {
 

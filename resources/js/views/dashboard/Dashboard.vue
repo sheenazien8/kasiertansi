@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="stat-text">
-                        <span class="count" style="font-size: 1.5em;">{{ formatPrice(data.incomes) }}</span>
+                        <span class="count" style="font-size: 1.2em;">{{ formatPrice(data.incomes) }}</span>
                       </div>
                       <div class="stat-heading">Pendapatan Hari Ini</div>
                     </div>
@@ -28,13 +28,14 @@
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-3 p-0 mr-3">
-                      <i class="icon icon-basket size-icon"></i>
+                      <i class="icon icon-grid size-icon"></i>
+                      <!-- <p style="size: 30px">$</p> -->
                     </div>
                     <div class="col-md-6">
                       <div class="stat-text">
-                        <span class="count" style="font-size: 1.5em;">{{ data.items }}</span>
+                        <span class="count" style="font-size: 1.2em;">{{ formatPrice(data.admission_today) }}</span>
                       </div>
-                      <div class="stat-heading">Barang Terjual</div>
+                      <div class="stat-heading">Uang Masuk Hari Ini</div>
                     </div>
                   </div>
                 </div>
@@ -42,19 +43,20 @@
           </div>
       </div>
 
+
       <div class="col-lg-3 col-md-6">
           <div class="card">
-              <div class="card-body bg-warning text-white">
+              <div class="card-body bg-success text-white">
                 <div class="col-md-12">
                   <div class="row">
                     <div class="col-md-3 p-0 mr-3">
-                      <i class="icon icon-grid size-icon"></i>
+                      <i class="icon icon-basket size-icon"></i>
                     </div>
                     <div class="col-md-6">
                       <div class="stat-text">
-                        <span class="count" style="font-size: 1.5em;">2986</span>
+                        <span class="count" style="font-size: 1.2em;">{{ data.items }}</span>
                       </div>
-                      <div class="stat-heading">Cabang</div>
+                      <div class="stat-heading">Barang Terjual</div>
                     </div>
                   </div>
                 </div>
@@ -72,7 +74,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="stat-text">
-                        <span class="count" style="font-size: 1.5em;">{{ data.employees }}</span>
+                        <span class="count" style="font-size: 1.2em;">{{ data.employees }}</span>
                       </div>
                       <div class="stat-heading">Karyawan</div>
                     </div>

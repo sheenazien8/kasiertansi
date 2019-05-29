@@ -25,9 +25,9 @@
               <th scope="row">{{ ++index }}</th>
               <td>{{ category.name }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>
+                <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteCategory(category.id)"><i class="icon icon-trash"></i></button>
                 <router-link :to="{ name: 'category.edit', params: {id : category.id}}"
-                  class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i>
+                  class="btn btn-sm p-1 btn-info float-right"><i class="icon icon-pencil"></i>
                 </router-link>
               </td>
             </tr>

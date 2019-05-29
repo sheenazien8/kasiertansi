@@ -27,13 +27,15 @@ class DashboardController extends Controller
         )->orderBy('created_at', 'desc')->limit(5)->get();
 
         $incomes = $incomeService->getTodayIncome();
+        $admission_today = $incomeService->getAdmissionToday();
         $employees = $employeeService->getTotalEmployee();
 
         return response()->json([
             'incomes' => $incomes,
             'items' => $transactionToday,
             'employees' => $employees,
-            'invoice_number' => $invoiceNumber
+            'invoice_number' => $invoiceNumber,
+            'admission_today' => $admission_today
         ]);
     }
 
@@ -41,7 +43,8 @@ class DashboardController extends Controller
     {
         $incomeService = new IncomeService();
         $interIncome = $incomeService->getIncomeByRequest(
-            $request, ['total_price', 'date']
+            $request,
+            ['total_price', 'date']
         );
 
         return response()->json($interIncome);

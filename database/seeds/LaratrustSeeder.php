@@ -35,9 +35,7 @@ class LaratrustSeeder extends Seeder
 
             // Reading role permission modules
             foreach ($modules as $module => $value) {
-
                 foreach (explode(',', $value) as $p => $perm) {
-
                     $permissionValue = $mapPermission->get($perm);
 
                     $permissions[] = \App\Models\Permission::firstOrCreate([
@@ -61,13 +59,14 @@ class LaratrustSeeder extends Seeder
                 'password' => bcrypt('12345678'),
             ]);
             $user->unsetEventDispatcher();
-            $userable = $key != 'owner' ? new \App\Models\Employee() : new \App\Models\Owner();
+            // $key != 'owner' ? new \App\Models\Employee() :
+            $userable = new \App\Models\Owner();
             $userable->name = ucwords(str_replace('_', ' ', $key));
             $carbon = Carbon\Carbon::now();
             $userable->join_date = $carbon->format('Y-m-d');
-            if (get_class($userable) == \App\Models\Employee::class) {
-                $userable->owner()->associate(\App\Models\Owner::first());
-            }
+            // if (get_class($userable) == \App\Models\Employee::class) {
+            //     $userable->owner()->associate(\App\Models\Owner::first());
+            // }
             // $userable->user()->associate($user);
             $userable->save();
             $user->userable()->associate($userable);
@@ -79,7 +78,6 @@ class LaratrustSeeder extends Seeder
         if (!empty($userPermission)) {
             dd($userPermission);
             foreach ($userPermission as $key => $modules) {
-
                 foreach ($modules as $module => $value) {
 
                     // Create default user for each permission set
@@ -92,7 +90,6 @@ class LaratrustSeeder extends Seeder
                     $permissions = [];
 
                     foreach (explode(',', $value) as $p => $perm) {
-
                         $permissionValue = $mapPermission->get($perm);
 
                         $permissions[] = \App\Models\Permission::firstOrCreate([

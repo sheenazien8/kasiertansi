@@ -25,8 +25,8 @@
               <td>{{ employee.name }}</td>
               <td>{{ employee.join_date }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteEmployee(employee.id)"><i class="icon icon-trash"></i></button>
-                <router-link :to="{ name: 'employee.edit', params: {id : employee.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+                <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteEmployee(employee.id)"><i class="icon icon-trash"></i></button>
+                <router-link :to="{ name: 'employee.edit', params: {id : employee.id}}" class="btn btn-sm p-1 btn-info float-right"><i class="icon icon-pencil"></i></router-link>
               </td>
             </tr>
           </thead>

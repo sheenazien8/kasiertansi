@@ -210,6 +210,9 @@
       this.getPurchasingDetails(this.purchase.id);
     },
     methods :{
+      getItemCode(){
+
+      },
       paidPurchasing(id){
         if (this.purchasingData.length == 0) {
           this.$notify({
@@ -220,7 +223,6 @@
           axios.put(RouteService.getUrl(route('paid_purchase', id)))
           .then((response) =>{
             if (!this.purchase.is_paid) {
-              console.log('ok')
               this.$notify({
                 type: 'success',
                 text: 'Success Paid Purchasing Order'
@@ -293,6 +295,7 @@
         .then((response) =>{
           this.categoriesData = response.data.categories
           this.unitsData = response.data.units
+          this.item.code = response.data.codeItem
         })
         .catch((response) =>{
 
@@ -321,7 +324,7 @@
             this.item.code = '';
             this.item.qty = '';
             this.item.category_id = '';
-            this.item.unit_id.id = '';
+            this.item.unit_id = '';
          })
          .catch((response) =>{
            if(response.response.status == 500) alert('Something Goes Wrong');

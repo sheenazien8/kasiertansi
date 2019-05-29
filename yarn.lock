@@ -563,18 +563,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@casl/ability@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@casl/ability/-/ability-3.0.2.tgz#787e581382836c2da998b9a61ecd334c548b049f"
-  integrity sha512-XBs+ESP9nzeuER1gOVrag/iOXlBXjKd9I80qzzFBC0i4Olsnw4WiDadMoSbulfMNtw6jti640DBN9bPvg9mq9g==
-  dependencies:
-    sift "^7.0.1"
-
-"@casl/vue@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@casl/vue/-/vue-0.5.1.tgz#3b9fe9aeba0ba2b45578c91021877f31a288bda4"
-  integrity sha512-a3ZAYoQEr5dnPFQsDnivlC5UBYWKZD0XPvDohzJVCCjztRZIEOFOd/Ns502yTqe9sIJPq38f5nGsZ+YIIVWcIg==
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -5227,11 +5215,6 @@ shebang-regex@^1.0.0:
 shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
-
-sift@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/sift/-/sift-7.0.1.tgz#47d62c50b159d316f1372f8b53f9c10cd21a4b08"
-  integrity sha512-oqD7PMJ+uO6jV9EQCl0LrRw1OwsiPsiFQR5AR30heR+4Dl7jBBbDLnNvWiak20tzZlSE1H7RB30SX/1j/YYT7g==
 
 signal-exit@^3.0.0:
   version "3.0.2"

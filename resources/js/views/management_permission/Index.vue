@@ -25,15 +25,15 @@
               <td>{{ ++index }}</td>
               <td>{{ role.display_name }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2"
+                <button class="btn btn-sm p-1 btn-danger float-right"
                   @click="deleteRole(role.id)">
                   <i class="icon icon-trash"></i>
                 </button>
                 <router-link :to="{ name: 'management_permission.edit', params: {id : role.id}}"
-                  class="btn btn-sm p-1 btn-warning float-right mr-2">
+                  class="btn btn-sm p-1 btn-warning float-right">
                   <i class="icon icon-pencil"></i>
                 </router-link>
-                <b-button v-b-modal.modal-1 size="sm" variant="info" class="modal-1 float-right mr-2"
+                <b-button v-b-modal.modal-1 size="sm" variant="info" class="modal-1 float-right"
                   @click="getRoleId(role.id)">
                   <i class="icon icon-magnifier"></i>
                 </b-button>

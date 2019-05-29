@@ -25,8 +25,8 @@
               <th scope="row">{{ ++index }}</th>
               <td>{{ unit.unit }}</td>
               <td>
-                <button class="btn btn-sm p-1 btn-danger float-right mr-2" @click="deleteUnit(unit.id)"><i class="icon icon-trash"></i></button>
-                <router-link :to="{ name: 'unit.edit', params: {id : unit.id}}" class="btn btn-sm p-1 btn-info float-right mr-2"><i class="icon icon-pencil"></i></router-link>
+                <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteUnit(unit.id)"><i class="icon icon-trash"></i></button>
+                <router-link :to="{ name: 'unit.edit', params: {id : unit.id}}" class="btn btn-sm p-1 btn-info float-right"><i class="icon icon-pencil"></i></router-link>
               </td>
             </tr>
           </tbody>

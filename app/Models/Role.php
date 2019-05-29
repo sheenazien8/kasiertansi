@@ -16,7 +16,7 @@ class Role extends LaratrustRole
     {
         parent::boot();
         static::creating(function ($query) {
-            // $query->user_id = auth_cache()->id;
+            $query->user_id = auth_cache()->id;
         });
     }
 

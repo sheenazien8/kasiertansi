@@ -20,7 +20,7 @@ class SpendingController extends Controller
                                 ->with('purchase')
                                 ->where('user_id', auth_cache()->id)
                                 ->groupBy('date')
-                                ->paginate(5);
+                                ->paginate();
 
         return response()->json($spendings->load('purchase'));
     }

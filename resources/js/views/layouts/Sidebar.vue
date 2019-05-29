@@ -17,21 +17,28 @@
                       Dashboard <span><i class="bg-square icon icon-speedometer"></i></span>
                     </router-link>
                   </li>
-                <li class="nav-item">
-                  <a class="nav-link pembelian-menu" href="index.html" style="font-size: 15px;"
-                    data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
-                    Pembelian <span><i class="bg-square icon icon-bag"></i></span>
-                  </a>
-                  <div id="submenu-1" class="collapse submenu pembelian" style="" data-parent="#accordion">
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                          <router-link :to="{ name : 'purchase' }" class="nav-link" >
-                            PO Pembelian <span class="bg-square float-right">PO</span>
-                          </router-link>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
+                <div v-if="getPermissionRule([
+                    'baca-pembelian', 'buat-pembelian', 'rubah-pembelian', 'hapus-pembelian'
+                ])">
+                  <li class="nav-item">
+                    <a class="nav-link pembelian-menu" href="index.html" style="font-size: 15px;"
+                      data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
+                      Pembelian <span><i class="bg-square icon icon-bag"></i></span>
+                    </a>
+                    <div id="submenu-1" class="collapse submenu pembelian" style="" data-parent="#accordion">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <router-link :to="{ name : 'purchase' }" class="nav-link" >
+                              PO Pembelian <span class="bg-square float-right">PO</span>
+                            </router-link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </div>
+                <div v-if="getPermissionRule([
+                  'baca-penjualan', 'buat-penjualan', 'rubah-penjualan', 'hapus-penjualan'
+                ])">
                   <li class="nav-item active">
                     <a class="nav-link penjualan" href="index.html" style="font-size: 15px;"
                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
@@ -47,36 +54,42 @@
                       </ul>
                     </div>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link data-master" href="index.html" style="font-size: 15px;"
-                      data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">
-                      Data Master <i class="bg-square icon icon-layers"></i>
-                    </a>
-                    <div id="submenu-3" class="collapse submenu" style="" data-parent="#accordion">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'category' }" class="nav-link" >
-                              Kategori <i class="bg-square icon icon-pie-chart"></i>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'unit' }" class="nav-link">
-                              Unit <i class="bg-square icon icon-login"></i>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'item' }" class="nav-link">
-                              Barang <i class="bg-square icon icon-paper-clip"></i>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'supplier' }" class="nav-link">
-                              Supplier <i class="bg-square icon icon-directions"></i>
-                            </router-link>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
+                </div>
+
+                <li class="nav-item">
+                  <a class="nav-link data-master" href="index.html" style="font-size: 15px;"
+                    data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">
+                    Data Master <i class="bg-square icon icon-layers"></i>
+                  </a>
+                  <div id="submenu-3" class="collapse submenu" style="" data-parent="#accordion">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                          <router-link :to="{ name: 'category' }" class="nav-link" >
+                            Kategori <i class="bg-square icon icon-pie-chart"></i>
+                          </router-link>
+                      </li>
+                      <li class="nav-item">
+                          <router-link :to="{ name: 'unit' }" class="nav-link">
+                            Unit <i class="bg-square icon icon-login"></i>
+                          </router-link>
+                      </li>
+                      <li class="nav-item">
+                          <router-link :to="{ name: 'item' }" class="nav-link">
+                            Barang <i class="bg-square icon icon-paper-clip"></i>
+                          </router-link>
+                      </li>
+                      <li class="nav-item">
+                          <router-link :to="{ name: 'supplier' }" class="nav-link">
+                            Supplier <i class="bg-square icon icon-directions"></i>
+                          </router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+                <div v-if="getPermissionRule([
+                    'baca-pengguna', 'buat-pengguna', 'rubah-pengguna', 'hapus-pengguna'
+                ])">
                   <li class="nav-item">
                     <a class="nav-link pengguna" href="index.html" style="font-size: 15px;"
                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">
@@ -97,6 +110,10 @@
                       </ul>
                     </div>
                   </li>
+                </div>
+                <div v-if="getPermissionRule([
+                    'baca-laporan', 'buat-laporan', 'rubah-laporan', 'hapus-laporan'
+                ])">
                   <li class="nav-item">
                     <a class="nav-link laporan" href="index.html" style="font-size: 15px;"
                       data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6">
@@ -117,6 +134,7 @@
                       </ul>
                     </div>
                   </li>
+                </div>
               </ul>
           </nav>
       </div>
@@ -137,16 +155,21 @@ export default{
       axios.get(RouteService.getUrl(route('details')))
       .then((response) =>{
         this.permissions = response.data.permissions
+        console.log(this.permissions)
       })
       .catch((response) =>{
 
       })
     },
     getPermissionRule(array){
-      let self = this
+      let self = this;
+      let result;
       for (var i = array.length - 1; i >= 0; i--) {
-        console.log(self.permissions.includes(array[i]), array[i])
+        if (self.permissions.includes(array[i])) {
+          result = true;
+        }
       }
+      return result;
     }
   }
 }

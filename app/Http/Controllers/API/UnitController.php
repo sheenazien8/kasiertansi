@@ -15,7 +15,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::where('user_id', auth_cache()->id)->paginate(5);
+        $units = Unit::where('user_id', auth_cache()->id)->paginate();
 
         return response()->json($units);
     }

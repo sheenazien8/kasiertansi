@@ -21,7 +21,7 @@ class EmployeeController extends Controller
         $owner = auth_cache()->userable->id;
         $employees = Employee::where('owner_id', $owner)
                                 ->orderBy('created_at', 'desc')
-                                ->paginate(5);
+                                ->paginate();
 
         return response()->json($employees);
     }
@@ -98,6 +98,10 @@ class EmployeeController extends Controller
         if (!$request->json('password')) {
             request()->json()->add([
                 'password' => bcrypt(12345678)
+            ]);
+        } else {
+            request()->json()->add([
+                'password' => bcrypt($request->json('password'))
             ]);
         }
         $user = $employee->user;

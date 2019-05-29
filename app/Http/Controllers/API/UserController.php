@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Permission;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -59,10 +60,14 @@ class UserController extends Controller
     public function details()
     {
         $user = Auth::user();
-        // $permissions = $user->userable->roles->first()->permissions;
+        if ($user->userable_type == "App\Models\Owner") {
+            $permissions = Permission::all();
+        } elseif ($user->userable_type == "App\Models\Employee") {
+            $permissions = $user->userable->roles->first()->permissions;
+        }
         return response()->json([
             'user' => $user->load('userable'),
-            // 'permissions' => $permissions->pluck('name')
+            'permissions' => $permissions->pluck('name')
         ], $this->successStatus);
     }
 

@@ -15,6 +15,7 @@ import Paginate from 'vuejs-paginate';
 import RouteService from './services/RouteService';
 import TitleService from './services/TitleService';
 import Chart from 'chart.js';
+// import { abilitiesPlugin } from '@casl/vue';
 // import Datepicker from 'vuejs-datepicker';
 
 window.Vue = require('vue');
@@ -24,6 +25,7 @@ Vue.prototype.$eventBus = new Vue();
 
 Vue.use(Notifications)
 Vue.use(BootstrapVue)
+// Vue.use(abilitiesPlugin);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -37,6 +39,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('navbar', require('./views/layouts/Navbar.vue').default);
 Vue.component('sidebar', require('./views/layouts/Sidebar.vue').default);
 Vue.component('breadcrumb', require('./views/layouts/Breadcumb.vue').default);
+Vue.component('can', require('./components/Permission.vue').default);
 Vue.component('v-select', VSelect);
 Vue.component('v-paginate', Paginate)
 

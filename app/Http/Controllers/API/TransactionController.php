@@ -22,7 +22,7 @@ class TransactionController extends Controller
         dd('ok');
         $transactions = Transaction::where('user_id', auth_cache()->id)
                                 ->orderBy('created_at', 'desc')
-                                ->paginate(5);
+                                ->paginate();
 
         return response()->json($transactions);
     }

@@ -17,7 +17,7 @@ class SupplierController extends Controller
     {
         $suppliers = Supplier::where('user_id', auth_cache()->id)
                                 ->orderBy('created_at', 'desc')
-                                ->paginate(5);
+                                ->paginate();
 
         return response()->json($suppliers);
     }

@@ -22,7 +22,7 @@ class PurchaseController extends Controller
         $purchases = Purchase::where('user_id', auth_cache()->id)
                                 ->with('supplier')
                                 ->orderBy('created_at', 'desc')
-                                ->paginate(5);
+                                ->paginate();
 
         return response()->json($purchases);
     }

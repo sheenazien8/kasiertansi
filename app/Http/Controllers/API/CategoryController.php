@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         $categories = Category::where('user_id', auth_cache()->id)
                                 ->orderBy('created_at', 'desc')
-                                ->paginate(5);
+                                ->paginate();
 
         return response()->json($categories);
     }

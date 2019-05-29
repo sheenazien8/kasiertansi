@@ -196,7 +196,7 @@
         axios.post('logout',{
         })
         .then((response) =>{
-          window.location.href = "/login"
+          window.location.href = ""
         })
         .catch((response) =>{
           console.log(response)

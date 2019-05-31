@@ -6,9 +6,18 @@
       <div class="col-xl-12">
         <h3 class="card-header">
           Daftar Barang
-          <router-link :to="{ name: 'item.create' }" class="float">
+          <router-link :to="{ name: 'item.create' }" class="btn btn-sm btn-success float-right">
             <i class="icon icon-plus my-float"></i>
           </router-link>
+          <button @click="triggerUpload()" class="btn btn-sm btn-primary float-right">
+            <i class="icon icon-doc"></i>  Import Excel
+          </button>
+          <input ref="importFile" type="file" style="opacity: 0" v-on:change="importExcel">
+          <download-csv class="btn btn-sm btn-primary float-right"
+              :data = "json_data"
+              name = "template-barang.csv">
+                <i class="icon icon-cloud-download"></i> Unduh Template
+          </download-csv>
         </h3>
       </div>
     </div>
@@ -28,7 +37,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in items">
+            <tr v-for="(item, index) in items.data">
               <th scope="row">{{ ++index }}</th>
               <td>{{ item.name }}</td>
               <td>{{ item.category.name }}</td>
@@ -103,7 +112,17 @@ export default {
           initial_price : '',
           selling_price : ''
         },
-        item_id : ''
+        item_id : '',
+        json_data: [
+                    {
+                        '<b>Nama Barang</b>': '',
+                        '<b>Kategori</b>': '',
+                        '<b>unit</b>': '',
+                        '<b>Stok Terakhir</b>': '',
+                        '<b>Harga Beli</b>': '',
+                        '<b>Harga Jual</b>': '',
+                    }
+                ]
       }
     },
 
@@ -113,7 +132,7 @@ export default {
 
     methods:{
        pagination(page){
-        axios.get(RouteService.getUrl(route('items.index', {'page' : page})))
+        axios.get(RouteService.getUrl(route('item.index', {'page' : page})))
           .then((response) =>{
             this.items = response.data
           })
@@ -160,12 +179,38 @@ export default {
 
           })
           .then((response) =>{
+            this.$notify({
+              type: 'success',
+              text: 'Success delete Items'
+            });
             this.getItem()
           })
           .catch((response) =>{
 
           })
         }
+      },
+      importExcel(e){
+        let formData = new FormData()
+        formData.append('file', e.target.files[0]);
+        axios.post(RouteService.getUrl(route('item.import')),formData,{
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) =>{
+          this.$notify({
+            type: 'success',
+            text: 'Success Import Items'
+          });
+          this.getItem()
+        })
+        .catch((response) => {
+
+        })
+      },
+      triggerUpload(){
+        this.$refs.importFile.click();
       },
     }
 }

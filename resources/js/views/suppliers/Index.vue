@@ -5,8 +5,10 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
+          <router-link :to="{ name: 'supplier.create' }" class="btn btn-sm btn-success float-right">
+            <i class="icon icon-plus my-float"></i>
+          </router-link>
           <h3>Daftar Supplier</h3>
-          <router-link :to="{ name: 'supplier.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
         </div>
       </div>
     </div>

@@ -27831,11 +27831,6 @@ File: scss
   z-index: 200;
 }
 
-.my-float {
-  font-size: 30px;
-  margin: 10px auto;
-}
-
 #v-select .selected-tag {
   color: #147688;
   background-color: #d7f3f9;

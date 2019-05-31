@@ -15,6 +15,7 @@
         "laravel/passport": "^7.2",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "santigarcor/laratrust": "5.2.*",
         "tightenco/ziggy": "^0.6.9"
     },

@@ -6,8 +6,10 @@
       <div class="col-xl-12">
         <h3 class="card-header">
           Daftar Satuan
+        <router-link :to="{ name: 'unit.create' }" class="btn btn-sm btn-success float-right">
+          <i class="icon icon-plus my-float"></i>
+        </router-link>
         </h3>
-          <router-link :to="{ name: 'unit.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
       </div>
     </div>
     <div class="card-body">

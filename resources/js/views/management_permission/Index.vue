@@ -5,10 +5,10 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Daftar Jabatan</h3>
-          <router-link :to="{ name: 'management_permission.create' }" class="float">
+          <router-link :to="{ name: 'management_permission.create' }" class="btn btn-sm btn-success float-right">
             <i class="icon icon-plus my-float"></i>
           </router-link>
+          <h3>Daftar Jabatan</h3>
         </div>
       </div>
     </div>

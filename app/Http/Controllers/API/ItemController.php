@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ItemRequest;
+use App\Imports\ItemImport;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Unit;
 use App\Services\CodeGeneratorService;
+use Excel;
 
 class ItemController extends Controller
 {
@@ -18,9 +20,11 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $item = Item::where('user_id', auth_cache()->id)->get();
+        $item = Item::with('category', 'unit', 'prices', 'price')
+                    ->where('user_id', auth_cache()->id)
+                    ->paginate(10);
 
-        return response()->json($item->load('category', 'unit', 'prices', 'price'));
+        return response()->json($item);
     }
 
     /**
@@ -157,5 +161,22 @@ class ItemController extends Controller
                     ->where('name', 'LIKE', "%%".$query."%%")->get();
 
         return response()->json($item);
+    }
+
+    /**
+     * Import Item
+     *
+     * @return Void
+    **/
+
+    public function import()
+    {
+        $file = request()->file('file');
+        Excel::import(new ItemImport, $file);
+
+        return response()->json([
+            'status' => 200,
+            'msg' => 'Success'
+        ]);
     }
 }

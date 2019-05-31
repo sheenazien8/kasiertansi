@@ -5,7 +5,9 @@
       <div class="col-xl-12">
         <div class="card-header">
           <h3>Puchasing List</h3>
-          <router-link :to="{ name: 'purchase.create' }" class="float"><i class="icon icon-plus my-float"></i></router-link>
+          <router-link :to="{ name: 'purchase.create' }" class="btn btn-sm btn-success float-right">
+            <i class="icon icon-plus my-float"></i>
+          </router-link>
         </div>
       </div>
     </div>

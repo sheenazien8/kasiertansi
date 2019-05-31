@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('item/{item}/update/stock', 'API\ItemController@updateStock')->name('item.update.stock');
     Route::resource('item', 'API\ItemController');
     Route::get('get/item/{query}', 'API\ItemController@searhItems')->name('item.search');
+    Route::post('import/item', 'API\ItemController@import')->name('item.import');
     Route::resource('employee', 'API\EmployeeController');
     Route::resource('supplier', 'API\SupplierController');
     Route::get('get/supplier/{query}', 'API\SupplierController@searchSupplier')->name('supplier.search');
@@ -39,9 +40,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('get/employee', 'API\ManagementPermissionController@getEmployee')->name('get.employee');
     Route::get('get/permission', 'API\ManagementPermissionController@getPermission')->name('get.permission');
     Route::resource('transaction_detail', 'API\TransactionDetailController');
-    Route::post('transaction_detail/session/storage', 'API\TransactionDetailController@sessionStorage')->name('save.session.storage');
+    Route::post('transaction_detail/session/storage', 'API\TransactionDetailController@sessionStorage')
+            ->name('save.session.storage');
     Route::resource('spending', 'API\SpendingController');
-    Route::get('spending/get/{purchase}/purchasing_detail/', 'API\SpendingController@getPurchasingDetails')->name('get.purchasing_detail');
+    Route::get('spending/get/{purchase}/purchasing_detail/', 'API\SpendingController@getPurchasingDetails')
+            ->name('get.purchasing_detail');
     Route::put('purchase/{purchase}/payout', 'API\PurchaseController@paidPurchasing')->name('paid_purchase');
     Route::group(['prefix' => '/purchase/{purchase}'], function () {
         Route::resource('purchasing_detail', 'API\PurchasingDetailController');

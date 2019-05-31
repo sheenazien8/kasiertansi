@@ -48,7 +48,7 @@
                       <ul class="nav flex-column">
                         <li class="nav-item">
                             <router-link :to="{ name : 'cashier' }" class="nav-link" >Kasir
-                              <span class="bg-square float-right">CS</span>
+                              <span class="bg-square float-right">KS</span>
                             </router-link>
                         </li>
                       </ul>
@@ -155,7 +155,6 @@ export default{
       axios.get(RouteService.getUrl(route('details')))
       .then((response) =>{
         this.permissions = response.data.permissions
-        console.log(this.permissions)
       })
       .catch((response) =>{
 

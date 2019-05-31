@@ -15,6 +15,8 @@ import Paginate from 'vuejs-paginate';
 import RouteService from './services/RouteService';
 import TitleService from './services/TitleService';
 import Chart from 'chart.js';
+import JsonCSV from 'vue-json-csv'
+
 // import { abilitiesPlugin } from '@casl/vue';
 // import Datepicker from 'vuejs-datepicker';
 
@@ -36,6 +38,7 @@ Vue.use(BootstrapVue)
 
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('downloadCsv', JsonCSV)
 Vue.component('navbar', require('./views/layouts/Navbar.vue').default);
 Vue.component('sidebar', require('./views/layouts/Sidebar.vue').default);
 Vue.component('breadcrumb', require('./views/layouts/Breadcumb.vue').default);

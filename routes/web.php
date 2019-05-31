@@ -15,7 +15,7 @@ use App\Models\Item;
 
 Auth::routes();
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('register');
 });
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback');

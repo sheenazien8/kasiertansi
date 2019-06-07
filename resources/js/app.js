@@ -45,16 +45,23 @@ const router = new VueRouter({
     mode: 'history'
 });
 
-// router.beforeEach((to, from, next) => {
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   const currentUser = store.state.currentUser;
-//   console.log(requiresAuth, to.path, next);
-//   if (requiresAuth && !currentUser) {
-//     return next('/login');
-//   }else if (to.path == '/login' && currentUser){
-//     return next('/dashboard');
-//   }
-// });
+const eachFnId = router.beforeEach(function(to, from, next){
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const currentUser = store.state.currentUser;
+
+  if (requiresAuth && !currentUser) {
+    return next({path:'/login'});
+  }else if (to.path == '/login' && currentUser){
+    return next({path:'/dashboard'});
+  }else if (to.path == '/' && currentUser || to.path == '/' && !currentUser) {
+    return next({path:'/dashboard'});
+  }else {
+    next()
+  }
+});
+
+console.log(eachFnId)
+
 
 import App from './components/Template.vue'
 

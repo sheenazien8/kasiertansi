@@ -19,26 +19,13 @@
 </head>
 <body class="skin-default-dark fixed-layout">
   <div id="app">
-  <notifications position="top center" style="padding: 20px;"></notifications>
-  <div class="preloader">
-    <div class="loader">
+    <div class="preloader">
+      <div class="loader">
         <div class="loader__figure"></div>
         <p class="loader__label title-logo">Wellcome To Kasiertansi</p>
-    </div>
-  </div>
-  <div id="main-wrapper">
-    <navbar></navbar>
-    <sidebar></sidebar>
-    <div class="page-wrapper">
-      <div class="container-fluid">
-        <app></app>
       </div>
     </div>
-  </div>
-  <footer class="footer font-italic text-muted" style="font-size: 13px">
-      &copy; Kasiertansi 2019 zitech team;
-  </footer>
-
+    <app></app>
   </div>
   <script>
       window.Laravel = {!! json_encode([

@@ -1,13 +1,8 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 
 require('./bootstrap');
 require('jquery-ujs');
-
-import router from './router/router';
+require('print-js');
+// require('tempusdominus-bootstrap-4');
 import Notifications from 'vue-notification';
 import VSelect from 'vue-select';
 import BootstrapVue from 'bootstrap-vue';
@@ -16,28 +11,21 @@ import RouteService from './services/RouteService';
 import TitleService from './services/TitleService';
 import Chart from 'chart.js';
 import JsonCSV from 'vue-json-csv'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Vuex from 'vuex'
+import {routes} from './router/routes'
+import StoreData from './store'
 
-// import { abilitiesPlugin } from '@casl/vue';
-// import Datepicker from 'vuejs-datepicker';
-
-window.Vue = require('vue');
 window.RouteService = RouteService;
 window.TitleService = TitleService;
 Vue.prototype.$eventBus = new Vue();
 
 Vue.use(Notifications)
 Vue.use(BootstrapVue)
-// Vue.use(abilitiesPlugin);
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+Vue.use(VueRouter)
+Vue.use(Vuex)
 
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('downloadCsv', JsonCSV)
 Vue.component('navbar', require('./views/layouts/Navbar.vue').default);
 Vue.component('sidebar', require('./views/layouts/Sidebar.vue').default);
@@ -46,16 +34,35 @@ Vue.component('can', require('./components/Permission.vue').default);
 Vue.component('v-select', VSelect);
 Vue.component('v-paginate', Paginate)
 
-import App from './components/Template.vue'
+const store = new Vuex.Store(StoreData)
+if (store.state.currentUser) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ store.state.currentUser.token;
+}
+window.axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const router = new VueRouter({
+    routes,
+    mode: 'history'
+});
+
+// router.beforeEach((to, from, next) => {
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   const currentUser = store.state.currentUser;
+//   console.log(requiresAuth, to.path, next);
+//   if (requiresAuth && !currentUser) {
+//     return next('/login');
+//   }else if (to.path == '/login' && currentUser){
+//     return next('/dashboard');
+//   }
+// });
+
+import App from './components/Template.vue'
 
 const app = new Vue({
     el: '#app',
-    components: { App },
     router,
+    store,
+    components: {
+      App
+    }
 });

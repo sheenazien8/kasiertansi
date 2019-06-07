@@ -32,6 +32,7 @@
         "holderjs": "^2.4.1",
         "jquery-ujs": "^1.2.2",
         "jsgrid": "^1.5.3",
+        "print-js": "^1.0.61",
         "select2": "^4.0.3",
         "simple-line-icons": "^2.4.1",
         "vue": "^2.6.10",
@@ -42,6 +43,7 @@
         "vue-router": "^3.0.2",
         "vue-select": "^2.6.0",
         "vue-template-compiler": "^2.6.10",
-        "vuejs-paginate": "^2.1.0"
+        "vuejs-paginate": "^2.1.0",
+        "vuex": "^3.1.1"
     }
 }

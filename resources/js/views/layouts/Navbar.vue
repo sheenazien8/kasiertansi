@@ -143,7 +143,7 @@
       }
     },
     mounted(){
-      this.getUser()
+      this.getUser();
     },
 
     methods:{
@@ -181,22 +181,17 @@
         })
       },
       getUser(){
-        axios.get(RouteService.getUrl(route('details')))
-        .then((response) =>{
-          this.user = response.data.user;
-          this.userable = this.user.userable;
-          this.profile = this.user.userable;
-          this.profile.email = this.user.email;
-        })
-        .catch((response) =>{
-
-        })
+        this.user = this.$store.state.currentUser ;
+        this.userable = this.user.userable;
+        this.profile = this.user.userable;
+        this.profile.email = this.user.email;
       },
       logout(){
-        axios.post('logout',{
+        axios.post('/api/logout',{
         })
         .then((response) =>{
-          window.location.href = ""
+          this.$store.commit('logout');
+          this.$router.replace('/login');
         })
         .catch((response) =>{
           console.log(response)

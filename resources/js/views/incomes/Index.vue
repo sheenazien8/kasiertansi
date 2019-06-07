@@ -1,28 +1,67 @@
 <template>
 <div>
-  <breadcrumb title="Pendapatan"></breadcrumb>
+  <breadcrumb title="Laporan"></breadcrumb>
   <div class="card">
     <div class="row">
       <div class="col-xl-12">
         <div class="card-header">
-          <h3>Daftar Pendapatan per tanggal</h3>
+          <h3>Laporan Penjualan</h3>
         </div>
       </div>
     </div>
     <div class="card-body" >
       <div class="row">
+        <div class="col-md-12">
+          <h3><b>Periode</b></h3>
+          <div class="form-inline">
+            <div class="input-group date col-3" id="datetimepicker4" data-target-input="nearest">
+                <input type="date" class="form-control datetimepicker-input" data-target="#datetimepicker4" placeholder="Dari" />
+                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="icon icon-calendar"></i></div>
+                </div>
+            </div>
+            <span>s/d</span>
+            <div class="input-group date col-3" id="datetimepicker4" data-target-input="nearest">
+                <input type="date" class="form-control datetimepicker-input" data-target="#datetimepicker4" placeholder="Dari" />
+                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="icon icon-calendar"></i></div>
+                </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary">Tampilkan</button>
+            </div>
+            <div class="form-group ml-auto">
+              <download-csv class="btn btn-primary mr-2"
+                  :data = "json_data"
+                  name = "template-barang.csv">
+                    <i class="icon icon-docs"></i> EXCEL
+              </download-csv>
+              <download-csv class="btn btn-primary"
+                  :data = "json_data"
+                  name = "template-barang.csv">
+                    <i class="icon icon-cloud-download"></i> PDF
+              </download-csv>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
         <table class="table">
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Nomor Transaksi</th>
               <th scope="col">Tanggal</th>
-              <th scope="col">Pendapatan</th>
+              <th scope="col">Total Item</th>
+              <th scope="col">Total Pendapatan Perhari</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(income, index) in incomes">
               <th scope="row">{{ ++index }}</th>
+              <td>{{ income.date }}</td>
               <td>{{ income.date }}</td>
               <td>{{ income.total_price }}</td>
               <td>

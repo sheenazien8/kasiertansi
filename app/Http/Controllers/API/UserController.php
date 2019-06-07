@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Lcobucci\JWT\Parser;
 use Validator;
 
 class UserController extends Controller
@@ -22,8 +25,18 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')-> accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+            if ($user->userable_type == "App\Models\Owner") {
+                $permissions = Permission::all();
+            } elseif ($user->userable_type == "App\Models\Employee") {
+                $permissions = $user->userable->roles->first()->permissions;
+            }
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['user'] =  $user->load('userable');
+            $success['permissions'] =  $permissions->pluck('name');
+            return response()->json(
+                ['success' => $success,],
+                $this->successStatus
+            );
         } else {
             return response()->json(['error'=>'Unauthorised'], 401);
         }
@@ -74,12 +87,20 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $value = $request->bearerToken();
+        Cache::forget('owner-cache');
         if ($value) {
             $id = (new Parser())->parse($value)->getHeader('jti');
-            $revoked = DB::table('oauth_access_tokens')->where('id', '=', $id)->update(['revoked' => 1]);
-            $this->guard()->logout();
+            $revoked = DB::table('oauth_access_tokens')->where('id', '=', $id)->delete();
         }
-        Auth::logout();
-        return Response(['code' => 200, 'message' => 'You are successfully logged out'], 200);
+
+        return Response([
+            'code' => 200,
+            'message' => 'You are successfully logged out'
+        ], 200);
+    }
+
+    public function guard()
+    {
+        return Auth::guard();
     }
 }

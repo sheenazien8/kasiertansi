@@ -152,13 +152,7 @@ export default{
   },
   methods:{
     getPermission(){
-      axios.get(RouteService.getUrl(route('details')))
-      .then((response) =>{
-        this.permissions = response.data.permissions
-      })
-      .catch((response) =>{
-
-      })
+      this.permissions = this.$store.state.currentUser.permissions
     },
     getPermissionRule(array){
       let self = this;

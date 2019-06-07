@@ -13,10 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('login', 'API\UserController@login');
-Route::post('register', 'API\UserController@register')->name('register');
+Route::post('register', 'API\UserController@register');
 
 // Route::post('logout', 'API\UserController@logout')->name('logout');
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => ['auth:api', 'employee']], function () {
+    Route::post('logout', 'API\UserController@logout');
     Route::get('get/data/dashboard', 'API\DashboardController@getDataDashboard')->name('get.data.dashboard');
     Route::post('get/data/income', 'API\DashboardController@getDataIncme')->name('get.data.income');
     Route::get('details', 'API\UserController@details')->name('details');

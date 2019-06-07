@@ -120,57 +120,6 @@
            </div>
        </div>
        <div class="col-lg-4">
-           <div class="card">
-               <div class="card-body">
-                   <h5 class="card-title">Today's Schedule</h5>
-                   <h6 class="card-subtitle">check out your daily schedule</h6>
-                   <div class="steamline m-t-40">
-                       <div class="sl-item">
-                           <div class="sl-left bg-success"> <i class="fa fa-user"></i></div>
-                           <div class="sl-right">
-                               <div class="font-medium">Meeting today <span class="sl-date"> 5pm</span></div>
-                               <div class="desc">you can write anything </div>
-                           </div>
-                       </div>
-                       <div class="sl-item">
-                           <div class="sl-left bg-info"><i class="fa fa-image"></i></div>
-                           <div class="sl-right">
-                               <div class="font-medium">Send documents to Clark</div>
-                               <div class="desc">Lorem Ipsum is simply </div>
-                           </div>
-                       </div>
-                       <div class="sl-item">
-                           <div class="sl-left"> <img class="img-circle" alt="user" src=""> </div>
-                           <div class="sl-right">
-                               <div class="font-medium">John Doe <span class="sl-date"> 5pm</span></div>
-                               <div class="desc">Call today with gohn doe </div>
-                           </div>
-                       </div>
-                       <div class="sl-item">
-                           <div class="sl-left"> <img class="img-circle" alt="user" src=""> </div>
-                           <div class="sl-right">
-                               <div class="font-medium">Go to the Doctor <span class="sl-date">5 minutes ago</span></div>
-                               <div class="desc">Contrary to popular belief</div>
-                           </div>
-                       </div>
-                       <div class="sl-item">
-                           <div class="sl-left"> <img class="img-circle" alt="user" src=""> </div>
-                           <div class="sl-right">
-                               <div><a href="#">Tiger Sroff</a> <span class="sl-date">5 minutes ago</span></div>
-                               <div class="desc">Approve meeting with tiger
-                                 <br>
-                                 <a href="javascript:void(0)" class="btn m-t-10 m-r-5 btn-rounded btn-outline-success">Apporve</a>
-                                 <a href="javascript:void(0)" class="btn m-t-10 btn-rounded btn-outline-danger">Refuse</a>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
           <div class="card">
               <div class="card-body">
                   <h4 class="card-title">Faktur</h4>
@@ -184,6 +133,12 @@
                 </li>
               </ul>
           </div>
+
+       </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+
       </div>
     </div>
   </div>

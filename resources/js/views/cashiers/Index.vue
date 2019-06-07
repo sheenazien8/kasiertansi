@@ -36,7 +36,7 @@
                 </button>
               </div>
               <div class="col-md-12 p-0 mt-2">
-                <table class="table">
+                <table class="table" id="printJS">
                   <thead class="thead-light">
                     <tr>
                       <th>#</th>
@@ -69,6 +69,14 @@
                         </button>
                       </td>
                     </tr>
+                    <tr v-if="transaction_details.length > 0">
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{{ formatPrice(total_price) }}</td>
+                      <td>{{ total_qty }}</td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -91,7 +99,7 @@
               <div class="form-group">
                 <label><b>Kembalian</b></label>
                 <input type="text" class="form-control input-none text-right"
-                style="font-size: 20px" readonly v-model="transaction.change">
+                style="font-size: 20px" readonly :value="formatPrice(transaction.change)">
               </div>
               <button class="btn btn-primary btn-block" @click="insertInvoice()">
                 <i class="icon icon-check"></i> Simpan
@@ -214,11 +222,18 @@ export default {
     calculatePrice(){
       if (this.transaction.paying >= this.total_price ) {
         this.transaction.change = this.transaction.paying - this.total_price
+
+        return this.formatPrice(this.transaction.paying)
       }else {
         this.transaction.change = null
       }
     },
     insertInvoice(){
+      printJS({
+        printable: 'printJS',
+        type: 'html',
+        header: 'PrintJS - Form Element Selection'
+      })
       axios.post(RouteService.getUrl(route('transaction.store')),{
         invoice_number : this.transaction.invoice_number,
         paying : this.transaction.paying,
@@ -243,15 +258,7 @@ export default {
     },
     insertAndPrintInvoice(){
       this.insertInvoice();
-      axios.get(RouteService.getUrl(route('print.invoice')),{
-
-      })
-      .then((response) => {
-
-      })
-      .catch((response) => {
-
-      })
+      console.log('ok')
     },
     insertIncome(id){
       axios.post(RouteService.getUrl(route('income.store')),{

@@ -21,6 +21,7 @@ class ItemController extends Controller
     public function index()
     {
         $item = Item::with('category', 'unit', 'prices', 'price')
+                    ->orderBy('id', 'desc')
                     ->where('user_id', auth_cache()->id)
                     ->paginate(10);
 

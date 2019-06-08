@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendEmailAfterRegistration;
+use App\Models\Owner;
 use App\Models\Permission;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Lcobucci\JWT\Parser;
 use Validator;
 
@@ -25,20 +29,28 @@ class UserController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            if ($user->userable_type == "App\Models\Owner") {
-                $permissions = Permission::all();
-            } elseif ($user->userable_type == "App\Models\Employee") {
-                $permissions = $user->userable->roles->first()->permissions;
+            if ($user->status) {
+                if ($user->userable_type == "App\Models\Owner") {
+                    $permissions = Permission::all();
+                } elseif ($user->userable_type == "App\Models\Employee") {
+                    $permissions = $user->userable->roles->first()->permissions;
+                }
+                $success['token'] =  $user->createToken('MyApp')->accessToken;
+                $success['user'] =  $user->load('userable');
+                $success['permissions'] =  $permissions->pluck('name');
+                return response()->json(
+                    ['success' => $success,],
+                    $this->successStatus
+                );
+            } else {
+                return response()->json([
+                    'message'=>'Akun belum diferivikasi'
+                ], 401);
             }
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
-            $success['user'] =  $user->load('userable');
-            $success['permissions'] =  $permissions->pluck('name');
-            return response()->json(
-                ['success' => $success,],
-                $this->successStatus
-            );
         } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json([
+                'error'=>'Password dan email tidak cocok'
+            ], 401);
         }
     }
     /**
@@ -52,18 +64,46 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'c_password' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
         ]);
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')-> accessToken;
-        $success['name'] =  $user->name;
+        $input['join_date'] = Carbon::now()->format('Y-m-d');
+        $owner = new Owner();
+        $owner->fill($input);
+        $owner->save();
+        $input['verification_code'] = Carbon::now()->format('mdhis').$this->generateRandomString();
+        $user = new User();
+        $user->fill($input);
+        $user->userable()->associate($owner);
+        $user->save();
+        if ($user->userable_type == "App\Models\Owner") {
+            $permissions = Permission::all();
+        } elseif ($user->userable_type == "App\Models\Employee") {
+            $permissions = $user->userable->roles->first()->permissions;
+        }
+        $success['user'] =  $user->load('userable');
+        $success['url'] = env('APP_URL').'/login?user_id='.$user->id.'&verification_code='.$user->verification_code;
 
-        return response()->json(['success'=>$success], $this->successStatus);
+        Mail::to($user->email)->send(new SendEmailAfterRegistration($success));
+
+        return response()->json([
+            'success'=>$success
+        ], $this->successStatus);
+    }
+    public function generateRandomString($length = 20)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
     }
     /**
      * details api
@@ -102,5 +142,22 @@ class UserController extends Controller
     public function guard()
     {
         return Auth::guard();
+    }
+
+    public function activatingAccount(Request $request)
+    {
+        $user = User::find($request->user_id);
+        if ($user) {
+            if ($user->verification_code == $request->verification_code) {
+                $user->status = 1;
+                $user->email_verified_at = Carbon::now()->format('Y-m-d h:i:s');
+                $user->save();
+
+                return Response([
+                    'code' => 200,
+                    'message' => 'Akun anda telah di aktifkan dan silahkan login'
+                ], 200);
+            }
+        }
     }
 }

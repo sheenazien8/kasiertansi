@@ -17,15 +17,14 @@ class AddColumnToOwnersAndEmployeesTable extends Migration
             $table->string('photo')->nullable()->after('name');
             $table->text('address')->nullable()->after('photo');
             $table->string('end_date')->nullable()->after('join_date');
-            $table->boolean('status')->default(false)->after('end_date');
         });
         Schema::table('owners', function (Blueprint $table) {
             $table->string('photo')->nullable()->after('name');
+            $table->string('package')->nullable()->after('name');
             $table->text('address')->nullable()->after('photo');
         });
-        Schema::table('users', function (Blueprint $table)
-        {
-            $table->string('package')->nullable()->after('email');
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('status')->default(false)->after('email_verified_at');
         });
     }
 
@@ -40,14 +39,14 @@ class AddColumnToOwnersAndEmployeesTable extends Migration
             $table->dropColumn('photo');
             $table->dropColumn('address');
             $table->dropColumn('end_date');
-            $table->dropColumn('status');
         });
         Schema::table('owners', function (Blueprint $table) {
             $table->dropColumn('photo');
             $table->dropColumn('address');
-       });
-        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('package');
-       });
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 }

@@ -5,7 +5,18 @@ export function login(credentials) {
       resolve(response.data);
     })
     .catch((error) =>{
-      reject("Wrong Email Or Password");
+      reject(error);
+    });
+  });
+}
+export function register(credentials) {
+  return new Promise((resolve, reject) => {
+    axios.post('/api/register', credentials)
+    .then((response) =>{
+      resolve(response.data);
+    })
+    .catch((error) =>{
+      reject(error);
     });
   });
 }

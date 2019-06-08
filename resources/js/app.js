@@ -30,9 +30,9 @@ Vue.use(Vuex)
 Vue.use(Loading);
 
 Vue.component('downloadCsv', JsonCSV)
-Vue.component('navbar', require('./views/layouts/Navbar.vue').default);
-Vue.component('sidebar', require('./views/layouts/Sidebar.vue').default);
-Vue.component('breadcrumb', require('./views/layouts/Breadcumb.vue').default);
+Vue.component('navbar', require('./components/layouts/Navbar.vue').default);
+Vue.component('sidebar', require('./components/layouts/Sidebar.vue').default);
+Vue.component('breadcrumb', require('./components/layouts/Breadcumb.vue').default);
 Vue.component('can', require('./components/Permission.vue').default);
 Vue.component('v-select', VSelect);
 Vue.component('v-paginate', Paginate)
@@ -53,7 +53,7 @@ const eachFnId = router.beforeEach(function(to, from, next){
   const currentUser = store.state.currentUser;
 
   if (requiresAuth && !currentUser) {
-    return next({path:'/login'});
+    return next({path:'/register'});
   }else if (to.path == '/login' && currentUser){
     return next({path:'/dashboard'});
   }else if (to.path == '/' && currentUser || to.path == '/' && !currentUser) {
@@ -62,8 +62,6 @@ const eachFnId = router.beforeEach(function(to, from, next){
     next()
   }
 });
-
-console.log(eachFnId)
 
 
 import App from './components/Template.vue'

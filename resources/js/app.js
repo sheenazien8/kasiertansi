@@ -16,6 +16,8 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import {routes} from './router/routes'
 import StoreData from './store'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 window.RouteService = RouteService;
 window.TitleService = TitleService;
@@ -25,6 +27,7 @@ Vue.use(Notifications)
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 Vue.use(Vuex)
+Vue.use(Loading);
 
 Vue.component('downloadCsv', JsonCSV)
 Vue.component('navbar', require('./views/layouts/Navbar.vue').default);

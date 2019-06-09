@@ -190,8 +190,14 @@
         axios.post('/api/logout',{
         })
         .then((response) =>{
-          this.$store.commit('logout');
-          this.$router.replace('/login');
+          let loader = this.$loading.show({
+            canCancel: true,
+          });
+          setTimeout(() => {
+            this.$store.commit('logout');
+            this.$router.replace('/login');
+            loader.hide();
+          },2000);
         })
         .catch((response) =>{
           console.log(response)

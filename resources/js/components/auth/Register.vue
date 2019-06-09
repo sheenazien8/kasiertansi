@@ -4,6 +4,11 @@
       <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-md-4">
+            <div v-if="registered">
+              <div class="alert alert-success" role="alert">
+                {{ registered }}
+              </div>
+            </div>
             <div id="logo-container" class="text-white text-center mb-3">SIGN UP</div>
             <div class="col-md-12 col-md-offset-1 p-0">
               <form @submit.prevent="register()">
@@ -45,12 +50,17 @@
                 </div>
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox"> I agree to the <a href="#" class="btn-link">Terms and Conditions</a>
+                    <input type="checkbox" id="agree" value="1" v-model="agree">
+                    I agree to the <a href="#" class="btn-link">Terms and Conditions</a>
                   </label>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-outline-info btn-block">Sign Up</button>
-                  <router-link :to="{name : 'login'}" class="btn btn-outline-success btn-block login">Login</router-link>
+                  <button type="submit" :class="agree ? '' : 'd-none'" class="btn btn-outline-info btn-block">
+                    Sign Up
+                  </button>
+                  <router-link :to="{name : 'login'}" class="btn btn-outline-success btn-block login">
+                    Login
+                  </router-link>
                 </div>
               </form>
             </div>
@@ -71,8 +81,12 @@
           password : '',
           password_confirmation : ''
         },
+        registered : '',
+        agree : '',
         errors : []
       }
+    },
+    mounted(){
     },
 
     methods:{
@@ -80,7 +94,17 @@
         this.$store.dispatch('register')
         register(this.$data.form)
                 .then((response)=>{
-                  console.log(response)
+                  let loader = this.$loading.show({
+                    canCancel: true,
+                  });
+                  setTimeout(() => {
+                    this.form.name = '';
+                    this.form.email = '';
+                    this.form.password = '';
+                    this.form.password_confirmation = '';
+                    this.registered = 'Akun anda berhasil dibuat untuk mengaktifkan silahkan cek akun email anda!!';
+                    loader.hide();
+                  },2000)
                 })
                 .catch((response)=>{
                   this.errors = response.response.data.error

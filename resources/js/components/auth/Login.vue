@@ -35,7 +35,7 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"> I agree to the <a href="#" class="btn-link">Terms and Conditions</a>
+                  <input type="checkbox"> Remember Me
                 </label>
               </div>
               <div class="form-group">
@@ -81,8 +81,14 @@
         this.$store.dispatch('login');
         login(this.$data.form)
             .then((response) =>{
-              this.$store.commit('loginSuccess', response);
-              this.$router.push({path: '/dashboard'})
+              let loader = this.$loading.show({
+                canCancel: true,
+              });
+              setTimeout(() =>{
+                this.$store.commit('loginSuccess', response);
+                this.$router.push({path: '/dashboard'})
+                loader.hide();
+              },2000);
             })
             .catch((response) =>{
               if (!this.$data.form.email) {
@@ -95,13 +101,16 @@
               }else {
                 this.error.password = ''
               }
+
               if (response.response.data.error) {
                 this.$store.commit('loginFailed', response);
                 this.error.email = response.response.data.error;
+                this.error.account = ""
               }
               if (response.response.data.message) {
                 this.$store.commit('loginFailed', response);
                 this.error.account = response.response.data.message;
+                this.error.message = ""
               }
             });
       },

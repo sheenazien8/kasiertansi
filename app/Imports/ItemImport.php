@@ -19,7 +19,7 @@ class ItemImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $category = Category::whereName(strtolower($row['kategori']))->first();
+        $category = Category::whereName(strtolower($row['kategori']))->whereUser_id(auth_cache()->id)->first();
         if (!$category) {
             $category = new Category();
             $category->fill([
@@ -27,7 +27,7 @@ class ItemImport implements ToModel, WithHeadingRow
             ]);
             $category->save();
         }
-        $unit = Unit::whereUnit(strtolower($row['unit']))->first();
+        $unit = Unit::whereUnit(strtolower($row['unit']))->whereUser_id(auth_cache()->id)->first();
         if (!$unit) {
             $unit = new Unit();
             $unit->fill([
@@ -36,7 +36,7 @@ class ItemImport implements ToModel, WithHeadingRow
             $unit->save();
         }
 
-        $item = Item::whereName(strtolower($row['nama_barang']))->first();
+        $item = Item::whereName(strtolower($row['nama_barang']))->whereUser_id(auth_cache()->id)->first();
         if (!$item) {
             $codeServices = new CodeGeneratorService();
             $codeItem = $codeServices->generateCodeItem();

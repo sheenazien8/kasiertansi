@@ -13,7 +13,7 @@ class Category extends Model
     {
         parent::boot();
         static::creating(function ($query) {
-            $query->user_id = Cache::get('owner-cache')->id;
+            $query->user_id = auth_cache()->id;
         });
     }
 

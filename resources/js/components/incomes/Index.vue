@@ -12,32 +12,39 @@
     <div class="card-body" >
       <div class="row">
         <div class="col-md-12">
-          <h3><b>Periode</b></h3>
+          <h3 class="mb-2"><b>Periode</b> {{ getIncome.start_date? getIncome.start_date : '0000-00-00' }}
+          s/d {{ getIncome.end_date ? getIncome.end_date : '0000-00-00' }}</h3>
           <div class="form-inline">
             <div class="input-group date col-3" id="datetimepicker4" data-target-input="nearest">
-                <input type="date" class="form-control datetimepicker-input" data-target="#datetimepicker4" placeholder="Dari" />
+                <input type="date" class="form-control datetimepicker-input" data-target="#datetimepicker4"
+                v-model="getIncome.start_date" placeholder="Dari" />
                 <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="icon icon-calendar"></i></div>
                 </div>
             </div>
             <span>s/d</span>
             <div class="input-group date col-3" id="datetimepicker4" data-target-input="nearest">
-                <input type="date" class="form-control datetimepicker-input" data-target="#datetimepicker4" placeholder="Dari" />
+                <input type="date" class="form-control datetimepicker-input" data-target="#datetimepicker4"
+                v-model="getIncome.end_date" placeholder="Sampai" />
                 <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                     <div class="input-group-text"><i class="icon icon-calendar"></i></div>
                 </div>
             </div>
             <div class="form-group">
-              <button class="btn btn-primary">Tampilkan</button>
+              <button class="btn btn-primary" @click="showIncome()">Tampilkan</button>
             </div>
             <div class="form-group ml-auto">
               <download-csv class="btn btn-primary mr-2"
-                  :data = "json_data"
+                  :data = "[{
+                    'oke' : 'oke'
+                  }]"
                   name = "template-barang.csv">
                     <i class="icon icon-docs"></i> EXCEL
               </download-csv>
               <download-csv class="btn btn-primary"
-                  :data = "json_data"
+                  :data = "[{
+                    'oke' : 'oke'
+                  }]"
                   name = "template-barang.csv">
                     <i class="icon icon-cloud-download"></i> PDF
               </download-csv>
@@ -55,21 +62,23 @@
                 <th scope="col">Nomor Transaksi</th>
                 <th scope="col">Tanggal</th>
                 <th scope="col">Total Item</th>
-                <th scope="col">Total Pendapatan Perhari</th>
+                <th scope="col">Total Uang Masuk</th>
+                <th scope="col">Total Pendapatan</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(income, index) in incomes">
                 <th scope="row">{{ ++index }}</th>
+                <td>{{ income.transaction.invoice_number }}</td>
                 <td>{{ income.date }}</td>
-                <td>{{ income.date }}</td>
-                <td>{{ income.total_price }}</td>
+                <td>{{ income.transaction.total_qty }}</td>
+                <td>{{ formatPrice(income.transaction.total_price) }}</td>
+                <td>{{ formatPrice(income.transaction.total_profit) }}</td>
                 <td>
-                  <router-link :to="{ name:'income.show', params: {date: income.date} }"
-                  class="btn btn-sm p-1 btn-info float-right mr-2" title="show details?">
-                  <i class="icon icon-magnifier"></i>
-                  </router-link>
+                  <b-button v-b-modal.show-item @click="showItem(income.transaction.id)" class="btn btn-sm btn-info float-right mr-2">
+                    <i class="icon icon-magnifier"></i>
+                  </b-button >
                 </td>
               </tr>
             </tbody>
@@ -78,52 +87,73 @@
       </div>
       <hr>
     </div>
-    <div class="d-flex justify-content-center">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
   </div>
+  <b-modal size="lg" id="show-item" title="List Item">
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Item</th>
+          <th>Kategori</th>
+          <th>Kode Item</th>
+          <th>Harga Awal</th>
+          <th>Harga Jual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="transactionDetail in transactionDetails">
+          <td>{{ transactionDetail.item.name }}</td>
+          <td>{{ transactionDetail.item.category.name }}</td>
+          <td>{{ transactionDetail.item.code }}</td>
+          <td>{{ transactionDetail.item.price.initial_price }}</td>
+          <td>{{ transactionDetail.item.price.selling_price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </b-modal>
 </div>
 </template>
 <script>
+import NumberMixins from './../../services/NumberMixins.js';
+
 export default {
+  mixins : [NumberMixins],
     data() {
       return {
-        incomes : []
+        getIncome : {
+          start_date : '',
+          end_date : '',
+        },
+        incomes : [],
+        transactionDetails : []
       }
     },
 
     mounted(){
-      this.getPuchase()
+
     },
 
     methods:{
-      getPuchase(){
-        axios.get(RouteService.getUrl(route('income.index')))
-        .then((response) =>{
+      showIncome(){
+        axios.post('/api/income/get-income',{
+          start_date : this.getIncome.start_date,
+          end_date : this.getIncome.end_date
+        })
+        .then((response) => {
           this.incomes = response.data
         })
-        .catch((response) =>{
+        .catch((response) => {
 
         })
       },
+      showItem(transaction_id){
+        axios.get(RouteService.getUrl(route('get.item.by_transaction', transaction_id)))
+        .then((response) => {
+          this.transactionDetails = response.data
+        })
+        .catch((response) => {
+
+        })
+      }
     }
 }
 </script>

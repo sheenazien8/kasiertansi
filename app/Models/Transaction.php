@@ -17,6 +17,8 @@ class Transaction extends Model
         'total_qty',
     ];
 
+    protected $appends = ['count_total_items'];
+
     protected static function boot()
     {
         parent::boot();
@@ -34,5 +36,9 @@ class Transaction extends Model
     public function income()
     {
         return $this->hasOne(Income::class);
+    }
+    public function getCountTotalItemsAttribute()
+    {
+        return $this->transactionDetails->count();
     }
 }

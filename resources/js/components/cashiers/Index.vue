@@ -229,11 +229,6 @@ export default {
       }
     },
     insertInvoice(){
-      printJS({
-        printable: 'printJS',
-        type: 'html',
-        header: 'PrintJS - Form Element Selection'
-      })
       axios.post(RouteService.getUrl(route('transaction.store')),{
         invoice_number : this.transaction.invoice_number,
         paying : this.transaction.paying,

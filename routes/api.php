@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth:api', 'employee']], function () {
     Route::get('get/supplier/{query}', 'API\SupplierController@searchSupplier')->name('supplier.search');
     Route::resource('purchase', 'API\PurchaseController');
     Route::resource('income', 'API\IncomeController');
+    Route::post('income/get-income', 'API\IncomeController@getIncome')->name('get.income');
+    Route::get('income/get-item/{transaction_id}', 'API\IncomeController@getItem')->name('get.item.by_transaction');
     Route::resource('transaction', 'API\TransactionController');
     Route::get('get/invoice/number', 'API\TransactionController@getInvoiceCode')->name('get.invoice.number');
     Route::resource('role', 'API\ManagementPermissionController');

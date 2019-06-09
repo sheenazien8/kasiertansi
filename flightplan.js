@@ -9,6 +9,6 @@ plan.target('staging', {
 });
 
 plan.remote(function(transport){
-  transport.exec('cd ~/kasir; git pull; yarn; yarn run dev; composer install;');
+  transport.exec('cd ~/kasir; git stash; git pull; yarn; yarn run dev; composer install;');
 })
 

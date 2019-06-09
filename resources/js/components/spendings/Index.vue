@@ -32,12 +32,16 @@
             </div>
             <div class="form-group ml-auto">
               <download-csv class="btn btn-primary mr-2"
-                  :data = "json_data"
+                  :data = "{
+                    'oke' : 'oke'
+                  }"
                   name = "template-barang.csv">
                     <i class="icon icon-docs"></i> EXCEL
               </download-csv>
               <download-csv class="btn btn-primary"
-                  :data = "json_data"
+                  :data = "{
+                    'oke' : 'oke'
+                  }"
                   name = "template-barang.csv">
                     <i class="icon icon-cloud-download"></i> PDF
               </download-csv>

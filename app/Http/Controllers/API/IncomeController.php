@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Income;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 
 class IncomeController extends Controller
@@ -109,5 +110,25 @@ class IncomeController extends Controller
         $income->delete();
 
         return 'Success';
+    }
+
+    public function getIncome(Request $request)
+    {
+        $income = Income::with('transaction.transactionDetails.item')
+                            ->whereUserId(auth_cache()->id)
+                            ->whereBetween('date', [
+                                $request->json('start_date'), $request->json('end_date')
+                            ])
+                            ->get();
+
+        return response()->json($income);
+    }
+    public function getItem($transaction_id)
+    {
+        $transaction_details = TransactionDetail::with('item.category', 'item.price')
+                                                ->whereTransactionId($transaction_id)
+                                                ->get();
+
+        return response()->json($transaction_details);
     }
 }

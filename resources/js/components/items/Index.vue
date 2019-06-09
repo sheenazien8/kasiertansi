@@ -117,12 +117,12 @@ export default {
         item_id : '',
         json_data: [
                     {
-                        '<b>Nama Barang</b>': '',
-                        '<b>Kategori</b>': '',
-                        '<b>unit</b>': '',
-                        '<b>Stok Terakhir</b>': '',
-                        '<b>Harga Beli</b>': '',
-                        '<b>Harga Jual</b>': '',
+                        'Nama Barang': '',
+                        'Kategori': '',
+                        'unit': '',
+                        'Stok Terakhir': '',
+                        'Harga Beli': '',
+                        'Harga Jual': '',
                     }
                 ]
       }

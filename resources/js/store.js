@@ -37,17 +37,22 @@ export default {
       state.isLoggedIn = true;
       state.loading = false;
       state.currentUser = Object.assign({},
-        payload.success.user,
+        payload.user,
         {
-          token: payload.success.token,
-          permissions: payload.success.permissions
+          token: payload.token,
+          permissions: payload.permissions,
+          token_type : payload.token_type,
+          expires_in : payload.expires_in,
         }
-        );
+      );
 
-      window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ state.currentUser.token;
+      window.axios.defaults.headers.common['Authorization'] = state.currentUser.token_type +
+      ' '+ state.currentUser.token;
       window.axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-      localStorage.setItem('user', JSON.stringify(state.currentUser));
+      localStorage.setItem('user', JSON.stringify(state.currentUser), {
+        expires : state.currentUser.expires_in ? 365 : 1
+      });
     },
     loginFailed(state, payload){
       state.loading = false;

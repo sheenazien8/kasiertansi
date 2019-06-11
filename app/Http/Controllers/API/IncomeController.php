@@ -131,4 +131,12 @@ class IncomeController extends Controller
 
         return response()->json($transaction_details);
     }
+
+    public function printPdfIncome(Request $request)
+    {
+        $data = ['title' => 'Welcome to belajarphp.net'];
+
+        $pdf = PDF::loadView('myPDF', $data);
+        return $pdf->download('laporan-pdf.pdf');
+    }
 }

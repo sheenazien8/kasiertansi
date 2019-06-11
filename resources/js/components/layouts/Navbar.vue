@@ -135,7 +135,7 @@
         user : [],
         userable : [],
         image:{
-            user: require('./../../images/icons8-male-user-80.png')
+            user: ''
         },
         profile : {},
         shop : {},
@@ -144,6 +144,12 @@
     },
     mounted(){
       this.getUser();
+      if (this.$store.state.currentUser.userable.photo) {
+        this.image.user = ''
+                                                                                                                                                                        ;
+      }else {
+        this.image.user = require('./../../images/icons8-male-user-80.png');
+      }
     },
 
     methods:{
@@ -157,6 +163,7 @@
         })
         .then((response) => {
           this.file = response.data;
+          this.$store.state.currentUser.userable.photo = this.file
         })
         .catch((response) =>{
 
@@ -181,7 +188,7 @@
         })
       },
       getUser(){
-        this.user = this.$store.state.currentUser ;
+        this.user = this.$store.state.currentUser;
         this.userable = this.user.userable;
         this.profile = this.user.userable;
         this.profile.email = this.user.email;

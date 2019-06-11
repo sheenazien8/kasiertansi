@@ -41,13 +41,9 @@
                   name = "template-barang.csv">
                     <i class="icon icon-docs"></i> EXCEL
               </download-csv>
-              <download-csv class="btn btn-primary"
-                  :data = "[{
-                    'oke' : 'oke'
-                  }]"
-                  name = "template-barang.csv">
-                    <i class="icon icon-cloud-download"></i> PDF
-              </download-csv>
+              <button class="btn btn-primary" @click="printPdf()">
+                  <i class="icon icon-cloud-download"></i> PDF
+              </button>
             </div>
           </div>
         </div>
@@ -149,6 +145,18 @@ export default {
         axios.get(RouteService.getUrl(route('get.item.by_transaction', transaction_id)))
         .then((response) => {
           this.transactionDetails = response.data
+        })
+        .catch((response) => {
+
+        })
+      },
+      printPdf(){
+        axios.get(RouteService.getUrl(route('pdf.income')), {
+          start_date : this.getIncome.start_date,
+          end_date : this.getIncome.end_date
+        })
+        .then((response) => {
+
         })
         .catch((response) => {
 

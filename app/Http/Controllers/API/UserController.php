@@ -35,11 +35,15 @@ class UserController extends Controller
                 } elseif ($user->userable_type == "App\Models\Employee") {
                     $permissions = $user->userable->roles->first()->permissions;
                 }
-                $success['token'] =  $user->createToken('MyApp')->accessToken;
-                $success['user'] =  $user->load('userable');
-                $success['permissions'] =  $permissions->pluck('name');
+
                 return response()->json(
-                    ['success' => $success,],
+                    [
+                        'token' =>  $user->createToken('MyApp')->accessToken,
+                        'user' =>  $user->load('userable'),
+                        'permissions' =>  $permissions->pluck('name'),
+                        'token_type' => 'Bearer',
+                        'expires_in' => 3600,
+                    ],
                     $this->successStatus
                 );
             } else {
@@ -52,6 +56,11 @@ class UserController extends Controller
                 'error'=>'Password dan email tidak cocok'
             ], 401);
         }
+    }
+
+    private function guard()
+    {
+        return Auth::Guard('api');
     }
     /**
      * Register api
@@ -137,11 +146,6 @@ class UserController extends Controller
             'code' => 200,
             'message' => 'You are successfully logged out'
         ], 200);
-    }
-
-    public function guard()
-    {
-        return Auth::guard();
     }
 
     public function activatingAccount(Request $request)

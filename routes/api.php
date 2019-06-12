@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth:api', 'employee']], function () {
     Route::resource('income', 'API\IncomeController');
     Route::post('income/get-income', 'API\IncomeController@getIncome')->name('get.income');
     Route::get('income/get-item/{transaction_id}', 'API\IncomeController@getItem')->name('get.item.by_transaction');
-    Route::get('/income/pdf', 'API\IncomeController@printPdfIncome')->name('pdf.income');
+    // Route::get('/income/print/pdf/', 'API\IncomeController@printPdfIncome')->name('pdf.income');
     Route::resource('transaction', 'API\TransactionController');
     Route::get('get/invoice/number', 'API\TransactionController@getInvoiceCode')->name('get.invoice.number');
     Route::resource('role', 'API\ManagementPermissionController');

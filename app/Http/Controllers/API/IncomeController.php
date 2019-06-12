@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Income;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 
 class IncomeController extends Controller
@@ -135,8 +136,8 @@ class IncomeController extends Controller
     public function printPdfIncome(Request $request)
     {
         $data = ['title' => 'Welcome to belajarphp.net'];
+        $pdf = PDF::loadView('PDF.incomereportpdf', $data);
 
-        $pdf = PDF::loadView('myPDF', $data);
-        return $pdf->download('laporan-pdf.pdf');
+        return $pdf->download('invoice.pdf');
     }
 }

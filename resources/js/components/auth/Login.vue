@@ -18,7 +18,7 @@
           <div class="col-md-12 col-md-offset-1 p-0">
             <form @submit.prevent="authenticate()">
               <div class="form-group">
-                <input class="form-control" type="text" name='email' placeholder="email" v-model="form.email"/>
+                <input autofocus class="form-control" type="text" name='email' placeholder="email" v-model="form.email"/>
                 <div v-if="error.email">
                   <span class="text-danger" role="alert">
                     <strong>{{ error.email }}</strong>
@@ -26,7 +26,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <input class="form-control" type="password" name='password' placeholder="password" v-model="form.password"/>
+                <input autofocus class="form-control" type="password" name='password' placeholder="password" v-model="form.password"/>
                 <div v-if="error.password">
                   <span class="text-danger" role="alert">
                     <strong>{{ error.password }}</strong>

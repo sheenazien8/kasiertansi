@@ -156,7 +156,7 @@ export default {
           end_date : this.getIncome.end_date
         })
         .then((response) => {
-
+          window.location = '/'
         })
         .catch((response) => {
 

@@ -39,7 +39,9 @@ import ShopEdit from './../components/shops/Edit.vue'
 import Login from './../components/auth/Login.vue'
 import Register from './../components/auth/Register.vue'
 import PageNotFound  from './../components/layouts/404.vue';
-
+import CabangIndex from './../components/subsidiaries/Index.vue'
+import CabangCreate from './../components/subsidiaries/Create.vue'
+import CabangEdit from './../components/subsidiaries/Edit.vue'
 export const routes = [
   {
     path: "*",
@@ -355,6 +357,30 @@ export const routes = [
       path: '/shop/edit/:id',
       name: 'shop.edit',
       component: ShopEdit,
+      meta : {
+        requiresAuth : true
+      }
+  },
+  {
+      path: '/subsidiary',
+      name: 'subsidiary',
+      component: CabangIndex,
+      meta : {
+        requiresAuth : true
+      }
+  },
+  {
+      path: '/subsidiary/create',
+      name: 'subsidiary.create',
+      component: CabangCreate,
+      meta : {
+        requiresAuth : true
+      }
+  },
+  {
+      path: '/subsidiary/edit/:id',
+      name: 'subsidiary.edit',
+      component: CabangEdit,
       meta : {
         requiresAuth : true
       }

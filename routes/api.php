@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth:api', 'employee']], function () {
     Route::post('get/data/income', 'API\DashboardController@getDataIncme')->name('get.data.income');
     Route::get('details', 'API\UserController@details')->name('details');
     Route::resource('category', 'API\CategoryController');
+    Route::resource('subsidiary', 'API\SubsidiaryController');
     Route::resource('unit', 'API\UnitController');
     Route::put('item/{item}/update/stock', 'API\ItemController@updateStock')->name('item.update.stock');
     Route::resource('item', 'API\ItemController');
@@ -50,6 +51,8 @@ Route::group(['middleware' => ['auth:api', 'employee']], function () {
     Route::resource('spending', 'API\SpendingController');
     Route::get('spending/get/{purchase}/purchasing_detail/', 'API\SpendingController@getPurchasingDetails')
             ->name('get.purchasing_detail');
+    Route::post('spending/get/spending', 'API\SpendingController@getSpending')
+            ->name('spending.get-spending');
     Route::put('purchase/{purchase}/payout', 'API\PurchaseController@paidPurchasing')->name('paid_purchase');
     Route::group(['prefix' => '/purchase/{purchase}'], function () {
         Route::resource('purchasing_detail', 'API\PurchasingDetailController');

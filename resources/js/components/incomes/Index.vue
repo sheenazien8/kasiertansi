@@ -125,7 +125,13 @@ export default {
     },
 
     mounted(){
-
+      var date = new Date();
+      this.getIncome.start_date = date.getFullYear() + '-' +
+      ("0" + (date.getMonth() + 1)).slice(-2) + '-' +
+      ("0" + date.getDate()).slice(-2);
+      this.getIncome.end_date = date.getFullYear() + '-' +
+      ("0" + (date.getMonth() + 1)).slice(-2) + '-' +
+      ("0" + date.getDate()).slice(-2);
     },
 
     methods:{

@@ -54,6 +54,8 @@ const eachFnId = router.beforeEach(function(to, from, next){
 
   if (requiresAuth && !currentUser) {
     return next({path:'/register'});
+  }else if (to.path == '/register' && currentUser){
+    return next({path:'/dashboard'});
   }else if (to.path == '/login' && currentUser){
     return next({path:'/dashboard'});
   }else if (to.path == '/' && currentUser || to.path == '/' && !currentUser) {

@@ -51,7 +51,7 @@ export default {
       window.axios.defaults.headers.post['Content-Type'] = 'application/json';
 
       localStorage.setItem('user', JSON.stringify(state.currentUser), {
-        expires : state.currentUser.expires_in ? 365 : 1
+        expires : state.currentUser.expires_in ? 1 : 1
       });
     },
     loginFailed(state, payload){

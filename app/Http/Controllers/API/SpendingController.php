@@ -115,4 +115,23 @@ class SpendingController extends Controller
     {
         return response()->json($purchase->load('purchasingDetails.item'));
     }
+
+    /**
+     * getSpending the specified resource from storage.
+     *
+     * @param  \App\Models\Spending  $spending
+     * @return \Illuminate\Http\Response
+     **/
+    public function getSpending(Request $request)
+    {
+        $transaction = Purchase::with('spending')
+            ->where('user_id', auth_cache()->id)
+            ->where('is_paid', true)
+            ->whereBetween('purchase_date', [
+                $request->json('start_date'), $request->json('end_date')
+            ])
+            ->get();
+
+        return response()->json($transaction);
+    }
 }

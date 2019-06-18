@@ -83,6 +83,11 @@
                             Supplier <i class="bg-square icon icon-directions"></i>
                           </router-link>
                       </li>
+                      <li class="nav-item">
+                          <router-link :to="{ name: 'subsidiary' }" class="nav-link">
+                            Cabang <i class="bg-square icon icon-puzzle"></i>
+                          </router-link>
+                      </li>
                     </ul>
                   </div>
                 </li>

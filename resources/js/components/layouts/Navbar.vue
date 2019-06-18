@@ -63,9 +63,9 @@
                                         </b-button>
                                       </p>
                                       <p>
-                                        <b-button v-b-modal.profile-modal class="btn btn-block btn-outline-light text-dark">
+                                        <router-link :to="{ name :'profile.index' }" class="btn btn-block btn-outline-light text-dark">
                                           <i class="icon icon-user"></i> Profil
-                                        </b-button>
+                                        </router-link>
                                       </p>
                                       <p>
                                         <button @click="logout()" class="btn btn-block btn-default btn-info">
@@ -102,30 +102,6 @@
             </div>
           </form>
         </b-modal>
-        <b-modal id="profile-modal" ok-title="Update" title="Profil" @ok="profileUpdate()">
-          <form v-on:submit.prevent enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="name">Nama</label>
-              <input type="text" class="form-control" id="name"  placeholder="Enter Name" v-model="profile.name">
-            </div>
-            <div class="form-group">
-              <label for="name">Email</label>
-              <input type="text" class="form-control" id="name"  placeholder="Enter Email" v-model="profile.email">
-            </div>
-            <div class="form-group">
-              <label for="name">Foto</label>
-              <button @click="trigger()" class="file btn btn-outline-info float-right form-control">
-                Upload Foto Profil <i class="icon icon-folder"></i>
-              </button>
-              <input ref="inputFile" type="file" style="opacity: 0" v-on:change="fileUpload">
-            </div>
-            <div class="form-group">
-              <label for="address">Alamat</label>
-              <textarea v-model="profile.address" id="address" class="form-control" placeholder="Enter Address">
-              </textarea>
-            </div>
-          </form>
-        </b-modal>
     </header>
   </template>
 <script>
@@ -153,40 +129,6 @@
     },
 
     methods:{
-      fileUpload(e){
-        let formData = new FormData()
-        formData.append('file', e.target.files[0]);
-        axios.post(RouteService.getUrl(route('uploadfile.photo')), formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then((response) => {
-          this.file = response.data;
-          this.$store.state.currentUser.userable.photo = this.file
-        })
-        .catch((response) =>{
-
-        })
-      },
-      trigger(){
-        this.$refs.inputFile.click();
-      },
-      profileUpdate(){
-        axios.post(RouteService.getUrl(route('profile.update')),{
-          name : this.profile.name,
-          email : this.profile.email,
-          photo : this.profile.photo,
-          address : this.profile.address,
-          photo : this.file,
-        })
-        .then((response) =>{
-
-        })
-        .catch((response) =>{
-
-        })
-      },
       getUser(){
         this.user = this.$store.state.currentUser;
         this.userable = this.user.userable;

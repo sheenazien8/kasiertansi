@@ -42,6 +42,7 @@ import PageNotFound  from './../components/layouts/404.vue';
 import CabangIndex from './../components/subsidiaries/Index.vue'
 import CabangCreate from './../components/subsidiaries/Create.vue'
 import CabangEdit from './../components/subsidiaries/Edit.vue'
+import ProfileIndex from './../components/profile/Index.vue'
 export const routes = [
   {
     path: "*",
@@ -381,6 +382,14 @@ export const routes = [
       path: '/subsidiary/edit/:id',
       name: 'subsidiary.edit',
       component: CabangEdit,
+      meta : {
+        requiresAuth : true
+      }
+  },
+  {
+      path: '/profile',
+      name: 'profile.index',
+      component: ProfileIndex,
       meta : {
         requiresAuth : true
       }

@@ -58,6 +58,9 @@ class EmployeeController extends Controller
         $employee->owner()->associate($owner);
         $employee->subsidiary()->associate(Subsidiary::find($request->json('subsidiary_id')));
         $employee->save();
+        request()->json()->add([
+            'status' => true,
+        ]);
         $user->fill($request->json()->all());
         $user->userable()->associate($employee);
         $user->save();

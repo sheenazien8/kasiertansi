@@ -22,7 +22,7 @@
                 <th>Nama</th>
                 <th>Tanggal Gabung</th>
                 <th>Cabang</th>
-                <th>Status</th>
+                <th>Tanggal Keluar</th>
                 <th></th>
               </tr>
               <tr v-for="(employee, index) in employees.data">

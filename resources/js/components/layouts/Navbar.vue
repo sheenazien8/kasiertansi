@@ -29,7 +29,7 @@
                 </ul>
                 <ul class="navbar-nav my-lg-0">
                     <li class="nav-item dropdown">
-                        <a type="button" class="nav nav-link dropdown-toggle" data-toggle="dropdown">
+                        <a class="nav nav-link dropdown-toggle" style="cursor: pointer;" data-toggle="dropdown">
                             <img :src="image.user" alt="user" class="img-circle" width="30">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">

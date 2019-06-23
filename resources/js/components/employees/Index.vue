@@ -21,15 +21,33 @@
                 <th>#</th>
                 <th>Nama</th>
                 <th>Tanggal Gabung</th>
+                <th>Cabang</th>
+                <th>Status</th>
                 <th></th>
               </tr>
               <tr v-for="(employee, index) in employees.data">
                 <td>{{ ++index }}</td>
                 <td>{{ employee.name }}</td>
                 <td>{{ employee.join_date }}</td>
+                <td>{{ employee.subsidiary ? employee.subsidiary.name : 'Pusat'  }}</td>
                 <td>
-                  <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteEmployee(employee.id)"><i class="icon icon-trash"></i></button>
-                  <router-link :to="{ name: 'employee.edit', params: {id : employee.id}}" class="btn btn-sm p-1 btn-info float-right"><i class="icon icon-pencil"></i></router-link>
+                  <div class="row">
+                    <input type="date" class="form-control-sm col" :id="++index" :value="employee.end_date"
+                    @change="changeStatusEmployee($event, employee.id)">
+                    <span :class="employee.user.status ? 'badge-success' : 'badge-danger'" class="col btn-sm">
+                      {{ employee.user.status ? 'Aktif' : 'Tidak Aktif' }}
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn btn-sm p-1 btn-danger float-right"
+                    @click="deleteEmployee(employee.id)">
+                    <i class="icon icon-trash"></i>
+                  </button>
+                  <router-link :to="{ name: 'employee.edit', params: {id : employee.id}}"
+                    class="btn btn-sm p-1 btn-info float-right">
+                    <i class="icon icon-pencil"></i>
+                  </router-link>
                 </td>
               </tr>
             </thead>
@@ -57,7 +75,8 @@
 export default {
     data() {
       return {
-        employees : []
+        employees : [],
+        status : ''
       }
     },
 
@@ -74,6 +93,21 @@ export default {
           .catch((response) =>{
 
           })
+      },
+      changeStatusEmployee(event, employee_id){
+        axios.put(RouteService.getUrl(route('update.status.employee', employee_id)),{
+          end_date : event.target.value
+        })
+        .then((response) =>{
+          this.getEmployee();
+          this.$notify({
+            type: 'success',
+            text: 'Success Update Status Employee'
+          });
+        })
+        .catch((response) =>{
+
+        })
       },
       getEmployee(){
         axios.get(RouteService.getUrl(route('employee.index')))

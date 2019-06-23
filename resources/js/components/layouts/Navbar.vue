@@ -4,7 +4,7 @@
             <div class="navbar-header">
               <router-link class="navbar-brand" :to="{name : 'dashboard'}">
                 <b>
-                  <h1 class="title-logo text-primary btn btn-lg btn-rounded">KasierTansi</h1>
+                  <h1 class="title-logo text-primary btn btn-lg btn-rounded">Ka</h1>
                 </b>
               </router-link>
             </div>

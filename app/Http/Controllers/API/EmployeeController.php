@@ -7,6 +7,7 @@ use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\Owner;
 use App\Models\Role;
+use App\Models\Subsidiary;
 use App\Models\User;
 
 class EmployeeController extends Controller
@@ -19,7 +20,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $owner = auth_cache()->userable->id;
-        $employees = Employee::where('owner_id', $owner)
+        $employees = Employee::with('subsidiary', 'user')->where('owner_id', $owner)
                                 ->orderBy('created_at', 'desc')
                                 ->paginate();
 
@@ -55,6 +56,7 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $employee->fill($request->json()->all());
         $employee->owner()->associate($owner);
+        $employee->subsidiary()->associate(Subsidiary::find($request->json('subsidiary_id')));
         $employee->save();
         $user->fill($request->json()->all());
         $user->userable()->associate($employee);
@@ -108,6 +110,7 @@ class EmployeeController extends Controller
         $owner = auth_cache()->userable;
         $employee->fill($request->json()->all());
         $employee->owner()->associate($owner);
+        $employee->subsidiary()->associate(Subsidiary::find($request->json('subsidiary_id')));
         $employee->save();
         $user->fill($request->json()->all());
         $user->userable()->associate($employee);
@@ -127,5 +130,20 @@ class EmployeeController extends Controller
         $employee->delete();
 
         return 'Success';
+    }
+
+    public function updateStatus(EmployeeRequest $request, Employee $employee)
+    {
+        $employee->end_date = $request->json('end_date');
+        $employee->user->status = false;
+        $employee->user->save();
+        $employee->save();
+        if (!$request->json('end_date')) {
+            $employee->user->status = true;
+            $employee->user->save();
+            $employee->save();
+        }
+
+        return response()->json($employee);
     }
 }

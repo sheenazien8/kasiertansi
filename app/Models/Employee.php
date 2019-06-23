@@ -16,6 +16,10 @@ class Employee extends Model
         return $this->belongsTo(Owner::class, 'owner_id');
     }
 
+    public function subsidiary()
+    {
+        return $this->belongsTo(Subsidiary::class, 'subsidiary_id');
+    }
     public function user()
     {
         return $this->morphOne(User::class, 'userable');

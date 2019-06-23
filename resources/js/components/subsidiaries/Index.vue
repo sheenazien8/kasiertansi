@@ -22,6 +22,7 @@
                 <th scope="col">Nama</th>
                 <th scope="col">Alamat</th>
                 <th scope="col">Dibangun Pada</th>
+                <th scope="col">Ditutup Pada</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -31,6 +32,13 @@
                 <td>{{ subsidiary.name }}</td>
                 <td>{{ subsidiary.address }}</td>
                 <td>{{ subsidiary.built_at }}</td>
+                <div class="row">
+                  <input type="date" class="form-control-sm col" :id="++index" :value="subsidiary.closed_at"
+                  @change="changeStatusSubsidiary($event, subsidiary.id)">
+                  <span :class="subsidiary.status ? 'badge-success' : 'badge-danger'" class="col btn-sm">
+                    {{ subsidiary.status ? 'Aktif' : 'Tidak Aktif' }}
+                  </span>
+                </div>
                 <td>
                   <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteSupplier(subsidiary.id)"><i class="icon icon-trash"></i></button>
                   <router-link :to="{ name: 'subsidiary.edit', params: {id : subsidiary.id}}" class="btn btn-sm p-1 btn-info float-right"><i class="icon icon-pencil"></i></router-link>
@@ -79,6 +87,9 @@ export default {
           .catch((response) =>{
 
           })
+      },
+      changeStatusSubsidiary(event, subsidiary_id){
+
       },
       getSupplier(){
         axios.get(RouteService.getUrl(route('subsidiary.index')))

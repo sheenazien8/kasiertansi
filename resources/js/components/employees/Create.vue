@@ -17,7 +17,16 @@
             <input id="name" type="date" class="form-control"  v-model="employee.join_date">
         </div>
         <div class="form-group">
-            <label for="name" class="col-form-label">Password</label> <span style="font-size: 11px;">kosongi untuk menggunakan password default(12345678)</span>
+            <label for="name" class="col-form-label">Cabang</label>
+            <v-select :options="subsidiaryData" label="name" value="id" :onSearch="getSubsidiaries" v-model="employee.subsidiary_id"/>
+            <!-- <div v-if="errors.name">
+              <span class="text-danger">{{ errors.category_id[0] }}</span>
+            </div> -->
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-form-label">Password</label> <span style="font-size: 11px;">
+              kosongi untuk menggunakan password default(12345678)
+            </span>
             <input id="name" type="password" class="form-control"  v-model="employee.password">
         </div>
         <div class="form-group">
@@ -44,22 +53,34 @@
           name : '',
           email : '',
           password : '',
-          join_date : ''
-        }
+          join_date : '',
+          subsidiary_id : '',
+        },
+        subsidiaryData : []
       }
     },
 
     mounted(){
-
     },
 
     methods:{
+      getSubsidiaries(query){
+        if (query.length >= 2) {
+          axios.get(RouteService.getUrl(route('search.subsidiary', query)))
+          .then((response) => {
+            this.subsidiaryData = response.data
+          })
+          .catch((response) => {
+          })
+        }
+      },
       createEmployee(){
         axios.post(RouteService.getUrl(route('employee.store')), {
           name : this.employee.name,
           email : this.employee.email,
           join_date : this.employee.join_date,
           password : this.employee.password,
+          subsidiary_id : this.employee.subsidiary_id.id
         })
          .then((response) => {
           this.$notify({

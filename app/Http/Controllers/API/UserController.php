@@ -33,7 +33,13 @@ class UserController extends Controller
                 if ($user->userable_type == "App\Models\Owner") {
                     $permissions = Permission::all();
                 } elseif ($user->userable_type == "App\Models\Employee") {
-                    $permissions = $user->userable->roles->first()->permissions;
+                    if ($user->userable->roles->first()) {
+                        $permissions = $user->userable->roles->first()->permissions;
+                    }else{
+                        return response()->json([
+                            'message'=>'Karyawan Belum Punya Jabatan segera hubungi admin Jabatan'
+                        ], 401);
+                    }
                 }
 
                 return response()->json(
@@ -163,5 +169,10 @@ class UserController extends Controller
                 ], 200);
             }
         }
+    }
+
+    public function getPhotoProfile(User $user)
+    {
+        dd(public_path('app/photo-profile', $user->userable->photo));
     }
 }

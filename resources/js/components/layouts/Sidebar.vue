@@ -153,9 +153,6 @@ export default{
     }
   },
   mounted(){
-    // localStorage.removeItem('user');
-    // state.isLoggedIn = false;
-    // state.currentUser = null;
     this.getPermission();
   },
   methods:{

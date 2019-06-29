@@ -100,9 +100,12 @@
                   <div id="management-cabang" class="collapse submenu" style="" data-parent="#accordion">
                     <ul class="nav flex-column">
                       <li class="nav-item">
-                          <router-link :to="{ name: 'category' }" class="nav-link" >
+                        <a @click="alertDevelop" class="nav-link" >
+                          Transfer Stok <i class="bg-square icon icon-pie-chart"></i>
+                        </a>
+                          <!-- <router-link :to="{ name: 'category' }" class="nav-link" >
                             Transfer Stok <i class="bg-square icon icon-pie-chart"></i>
-                          </router-link>
+                          </router-link> -->
                       </li>
                     </ul>
                   </div>
@@ -184,6 +187,9 @@ export default{
         }
       }
       return result;
+    },
+    alertDevelop(){
+      alert('Masih Dalam Tahap Pengembangan')
     }
   }
 }

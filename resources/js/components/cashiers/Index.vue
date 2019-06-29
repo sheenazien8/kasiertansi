@@ -20,7 +20,7 @@
               <div class="col-md-12 row pr-0">
                 <div class="col-md-5 pl-0">
                   <v-select :options="itemsData" label="name" value="id" placeholder="search item type 2 character!"
-                  :onSearch="getItemsData" v-model="transaction.item" @change="getDetailItems(transaction.item)">
+                    v-model="transaction.item" @change="getDetailItems(transaction.item)">
                   </v-select>
                 </div>
                 <input type="text" class="col-md-3 mr-1 form-control"
@@ -145,20 +145,19 @@ export default {
   },
   mounted(){
     this.getTransactionDetails();
+    this.getItemsData();
   },
   methods: {
-    getItemsData(search){
-      if (search.length >= 2) {
-        axios.get(RouteService.getUrl(route('item.search', search)),{
+    getItemsData(){
+      axios.get(RouteService.getUrl(route('item.items')),{
 
-        })
-        .then((response) => {
-          this.itemsData = response.data
-        })
-        .catch((response) => {
+      })
+      .then((response) => {
+        this.itemsData = response.data
+      })
+      .catch((response) => {
 
-        })
-      }
+      })
     },
     getDetailItems(item){
       if (item) {

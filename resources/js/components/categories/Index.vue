@@ -83,6 +83,7 @@ export default {
       getCategory(){
         axios.get(RouteService.getUrl(route('category.index')))
         .then((response) =>{
+          console.log(response.data)
           this.categories = response.data
         })
         .catch((response) =>{

@@ -76,7 +76,7 @@
           purchase_date : ''
         },
         suppliersData : [],
-        purchasesData : [],
+        purchasesData : []  ,
         paymentsData : [
           {name: 'Cash On Delivery (full)'},
           {name: 'Transfer Bank (DP)'},

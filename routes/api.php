@@ -19,6 +19,7 @@ Route::post('register', 'API\UserController@register');
 Route::get('/api/activating/account', 'API\UserController@activatingAccount')->name('activating.account');
 Route::group(['middleware' => ['auth:api', 'employee']], function () {
     Route::post('logout', 'API\UserController@logout');
+    Route::put('user/update/{user}', 'API\UserController@update')->name('profile.update');
     Route::get('get/photo/{user}', 'API\UserController@getPhotoProfile')->name('profile.image');
     Route::get('get/data/dashboard', 'API\DashboardController@getDataDashboard')->name('get.data.dashboard');
     Route::post('get/data/income', 'API\DashboardController@getDataIncme')->name('get.data.income');
@@ -29,12 +30,14 @@ Route::group(['middleware' => ['auth:api', 'employee']], function () {
     Route::resource('unit', 'API\UnitController');
     Route::put('item/{item}/update/stock', 'API\ItemController@updateStock')->name('item.update.stock');
     Route::resource('item', 'API\ItemController');
-    Route::get('get/item/{query}', 'API\ItemController@searhItems')->name('item.search');
+    Route::get('get/item/getItem', 'API\ItemController@getItem')->name('item.items');
     Route::post('import/item', 'API\ItemController@import')->name('item.import');
     Route::resource('employee', 'API\EmployeeController');
     Route::put('employee/update/{employee}/status', 'API\EmployeeController@updateStatus')->name('update.status.employee');
+    Route::put('subsidiary/update/{subsidiary}/status', 'API\SubsidiaryController@updateStatus')->name('subsidiary.update.status');
     Route::resource('supplier', 'API\SupplierController');
     Route::get('get/supplier/{query}', 'API\SupplierController@searchSupplier')->name('supplier.search');
+    Route::get('supplier/supplier/getSupplier', 'API\SupplierController@getSupplier')->name('supplier.supplier');
     Route::resource('purchase', 'API\PurchaseController');
     Route::resource('income', 'API\IncomeController');
     Route::post('income/get-income', 'API\IncomeController@getIncome')->name('get.income');

@@ -40,7 +40,7 @@
                   </span>
                 </div>
                 <td>
-                  <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteSupplier(subsidiary.id)"><i class="icon icon-trash"></i></button>
+                  <button class="btn btn-sm p-1 btn-danger float-right" @click="deleteSubsidiary(subsidiary.id)"><i class="icon icon-trash"></i></button>
                   <router-link :to="{ name: 'subsidiary.edit', params: {id : subsidiary.id}}" class="btn btn-sm p-1 btn-info float-right"><i class="icon icon-pencil"></i></router-link>
                 </td>
               </tr>
@@ -75,7 +75,7 @@ export default {
     },
 
     mounted(){
-      this.getSupplier()
+      this.getSubsidiary();
     },
 
     methods:{
@@ -89,9 +89,21 @@ export default {
           })
       },
       changeStatusSubsidiary(event, subsidiary_id){
+        axios.put(RouteService.getUrl(route('subsidiary.update.status', subsidiary_id)),{
+          closed_at : event.target.value
+        })
+        .then((response) =>{
+          this.$notify({
+            type: 'success',
+            text: 'Success Update Status Subsidiary'
+          });
+          this.getSubsidiary();
+        })
+        .catch((response) =>{
 
+        })
       },
-      getSupplier(){
+      getSubsidiary(){
         axios.get(RouteService.getUrl(route('subsidiary.index')))
         .then((response) =>{
           this.subsidiaries = response.data
@@ -100,14 +112,14 @@ export default {
 
         })
       },
-      deleteSupplier(id){
+      deleteSubsidiary(id){
         var bool = confirm('You Want to Delete this?');
         if (bool) {
           axios.delete(RouteService.getUrl(route('subsidiary.destroy', id)),{
 
           })
           .then((response) =>{
-            this.getSupplier()
+            this.getSubsidiary()
           })
           .catch((response) =>{
 

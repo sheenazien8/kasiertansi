@@ -63,19 +63,6 @@ export default {
       state.auth_error = null;
     },
     registerSuccess(state, payload){
-      // state.auth_error = null;
-      // state.isLoggedIn = true;
-      // state.loading = false;
-      // state.currentUser = Object.assign({},
-      //   payload.success.user,
-      //   {
-      //     token: payload.success.token,
-      //     permissions: payload.success.permissions
-      //   });
-
-      // window.axios.defaults.headers.common['Authorization'] = 'Bearer '+ state.currentUser.token;
-      // window.axios.defaults.headers.post['Content-Type'] = 'application/json';
-
       localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
     registerFailed(state, payload){

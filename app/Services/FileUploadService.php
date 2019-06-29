@@ -7,12 +7,19 @@ use Illuminate\Support\Facades\File;
 
 class FileUploadService
 {
+    private $extension;
+    public function getExtension($ext)
+    {
+        $this->extension = $ext;
+
+        return $this;
+    }
     public function fileUploadPhotoProfile($file)
     {
         $carbon = Carbon::now();
-        $uniqueFileName = 'PP'.$carbon->format('Ymdhis').'.'.$file->getClientOriginalExtension();
-        $uploaded = Storage::disk('photo-profile')->put($uniqueFileName, File::get($file));
+        $uniqueFileName = 'PP'.$carbon->format('Ymdhis').$this->extension;
+        $uploaded = Storage::disk('photo-profile')->put($uniqueFileName, $file);
 
-        return $uniqueFileName;
+        return './storage/photo-profile/'.$uniqueFileName;
     }
 }

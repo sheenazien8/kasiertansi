@@ -22,7 +22,7 @@
           <label for="name" class="col-form-label">Supplier</label>
           <div class="row">
             <div class="col-md-10 col-sm-11 ">
-              <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id" :onSearch="getCreateDataPurchases"
+              <v-select :options="suppliersData" label="name" :class="errors.supplier_id ? 'is-invalid' : ''" value="id"
               v-model="purchase.supplier_id"/>
               <div v-if="errors.supplier_id">
                 <span class="text-danger">{{ errors.supplier_id[0] }}</span>
@@ -129,6 +129,7 @@
 
     mounted(){
       this.getInvoiceCode();
+      this.getCreateDataPurchases();
     },
 
     methods:{
@@ -162,8 +163,8 @@
            this.errors = response.response.data.errors;
          });
       },
-      getCreateDataPurchases(query){
-        axios.get(RouteService.getUrl(route('supplier.search', query)))
+      getCreateDataPurchases(){
+        axios.get(RouteService.getUrl(route('supplier.supplier')))
         .then((response) =>{
           this.suppliersData = response.data
         })

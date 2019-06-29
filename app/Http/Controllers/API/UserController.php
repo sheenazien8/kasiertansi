@@ -7,6 +7,7 @@ use App\Mail\SendEmailAfterRegistration;
 use App\Models\Owner;
 use App\Models\Permission;
 use App\Models\User;
+use App\Services\FileUploadService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -133,6 +134,7 @@ class UserController extends Controller
         } elseif ($user->userable_type == "App\Models\Employee") {
             $permissions = $user->userable->roles->first()->permissions;
         }
+
         return response()->json([
             'user' => $user->load('userable'),
             'permissions' => $permissions->pluck('name')
@@ -171,8 +173,19 @@ class UserController extends Controller
         }
     }
 
-    public function getPhotoProfile(User $user)
+    public function update(Request $request,User $user)
     {
-        dd(public_path('app/photo-profile', $user->userable->photo));
+        $user = Auth::user();
+        if ($user->userable_type == "App\Models\Owner") {
+            $model = $user->userable;
+            $model->fill($request->json()->all());
+            $model->save();
+        } elseif ($user->userable_type == "App\Models\Employee") {
+            $model = $user->userable;
+            $model->fill($request->json()->all());
+            $model->save();
+        }
+        $user->fill($request->all());
+        $user->save();
     }
 }

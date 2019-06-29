@@ -111,4 +111,13 @@ class SupplierController extends Controller
 
         return response()->json($supplier);
     }
+
+    public function getSupplier()
+    {
+        $suppliers = Supplier::where('user_id', auth_cache()->id)
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+
+        return response()->json($suppliers);
+    }
 }

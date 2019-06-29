@@ -41,6 +41,9 @@ class SubsidiaryController extends Controller
     public function store(SubsdiaryRequest $request)
     {
         $subsidiary = new Subsidiary();
+        request()->json()->add([
+            'status' => true,
+        ]);
         $subsidiary->fill($request->json()->all());
         $subsidiary->save();
 
@@ -108,6 +111,20 @@ class SubsidiaryController extends Controller
         $subsidiary = Subsidiary::select('id', 'name')
                     ->where('user_id', auth_cache()->id)
                     ->where('name', 'LIKE', "%%".$query."%%")->get();
+
+        return response()->json($subsidiary);
+    }
+
+    public function updateStatus(SubsdiaryRequest $request, Subsidiary $subsidiary)
+    {
+        $subsidiary->closed_at = $request->json('closed_at');
+        $subsidiary->status = false;
+        $subsidiary->save();
+
+        if (!$request->json('closed_at')) {
+            $subsidiary->status = true;
+            $subsidiary->save();
+        }
 
         return response()->json($subsidiary);
     }

@@ -180,4 +180,19 @@ class ItemController extends Controller
             'msg' => 'Success'
         ]);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getItem()
+    {
+        $item = Item::with('category', 'unit', 'prices', 'price')
+                    ->orderBy('id', 'desc')
+                    ->where('user_id', auth_cache()->id)
+                    ->get();
+
+        return response()->json($item);
+    }
 }

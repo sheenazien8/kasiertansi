@@ -17,6 +17,7 @@ import Vuex from 'vuex'
 import {routes} from './router/routes'
 import StoreData from './store'
 import Loading from 'vue-loading-overlay';
+import PictureInput from 'vue-picture-input'
 import 'vue-loading-overlay/dist/vue-loading.css';
 
 window.RouteService = RouteService;
@@ -36,6 +37,7 @@ Vue.component('breadcrumb', require('./components/layouts/Breadcumb.vue').defaul
 Vue.component('can', require('./components/Permission.vue').default);
 Vue.component('v-select', VSelect);
 Vue.component('v-paginate', Paginate)
+Vue.component('picture-input', PictureInput)
 
 const store = new Vuex.Store(StoreData)
 if (store.state.currentUser) {

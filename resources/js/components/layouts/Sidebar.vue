@@ -92,6 +92,22 @@
                   </div>
                 </li>
 
+                <li class="nav-item">
+                  <a href="" class="nav-link"data-toggle="collapse" aria-expanded="false" data-target="#management-cabang"
+                   aria-controls="management-cabang">
+                    Mangement Cabang <i class="bg-square icon icon-puzzle"></i>
+                  </a>
+                  <div id="management-cabang" class="collapse submenu" style="" data-parent="#accordion">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                          <router-link :to="{ name: 'category' }" class="nav-link" >
+                            Transfer Stok <i class="bg-square icon icon-pie-chart"></i>
+                          </router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
                 <div v-if="getPermissionRule([
                     'baca-pengguna', 'buat-pengguna', 'rubah-pengguna', 'hapus-pengguna'
                 ])">

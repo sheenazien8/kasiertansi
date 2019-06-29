@@ -8,6 +8,9 @@ class Owner extends Model
 {
     protected $fillable = [
         'name',
+        'package',
+        'photo',
+        'address',
         'join_date',
         'end_date',
     ];

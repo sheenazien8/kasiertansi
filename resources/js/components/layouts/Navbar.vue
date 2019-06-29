@@ -121,8 +121,7 @@
     mounted(){
       this.getUser();
       if (this.$store.state.currentUser.userable.photo) {
-        this.image.user = ''
-                                                                                                                                                                        ;
+        this.image.user = this.$store.getters.currentUser.userable.photo;
       }else {
         this.image.user = require('./../../images/icons8-male-user-80.png');
       }

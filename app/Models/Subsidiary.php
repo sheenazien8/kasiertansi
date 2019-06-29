@@ -10,6 +10,8 @@ class Subsidiary extends Model
         'name',
         'address',
         'built_at',
+        'status',
+        'closed_at'
     ];
 
     public static function boot()

@@ -5,8 +5,8 @@
           <a class="waves-effect waves-dark ml-auto hidden-sm-down" href="javascript:void(0)">
             <i class="icon icon-menu"></i>
           </a>
-          <a class="nav-toggler waves-effect waves-dark ml-auto hidden-sm-up" href="javascript:void(0)">
-            <i class="ti-menu ti-close"></i>
+          <a class="nav-toggler waves-effect waves-dark ml-auto hidden-sm-up btn-close-sidebar" href="javascript:void(0)">
+            <i class="icon-menu ti-close"></i>
           </a>
       </div>
       <div class="scroll-sidebar">

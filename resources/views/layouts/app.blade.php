@@ -34,6 +34,7 @@
   </script>
   @routes
   <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/jquerycustome.js') }}"></script>
   <script>
     $(document).ready(function() {
       setTimeout(function(){
@@ -41,8 +42,16 @@
           $(this).remove();
         });
        }, 500);
+      $(".btn-show-sidebar").on('click', function(event) {
+        event.preventDefault();
+        $('body').addClass('show-sidebar')
+      });
+      $(".btn-close-sidebar").on('click', function(event) {
+        event.preventDefault();
+        console.log('ok')
+        $('body').removeClass('show-sidebar')
+      });
     });
   </script>
-  <script src="{{ asset('js/jquerycustome.js') }}"></script>
 </body>
 </html>

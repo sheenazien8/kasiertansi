@@ -10,9 +10,10 @@
             </div>
             <div class="navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item hidden-sm-up">
-                        <a class="nav-link nav-toggler waves-effect waves-light" href="javascript:void(0)">
-                            <i class="icon icon-menu"></i>
+                    <li class="nav-item hidden-sm-up btn-show-sidebar">
+                        <a class="nav-link nav-toggler waves-effect waves-light btn-show-sidebar"
+                           href="javascript:void(0)">
+                            <i class="icon icon-menu" style="margin: 10px: "></i>
                         </a>
                     </li>
                     <li class="nav-item search-box">

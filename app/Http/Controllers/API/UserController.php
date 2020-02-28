@@ -46,8 +46,6 @@ class UserController extends Controller
                 return response()->json(
                     [
                         'token' =>  $user->createToken('MyApp')->accessToken,
-                        'user' =>  $user->load('userable'),
-                        'permissions' =>  $permissions->pluck('name'),
                         'token_type' => 'Bearer',
                         'expires_in' => 3600,
                     ],

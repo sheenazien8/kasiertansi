@@ -6,7 +6,7 @@ Kasiertansi Web App is Point Of Sale web base, this POS is versatile and easy to
 - Learn Fullstack Laravel framework
 - Learn Vuejs Framework
 - Learn to create increment code and integration with other hardware
-- Learn Passport laravel authenticated
+- Learn Passport laravel authentication
 
 ## Timeline
 - not finished

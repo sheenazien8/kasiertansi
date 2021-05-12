@@ -25,7 +25,7 @@
         "@alfsnd/vue-bootstrap-select": "^0.4.0",
         "bootstrap-material-datetimepicker": "^2.7.1",
         "bootstrap-vue": "^2.0.0-rc.16",
-        "chart.js": "^2.8.0",
+        "chart.js": "^2.9.4",
         "dropify": "^0.2.0",
         "flightplan": "^0.6.19",
         "flot": "^0.8.3",

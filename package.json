@@ -32,7 +32,7 @@
         "holderjs": "^2.4.1",
         "jquery-ujs": "^1.2.2",
         "jsgrid": "^1.5.3",
-        "select2": "^4.0.3",
+        "select2": "^4.0.6",
         "simple-line-icons": "^2.4.1",
         "vue": "^2.6.10",
         "vue-bus": "^1.2.0",
